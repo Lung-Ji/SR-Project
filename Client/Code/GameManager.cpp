@@ -1,0 +1,85 @@
+#include "../Include/pch.h"
+#include "GameManager.h"
+
+GameManager::GameManager() : DEVCLASS(nullptr), GRPDEV(nullptr) {}
+GameManager::~GameManager() { Free(); }
+
+HRESULT GameManager::Ready_GameManager() {
+
+	SoundManager::GetInstance()->Ready_SoundManager();
+	
+	
+	//PLAY_SOUND(L"SoundTest.mp3", CHANNELID::SOUND_BGM02);
+	
+	if (FAILED(Ready_DefaultSetting()))					return E_FAIL;
+	if (FAILED(Ready_SceneSetting()))					return E_FAIL;
+	return S_OK;
+}
+VOID	GameManager::Update_GameManager(CONST FLOAT& _DT) {
+	SceneManager::GetInstance()->Update_SceneManager(_DT);
+	KeyManager	::GetInstance()->Update_KeyManager(_DT);
+}
+VOID	GameManager::LateUpdate_GameManager(CONST FLOAT& _DT) {
+	SceneManager::GetInstance()->LateUpdate_SceneManager(_DT);
+	KeyManager	::GetInstance()->LateUpdate_KeyManager(_DT);
+}
+VOID	GameManager::Render_GameManager() {
+	DEVCLASS->Render_Begin(D3DXCOLOR(0.f, 0.f, 1.f, 1.f));
+	SceneManager::GetInstance()->Render_SceneManager(GRPDEV);
+#ifdef _DEBUG
+	//cout << "File I/O Ãâ·Â" << endl;
+#endif // _DEBUG
+
+	//DEVCLASS->Render_End();
+}
+HRESULT GameManager::Ready_DefaultSetting() {
+	if (FAILED(GraphicDevice::GetInstance()->Ready_GraphicDevice(hWnd, MODE_WIN, WINCX, WINCY, &DEVCLASS))) {
+		MSG_BOX("Cannot Create Device.");
+		return E_FAIL;
+	}
+
+	DEVCLASS->AddRef();
+
+	GRPDEV = DEVCLASS->Get_Device();
+	GRPDEV->AddRef();
+	GRPDEV->SetRenderState(D3DRS_LIGHTING, FALSE);
+
+	return S_OK;
+}
+HRESULT GameManager::Ready_SceneSetting() {
+	Scene* StartScene = StartScene::Create(GRPDEV);
+	
+	if (StartScene == nullptr)	return E_FAIL;
+	if (FAILED(SceneManager::GetInstance()->Scene_Transition(StartScene))) {
+		MSG_BOX("Cannot Setting LogoScene.");
+		Safe_Release(StartScene);
+		return E_FAIL;
+	}
+	return S_OK;
+}
+GameManager* GameManager::Create() {
+	GameManager* Instance = new GameManager;
+	if (FAILED(Instance->Ready_GameManager())) {
+		MSG_BOX("Cannot Create GameManager.");
+		Safe_Release(Instance);
+		return nullptr;
+	}
+	return Instance;
+}
+VOID		 GameManager::Free() {
+
+	Safe_Release(DEVCLASS);
+	Safe_Release(GRPDEV);
+
+	GraphicDevice::DestroyInstance();
+	KeyManager	 ::DestroyInstance();
+	TimeManager	 ::DestroyInstance();
+	SceneManager ::DestroyInstance();
+	ProtoManager ::DestroyInstance();
+	SoundManager ::DestroyInstance();
+	RenderManager::DestroyInstance();
+	GUIManager	 ::DestroyInstance();
+
+	DEVCLASS     ->DestroyInstance();
+
+}

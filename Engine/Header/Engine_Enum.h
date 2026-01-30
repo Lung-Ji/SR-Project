@@ -1,0 +1,62 @@
+#ifndef Engine_Enum_h__
+#define Engine_Enum_h__
+
+namespace Engine
+{
+
+	enum class TIMERTYPE		{ TIMER_WORLD, TIMER_FPS, TIMER_END };
+	// 타이머 필요시에 Enum값(T) 추가 후, Activate_Timer(TIMERTYPE::T) [타이머 초기화] -> Update_TimeManager(TIMERTYPE::T) [타이머 카운팅]
+
+	enum class CHANNELID		{ SOUND_BGM01, SOUND_BGM02, SOUND_BGM03, SOUND_EFFECT01, SOUND_EFFECT02, SOUND_EFFECT03, SOUND_END };
+
+	enum class SCENE_TYPE		{ SCENE_LOGO, SCENE_STAGE, SCENE_END };
+
+	enum class COMPONENT_TYPE	{ COMPONENT_TRIANGLE, COMPONENT_RECTANGLE, COMPONENT_RECTTEX, COMPONENT_TERRAIN,
+									COMPONENT_TRANSFORM, COMPONENT_TEXTURE, COMPONENT_FSM, COMPONENT_END };
+
+	enum class GAMEOBJECT_TYPE	{ OBJECT_CAMERA, OBJECT_PLAYER, OBJECT_TERRAIN, OBJECT_MONSTER, OBJECT_NPC, OBJECT_END };
+
+	enum class LAYER_TYPE		{ LAYER_DYNAMIC_OBJECT, LAYER_STATIC_OBJECT, LAYER_USER_INTERFACE, LAYER_END };
+
+	enum class BUFFER_TYPE		{ TRIANGLE, RECTANGLE, TEXTURE, TERRAIN, END };
+
+	/////////////////////////////////// KEYMANAGER ///////////////////////////////////
+	enum class KEY {
+		NUM_0, NUM_1, NUM_2, NUM_3, NUM_4, NUM_5, NUM_6, NUM_7, NUM_8, NUM_9,
+		Q, W, E, R, T, Y, U, I, O, P,
+		A, S, D, F, G, H, J, K, L,
+		Z, X, C, V, B, N, M,
+
+		F1, F2, F3, F4, F5, F6, F7, F8, F9, F10,
+		ARROW_UP, ARROW_DOWN, ARROW_LEFT, ARROW_RIGHT,
+		LSHIFT, RSHIFT, LCTRL, RCTRL, ALT, ESCAPE, SPACE, RETURN,
+		LBUTTON, RBUTTON, LAST
+	};
+	enum class KEY_STATE { DOWN, HOLD, UP, NONE };
+	////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+	//////////////////////////////////////////////////////////////// Customized
+	enum WINMODE { MODE_FULL, MODE_WIN };
+
+	// Dynamic 컴포넌트 경우 매 프레임마다 갱신해야하는 컴포넌트 집단
+	enum COMPONENTID { ID_DYNAMIC, ID_STATIC, ID_END };
+
+	enum INFO {	INFO_RIGHT, INFO_UP, INFO_LOOK, INFO_POS, INFO_END };
+
+	enum ROTATION { ROT_X, ROT_Y, ROT_Z, ROT_END };
+
+	enum TEXTUREID { TEX_NORMAL, TEX_CUBE, TEX_END };
+
+	enum RENDERID { RENDER_PRIORITY, RENDER_NONALPHA, RENDER_ALPHA, RENDER_UI, RENDER_END };
+
+	enum MOUSEKEYSTATE { DIM_LB, DIM_RB, DIM_MB, DIM_END };
+
+	enum MOUSEMOVESTATE {	DIMS_X, DIMS_Y, DIMS_Z, DIMS_END };
+	////////////////////////////////////////////////////////////////
+
+}
+#endif // Engine_Enum_h__

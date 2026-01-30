@@ -1,0 +1,28 @@
+#pragma once
+
+/////////////////////////////////// SOUNDMANAGER ///////////////////////////////////
+#define PLAY_SOUND(FILENAME, CHANNEL)	SoundManager::GetInstance()->Play_Sound(FILENAME, CHANNEL);						// 채널에 사운드 플레이
+#define STOP_SOUND(CHANNEL)				SoundManager::GetInstance()->Stop_Sound(CHANNEL);								// 해당 채널 사운드 정지
+#define STOP_ALLSOUND					SoundManager::GetInstance()->Stop_AllSound();									// 모든 채널 사운드 정지
+#define CHECK_SOUNDPLAYING(CHANNEL)		SoundManager::GetInstance()->IsPlaying(CHANNEL);								// 음악 플레이 여부 확인
+////////////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////// KEYMANAGER /////////////////////////////////////
+#define KEY_DOWN(KEY_IDX)					KeyManager::GetInstance()->KEY_STATE_DOWN(KEY_IDX)	== TRUE							// 해당 키 최초 입력
+#define KEY_HOLD(KEY_IDX)					KeyManager::GetInstance()->KEY_STATE_HOLD(KEY_IDX)	== TRUE							// 해당 키 입력 유지
+#define KEY_UP(KEY_IDX)						KeyManager::GetInstance()->KEY_STATE_UP(KEY_IDX)	== TRUE							// 해당 키 입력 중지
+
+#define MOUSE_MOVE(KEY_IDX)					KeyManager::GetInstance()->Get_MouseMove(KEY_IDX)									// 해당 키 입력 중지
+////////////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////// COMPONENT //////////////////////////////////////
+#define ADD_COMPONENT_TRIANGLE			dynamic_cast<Buffer*>(Add_Component(COMPONENT_TYPE::COMPONENT_TRIANGLE));		// 삼각형 출력 컴포넌트 추가
+#define ADD_COMPONENT_RECTANGLE			dynamic_cast<Buffer*>(Add_Component(COMPONENT_TYPE::COMPONENT_RECTANGLE));		// 사각형 출력 컴포넌트 추가
+#define ADD_COMPONENT_RECTTEX			dynamic_cast<Buffer*>(Add_Component(COMPONENT_TYPE::COMPONENT_RECTTEX));		// 사각 텍스쳐 출력 컴포넌트 추가
+#define ADD_COMPONENT_TERRAIN			dynamic_cast<Buffer*>(Add_Component(COMPONENT_TYPE::COMPONENT_TERRAIN));		// 지형 텍스쳐 출력 컴포넌트 추가
+#define ADD_COMPONENT_TRANSFORM			dynamic_cast<Transform*>(Add_Component(COMPONENT_TYPE::COMPONENT_TRANSFORM));	// TRANSFORM 컴포넌트 추가
+#define ADD_COMPONENT_TEXTURE			dynamic_cast<Texture*>(Add_Component(COMPONENT_TYPE::COMPONENT_TEXTURE));		// 텍스쳐 저장 컴포넌트 추가
+
+#define ADD_COMPONENT_FSM				dynamic_cast<StateMachine*>(Add_Component(COMPONENT_TYPE::COMPONENT_FSM));						// FSM 컴포넌트
+////////////////////////////////////////////////////////////////////////////////////
+

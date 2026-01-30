@@ -1,0 +1,286 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="01. GameManager">
+      <UniqueIdentifier>{8ad4ad5c-1833-41c6-b39a-12f0b2d3b326}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. DefaultWindow">
+      <UniqueIdentifier>{41050182-07b9-4b52-9e7c-3102f50a6b8f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Scene">
+      <UniqueIdentifier>{00f2f7a6-3434-47cc-8eea-26e75d5c4bde}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject">
+      <UniqueIdentifier>{7c7cda2a-4a9a-4dee-a70f-5de2494977b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\01. Player">
+      <UniqueIdentifier>{dad93f5e-3fcd-4c44-930c-a2eb0469204f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\02. Monster">
+      <UniqueIdentifier>{7ab4c868-92f8-42cb-8e2d-70af5c088a5e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\03. NPC">
+      <UniqueIdentifier>{6706283f-4a9e-4a8c-b62d-d0e75631b28b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. UI">
+      <UniqueIdentifier>{be3997a7-88ce-4e9a-ac9f-d6cbd5ecf290}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Scene\01. StartScene">
+      <UniqueIdentifier>{cf46baff-be85-4afa-b63b-eb461dffd27c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\99. Camera">
+      <UniqueIdentifier>{4e81e72d-aaba-4f6f-aadb-fd7b0e176224}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Scene\03. Dungeon">
+      <UniqueIdentifier>{03b4ef92-5c7d-4db3-a93d-5822de3e36ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Scene\02. Village">
+      <UniqueIdentifier>{35455ad3-3905-4227-a948-f28e17a00410}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. DefaultWindow\Default">
+      <UniqueIdentifier>{2f2671c9-f32b-4a40-9573-755bf2c87746}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. DefaultWindow\Assets">
+      <UniqueIdentifier>{648cd6d8-45fe-48a3-a79b-38dcb0f1b432}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Scene\00. LoadThread">
+      <UniqueIdentifier>{996a4848-c684-41a6-b6c0-08b66384e6ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\04. Terrain">
+      <UniqueIdentifier>{a0a97f9e-3e66-4576-971e-17a85d10cb35}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05. IMGUI">
+      <UniqueIdentifier>{b3786f68-4a00-4209-8f3f-219da64cd67c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05. IMGUI\01. Header">
+      <UniqueIdentifier>{f0eac9d4-2a21-4033-a9a0-4e60593b3842}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05. IMGUI\02. Code">
+      <UniqueIdentifier>{a29a3732-ba29-492d-9c0e-2998c58a2503}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06. IMGUIZMO">
+      <UniqueIdentifier>{6b0610bc-6e8d-40f3-9ccb-faf7d8450eb3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06. IMGUIZMO\01. Header">
+      <UniqueIdentifier>{57008a3b-ed7b-430e-bda9-382bf97f9dd9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06. IMGUIZMO\02. Code">
+      <UniqueIdentifier>{ceb4bf64-6dc8-4087-bed3-9a77144cea73}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05. IMGUI\00. EditorManager">
+      <UniqueIdentifier>{905c05ca-256f-4dfd-9a79-864c3bfc297c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05. IMGUI\00. EditorManager\01. MainEditor">
+      <UniqueIdentifier>{8cf53df0-31fa-4206-aadb-5844248c3097}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05. IMGUI\00. EditorManager\02. Inspector">
+      <UniqueIdentifier>{db98baa3-a30a-4124-afa0-8ca0e2644d53}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05. IMGUI\00. EditorManager\03. Window">
+      <UniqueIdentifier>{87cf6110-596f-4943-95f8-4116143396ed}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Header\GameManager.h">
+      <Filter>01. GameManager</Filter>
+    </ClInclude>
+    <ClInclude Include="PCH.h">
+      <Filter>00. DefaultWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="Client.h">
+      <Filter>00. DefaultWindow\Default</Filter>
+    </ClInclude>
+    <ClInclude Include="framework.h">
+      <Filter>00. DefaultWindow\Default</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>00. DefaultWindow\Default</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>00. DefaultWindow\Default</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\StartScene.h">
+      <Filter>02. Scene\01. StartScene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Camera.h">
+      <Filter>03. GameObject\99. Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="DEFINE.h">
+      <Filter>00. DefaultWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="ENUM.h">
+      <Filter>00. DefaultWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Player.h">
+      <Filter>03. GameObject\01. Player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Monster.h">
+      <Filter>03. GameObject\02. Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\NPC.h">
+      <Filter>03. GameObject\03. NPC</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\VillageScene.h">
+      <Filter>02. Scene\02. Village</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\DungeonScene.h">
+      <Filter>02. Scene\03. Dungeon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\LoadThread.h">
+      <Filter>02. Scene\00. LoadThread</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Terrain.h">
+      <Filter>03. GameObject\04. Terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\imconfig.h">
+      <Filter>05. IMGUI\01. Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\imgui.h">
+      <Filter>05. IMGUI\01. Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\imgui_impl_dx9.h">
+      <Filter>05. IMGUI\01. Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\imgui_impl_win32.h">
+      <Filter>05. IMGUI\01. Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\imgui_internal.h">
+      <Filter>05. IMGUI\01. Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\imstb_rectpack.h">
+      <Filter>05. IMGUI\01. Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\imstb_textedit.h">
+      <Filter>05. IMGUI\01. Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\imstb_truetype.h">
+      <Filter>05. IMGUI\01. Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\ImCurveEdit.h">
+      <Filter>06. IMGUIZMO\01. Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\ImGradient.h">
+      <Filter>06. IMGUIZMO\01. Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\ImGuizmo.h">
+      <Filter>06. IMGUIZMO\01. Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\ImLightRig.h">
+      <Filter>06. IMGUIZMO\01. Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\ImSequencer.h">
+      <Filter>06. IMGUIZMO\01. Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\ImZoomSlider.h">
+      <Filter>06. IMGUIZMO\01. Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\EditorManager.h">
+      <Filter>05. IMGUI\00. EditorManager\01. MainEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Inspector.h">
+      <Filter>05. IMGUI\00. EditorManager\02. Inspector</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\EditorWindow.h">
+      <Filter>05. IMGUI\00. EditorManager\03. Window</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\GUIManager.h">
+      <Filter>05. IMGUI\00. EditorManager\01. MainEditor</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Code\GameManager.cpp">
+      <Filter>01. GameManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Client.cpp">
+      <Filter>00. DefaultWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="PCH.cpp">
+      <Filter>00. DefaultWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\StartScene.cpp">
+      <Filter>02. Scene\01. StartScene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Camera.cpp">
+      <Filter>03. GameObject\99. Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Player.cpp">
+      <Filter>03. GameObject\01. Player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Monster.cpp">
+      <Filter>03. GameObject\02. Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\NPC.cpp">
+      <Filter>03. GameObject\03. NPC</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\VillageScene.cpp">
+      <Filter>02. Scene\02. Village</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\DungeonScene.cpp">
+      <Filter>02. Scene\03. Dungeon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\LoadThread.cpp">
+      <Filter>02. Scene\00. LoadThread</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Terrain.cpp">
+      <Filter>03. GameObject\04. Terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\imgui.cpp">
+      <Filter>05. IMGUI\02. Code</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\imgui_demo.cpp">
+      <Filter>05. IMGUI\02. Code</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\imgui_draw.cpp">
+      <Filter>05. IMGUI\02. Code</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\imgui_impl_dx9.cpp">
+      <Filter>05. IMGUI\02. Code</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\imgui_impl_win32.cpp">
+      <Filter>05. IMGUI\02. Code</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\imgui_tables.cpp">
+      <Filter>05. IMGUI\02. Code</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\imgui_widgets.cpp">
+      <Filter>05. IMGUI\02. Code</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\ImCurveEdit.cpp">
+      <Filter>06. IMGUIZMO\02. Code</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\ImGradient.cpp">
+      <Filter>06. IMGUIZMO\02. Code</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\ImGuizmo.cpp">
+      <Filter>06. IMGUIZMO\02. Code</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\ImSequencer.cpp">
+      <Filter>06. IMGUIZMO\02. Code</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\EditorManager.cpp">
+      <Filter>05. IMGUI\00. EditorManager\01. MainEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Inspector.cpp">
+      <Filter>05. IMGUI\00. EditorManager\02. Inspector</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\EditorWindow.cpp">
+      <Filter>05. IMGUI\00. EditorManager\03. Window</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\GUIManager.cpp">
+      <Filter>05. IMGUI\00. EditorManager\01. MainEditor</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="small.ico">
+      <Filter>00. DefaultWindow\Assets</Filter>
+    </Image>
+    <Image Include="Client.ico">
+      <Filter>00. DefaultWindow\Assets</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Client.rc">
+      <Filter>00. DefaultWindow\Assets</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

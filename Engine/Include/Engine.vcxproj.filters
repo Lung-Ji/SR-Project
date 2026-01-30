@@ -1,0 +1,171 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="01. GraphicDevice">
+      <UniqueIdentifier>{0e50f2d1-1c4e-46c3-bca6-f3ba38a4d56b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DefaultHeader">
+      <UniqueIdentifier>{9fa84f11-0bbc-458b-b696-2a5a6fb61f7e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. TimeManager">
+      <UniqueIdentifier>{dc360a55-6906-4b05-9b73-8b8d25665b35}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="99. Hierarchy">
+      <UniqueIdentifier>{d6a54c8e-8644-46ad-9422-fa69ae7f7412}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="99. Hierarchy\01. Scene">
+      <UniqueIdentifier>{8fadcbd3-41a9-469f-a11b-acde8e709dba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="99. Hierarchy\02. Layer">
+      <UniqueIdentifier>{aeacf068-4a50-4cfd-b193-ccaa59e524d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="99. Hierarchy\03. GameObject">
+      <UniqueIdentifier>{406496fc-cf27-4836-af78-bcc5f5ec77e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="99. Hierarchy\04. Component">
+      <UniqueIdentifier>{36ff1f8f-d34c-4989-98c5-d7ebc055fd82}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="99. Component">
+      <UniqueIdentifier>{65dea3ee-f65a-47d0-8550-b9300a3226c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="99. Component\01. Buffer">
+      <UniqueIdentifier>{8e536bb0-04f3-48cf-81c6-2de3aca57f39}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="99. Component\02. Transform">
+      <UniqueIdentifier>{a586d953-951b-41a4-aead-120984a11a0c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="99. Component\03. Texture">
+      <UniqueIdentifier>{f901d2b8-ed83-41d1-b248-ff0820f8b24a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="99. Component\99. StateMachine">
+      <UniqueIdentifier>{818e8a07-c0d7-48c4-80fd-1a7761d25a68}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. SoundManager">
+      <UniqueIdentifier>{1e3bd1a8-9ca5-4fde-9773-86836f586b6c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05. SceneManager">
+      <UniqueIdentifier>{8ada4676-7a5a-4269-9830-cc25fcfa5b61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06. ProtoManager">
+      <UniqueIdentifier>{11717e82-671d-466d-96ff-0f2d970ce7b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="07. RenderManager">
+      <UniqueIdentifier>{9abfb317-fdaf-4f9d-a701-4cf6fc38da16}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. KeyManager">
+      <UniqueIdentifier>{9fcbc2e2-c957-4a91-b71c-cc2d9405ac91}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Header\GraphicDevice.h">
+      <Filter>01. GraphicDevice</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Engine_Define.h">
+      <Filter>DefaultHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Engine_Enum.h">
+      <Filter>DefaultHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Engine_Function.h">
+      <Filter>DefaultHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Engine_Macro.h">
+      <Filter>DefaultHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Engine_Struct.h">
+      <Filter>DefaultHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Engine_Typedef.h">
+      <Filter>DefaultHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\TimeManager.h">
+      <Filter>02. TimeManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Buffer.h">
+      <Filter>99. Component\01. Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Component.h">
+      <Filter>99. Hierarchy\04. Component</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\GameObject.h">
+      <Filter>99. Hierarchy\03. GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Layer.h">
+      <Filter>99. Hierarchy\02. Layer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Scene.h">
+      <Filter>99. Hierarchy\01. Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Texture.h">
+      <Filter>99. Component\03. Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Transform.h">
+      <Filter>99. Component\02. Transform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\RenderManager.h">
+      <Filter>07. RenderManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\ProtoManager.h">
+      <Filter>06. ProtoManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\SceneManager.h">
+      <Filter>05. SceneManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\SoundManager.h">
+      <Filter>04. SoundManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\StateMachine.h">
+      <Filter>99. Component\99. StateMachine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\KeyManager.h">
+      <Filter>03. KeyManager</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Code\GraphicDevice.cpp">
+      <Filter>01. GraphicDevice</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\TimeManager.cpp">
+      <Filter>02. TimeManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Buffer.cpp">
+      <Filter>99. Component\01. Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Component.cpp">
+      <Filter>99. Hierarchy\04. Component</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\GameObject.cpp">
+      <Filter>99. Hierarchy\03. GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Layer.cpp">
+      <Filter>99. Hierarchy\02. Layer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Scene.cpp">
+      <Filter>99. Hierarchy\01. Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Texture.cpp">
+      <Filter>99. Component\03. Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Transform.cpp">
+      <Filter>99. Component\02. Transform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\RenderManager.cpp">
+      <Filter>07. RenderManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\ProtoManager.cpp">
+      <Filter>06. ProtoManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\SceneManager.cpp">
+      <Filter>05. SceneManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\SoundManager.cpp">
+      <Filter>04. SoundManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\StateMachine.cpp">
+      <Filter>99. Component\99. StateMachine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\KeyManager.cpp">
+      <Filter>03. KeyManager</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
