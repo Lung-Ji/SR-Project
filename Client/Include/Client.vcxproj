@@ -167,7 +167,6 @@
     <ClInclude Include="..\Header\imstb_textedit.h" />
     <ClInclude Include="..\Header\imstb_truetype.h" />
     <ClInclude Include="..\Header\ImZoomSlider.h" />
-    <ClInclude Include="..\Header\Inspector.h" />
     <ClInclude Include="..\Header\LoadThread.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClInclude>
@@ -181,7 +180,6 @@
     <ClInclude Include="..\Header\VillageScene.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="..\Header\EditorWindow.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="PCH.h" />
@@ -211,7 +209,6 @@
     <ClCompile Include="..\Code\imgui_tables.cpp" />
     <ClCompile Include="..\Code\imgui_widgets.cpp" />
     <ClCompile Include="..\Code\ImSequencer.cpp" />
-    <ClCompile Include="..\Code\Inspector.cpp" />
     <ClCompile Include="..\Code\LoadThread.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
@@ -225,7 +222,6 @@
     <ClCompile Include="..\Code\VillageScene.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="..\Code\EditorWindow.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="PCH.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

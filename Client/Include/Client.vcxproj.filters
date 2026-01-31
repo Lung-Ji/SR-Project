@@ -73,12 +73,6 @@
     <Filter Include="05. IMGUI\00. EditorManager\01. MainEditor">
       <UniqueIdentifier>{8cf53df0-31fa-4206-aadb-5844248c3097}</UniqueIdentifier>
     </Filter>
-    <Filter Include="05. IMGUI\00. EditorManager\02. Inspector">
-      <UniqueIdentifier>{db98baa3-a30a-4124-afa0-8ca0e2644d53}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="05. IMGUI\00. EditorManager\03. Window">
-      <UniqueIdentifier>{87cf6110-596f-4943-95f8-4116143396ed}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\GameManager.h">
@@ -177,12 +171,6 @@
     <ClInclude Include="..\Header\EditorManager.h">
       <Filter>05. IMGUI\00. EditorManager\01. MainEditor</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\Inspector.h">
-      <Filter>05. IMGUI\00. EditorManager\02. Inspector</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\EditorWindow.h">
-      <Filter>05. IMGUI\00. EditorManager\03. Window</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\GUIManager.h">
       <Filter>05. IMGUI\00. EditorManager\01. MainEditor</Filter>
     </ClInclude>
@@ -259,12 +247,6 @@
     </ClCompile>
     <ClCompile Include="..\Code\EditorManager.cpp">
       <Filter>05. IMGUI\00. EditorManager\01. MainEditor</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\Inspector.cpp">
-      <Filter>05. IMGUI\00. EditorManager\02. Inspector</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\EditorWindow.cpp">
-      <Filter>05. IMGUI\00. EditorManager\03. Window</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\GUIManager.cpp">
       <Filter>05. IMGUI\00. EditorManager\01. MainEditor</Filter>
