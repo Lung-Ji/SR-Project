@@ -224,6 +224,12 @@
     <ClCompile Include="MainUI.cpp">
       <Filter>04. UI\01. Sprite</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\CubeTile.cpp">
+      <Filter>03. GameObject\05.Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Tile.cpp">
+      <Filter>03. GameObject\05.Tile</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="small.ico">

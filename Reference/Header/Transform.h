@@ -29,7 +29,12 @@ public:
 	{
 		memcpy(pInfo, &WorldMatrix.m[eType][0], sizeof(_vec3));
 	}
-
+	VOID				Set_Pos(_float x, _float y, _float z)
+	{
+		m_vInfo[INFO_POS].x = x;
+		m_vInfo[INFO_POS].y = y;
+		m_vInfo[INFO_POS].z = z;
+	}
 private:
 	_vec3		m_vInfo[INFO_END];
 	_vec3		m_vScale;
