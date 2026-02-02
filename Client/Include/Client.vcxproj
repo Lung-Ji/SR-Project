@@ -154,6 +154,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\Camera.h" />
+    <ClInclude Include="..\Header\CubeTile.h" />
     <ClInclude Include="..\Header\DungeonScene.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
       </ExcludedFromBuild>
@@ -184,6 +185,7 @@
     <ClInclude Include="..\Header\Player.h" />
     <ClInclude Include="..\Header\StartScene.h" />
     <ClInclude Include="..\Header\Terrain.h" />
+    <ClInclude Include="..\Header\Tile.h" />
     <ClInclude Include="..\Header\VillageScene.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
       </ExcludedFromBuild>

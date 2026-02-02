@@ -183,6 +183,7 @@ call Copy.bat</Command>
     <ClCompile Include="..\Code\SceneManager.cpp" />
     <ClCompile Include="..\Code\SoundManager.cpp" />
     <ClCompile Include="..\Code\Texture.cpp" />
+    <ClCompile Include="..\Code\TileManager.cpp" />
     <ClCompile Include="..\Code\TimeManager.cpp" />
     <ClCompile Include="..\Code\Transform.cpp" />
   </ItemGroup>

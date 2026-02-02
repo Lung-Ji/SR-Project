@@ -182,5 +182,8 @@
     <ClCompile Include="..\Code\Sprite.cpp">
       <Filter>99. Component\04. Sprite</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\TileManager.cpp">
+      <Filter>08.TileManager</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
