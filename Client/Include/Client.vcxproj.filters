@@ -67,6 +67,9 @@
     <Filter Include="04. UI\01. Sprite">
       <UniqueIdentifier>{c5ddb37a-c839-4e15-9417-7076814467ab}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. GameObject\02. Monster\FSM_State">
+      <UniqueIdentifier>{0f2ebe0f-71e1-4ab5-b82b-172fd0e1450f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\GameManager.h">
@@ -150,6 +153,9 @@
     <ClInclude Include="MainUI.h">
       <Filter>04. UI\01. Sprite</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\Monster_State.h">
+      <Filter>03. GameObject\02. Monster\FSM_State</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\GameManager.cpp">
@@ -214,6 +220,9 @@
     </ClCompile>
     <ClCompile Include="MainUI.cpp">
       <Filter>04. UI\01. Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Monster_State.cpp">
+      <Filter>03. GameObject\02. Monster\FSM_State</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

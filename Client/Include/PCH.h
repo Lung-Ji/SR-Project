@@ -32,6 +32,7 @@
 #include "Terrain.h"
 #include "MainUI.h"
 #include "NPC.h"
+#include "Monster_State.h"
 #include "Monster.h"
 #include "Player.h"
 
