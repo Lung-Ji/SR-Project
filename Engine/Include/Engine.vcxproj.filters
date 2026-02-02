@@ -58,6 +58,9 @@
     <Filter Include="99. Component\04. Sprite">
       <UniqueIdentifier>{e78a6a92-ba68-4941-a7bc-fd0f30163631}</UniqueIdentifier>
     </Filter>
+    <Filter Include="08.TileManager">
+      <UniqueIdentifier>{fb375aba-e013-4696-be93-303247a99c6c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\GraphicDevice.h">
