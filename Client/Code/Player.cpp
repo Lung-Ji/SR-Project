@@ -8,24 +8,26 @@ Player::~Player()													{}
 HRESULT Player::Ready_GameObject() {
 	if (FAILED(Component_Initialize())) return E_FAIL;
 
-	_defaultSpeed = 500.f;
+	_defaultSpeed = 15.f;
 	_speed = _defaultSpeed;
 
 	_isJump = false;
-	_defultJumpSpeed = 500.f;
+	_defultJumpSpeed = 50.f;
 	_jumpSpeed = 0.f;
-	_g = 10.f;
+	_g = 0.5f;
+
+	Component_Transform->Set_Pos({ 5.f, 1.f, 0.f });
 
 	return S_OK;
 }
 INT	Player::Update_GameObject(const _float& _DT) {
+	GameObject::Update_GameObject(_DT);
+	RenderManager::GetInstance()->Add_RenderGroup(RENDER_ALPHA, this);
 
 	Gravity(_DT);
 	Key_Input(_DT);
 
 	GameObject::Update_GameObject(_DT);
-
-	RenderManager::GetInstance()->Add_RenderGroup(RENDER_ALPHA, this);
 
 	return 0;
 }
@@ -61,11 +63,11 @@ void Player::Key_Input(const _float& _DT)
 	if((KEY_HOLD(DIK_W) && KEY_HOLD(DIK_A)) || (KEY_HOLD(DIK_W) && KEY_HOLD(DIK_D)) ||
 		(KEY_HOLD(DIK_S) && KEY_HOLD(DIK_A)) || (KEY_HOLD(DIK_S) && KEY_HOLD(DIK_D)))
 	{
-		_speed = _defaultSpeed * cos(D3DX_PI * 0.25f) * _DT;
+		_speed = _defaultSpeed * cos(D3DX_PI * 0.25f);
 	}
 	else
 	{
-		_speed = _defaultSpeed * _DT;
+		_speed = _defaultSpeed;
 	}
 
 	if (KEY_HOLD(DIK_W))
@@ -92,39 +94,36 @@ void Player::Key_Input(const _float& _DT)
 
 	Component_Transform->Get_Info(INFO_UP, &vDir);
 
-	if (KEY_DOWN(DIK_SPACE))
+	if (KEY_DOWN(DIK_C) && !_isJump)
 	{
 		_isJump = true;
 		_jumpSpeed = _defaultSpeed;
 	}
 }
+
 void Player::Gravity(const _float& _DT)
 {
 	_vec3 pos;
 	Component_Transform->Get_Info(INFO_POS, &pos);
+	float tempy = pos.y;
 
-	if (pos.y > 1 || _isJump)
+	if (pos.y > 1.f || _isJump)
 	{
 		_jumpSpeed -= _g;
-
+		tempy += _jumpSpeed * _DT;
 		_vec3		vDir;
 		Component_Transform->Get_Info(INFO_UP, &vDir);
 
-		Component_Transform->Move_Pos(D3DXVec3Normalize(&vDir, &vDir), _jumpSpeed * _DT, _DT);
+		Component_Transform->Move_Pos(D3DXVec3Normalize(&vDir, &vDir), _jumpSpeed, _DT);
 	}
-	
-	if(pos.y < 1)
+
+	if (tempy < 1.f)
 	{
 		_isJump = false;
 		_jumpSpeed = 0.f;
 
-		_matrix* wolrdmat;
-		ZeroMemory(&wolrdmat, sizeof(wolrdmat));
-
-		wolrdmat = Component_Transform->Get_World();
-		wolrdmat[3][1] = 2;
+		Component_Transform->Set_Pos({ pos.x, 1.f, pos.z });
 	}
-
 }
 Player* Player::Create(LPDIRECT3DDEVICE9 _GRPDEV) {
 	Player* PLAYER = new Player(_GRPDEV);
