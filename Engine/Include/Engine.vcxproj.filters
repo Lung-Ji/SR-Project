@@ -129,6 +129,9 @@
     <ClInclude Include="..\Header\Sprite.h">
       <Filter>99. Component\04. Sprite</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\TileManager.h">
+      <Filter>08.TileManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\GraphicDevice.cpp">
