@@ -109,7 +109,7 @@ VOID CameraObject::Camera_Transform_Control(CONST FLOAT& _DT) {
 		}
 	}
 
-	if (KEY_DOWN(DIK_TAB)) {	//	마우스 커서 고정 여부 TRUE = 고정, FALSE = 고정 해제
+	if (KEY_DOWN(DIK_P)) {	//	마우스 커서 고정 여부 TRUE = 고정, FALSE = 고정 해제
 		MouseCheck ? MouseCheck = FALSE : MouseCheck = TRUE;
 		Camera_Move ? Camera_Move = FALSE : Camera_Move = TRUE;
 	}
