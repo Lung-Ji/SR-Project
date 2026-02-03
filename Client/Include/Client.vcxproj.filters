@@ -159,6 +159,10 @@
     <ClInclude Include="..\Header\Tile.h">
       <Filter>03. GameObject\05.Tile</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\Monster_State.h" />
+    <ClInclude Include="CXZTile.h">
+      <Filter>03. GameObject\05.Tile</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\GameManager.cpp">
@@ -228,6 +232,10 @@
       <Filter>03. GameObject\05.Tile</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Tile.cpp">
+      <Filter>03. GameObject\05.Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Monster_State.cpp" />
+    <ClCompile Include="CXZTile.cpp">
       <Filter>03. GameObject\05.Tile</Filter>
     </ClCompile>
   </ItemGroup>

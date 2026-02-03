@@ -8,7 +8,7 @@ TileManager::~TileManager()
 	Free();
 }
 
-HRESULT TileManager::Add_Tile(GameObject* pObject, _vec3 vPos)
+HRESULT TileManager::Add_Tile(GameObject* pObject, _vec3 vPos, TILE_SIDE eTile)
 {
 	
 	if (pObject == nullptr)
@@ -19,7 +19,24 @@ HRESULT TileManager::Add_Tile(GameObject* pObject, _vec3 vPos)
 	Component* pComponent = pObject->Get_Component(COMPONENT_TYPE::COMPONENT_TRANSFORM);
 	Transform* pTransform = dynamic_cast<Transform*>(pComponent);
 
-	pTransform->Set_Pos(vPos.x,vPos.y,vPos.z);
+	switch (eTile)
+	{
+	case TILE_SIDE::TILE_FRONT:
+		pTransform->Set_Pos(vPos.x, vPos.y, vPos.z+2);
+		break;
+	case TILE_SIDE::TILE_RIGHT:
+		pTransform->Set_Pos(vPos.x+2, vPos.y, vPos.z);
+		break;
+	case TILE_SIDE::TILE_LEFT:
+		pTransform->Set_Pos(vPos.x-2, vPos.y, vPos.z);
+		break;
+	case TILE_SIDE::TILE_BACK:
+		pTransform->Set_Pos(vPos.x, vPos.y, vPos.z-2);
+		break;
+	case TILE_SIDE::TILE_OTHER:
+		pTransform->Set_Pos(vPos.x, vPos.y, vPos.z);
+		break;
+	}
 	m_vecTileBuffer.push_back(pObject);
 	
 	return S_OK;

@@ -18,7 +18,7 @@ public:
     vector<GameObject*>& Get_TileList() { return m_vecTileBuffer; }
 
 public:
-    HRESULT         Add_Tile(GameObject* pObject, _vec3 vPos );
+    HRESULT         Add_Tile(GameObject* pObject, _vec3 vPos, TILE_SIDE eTile);
     void            Delete_Tile(_vec3 vPos, _vec3 Origin, _vec3 vDir);
     HRESULT         Update_TileList(const _float& fTimeDetla);
     void            Render_TileList();
