@@ -1,6 +1,6 @@
 #include "../Include/PCH.h"
 #include "Monster.h"
-
+   
 Monster::Monster(LPDIRECT3DDEVICE9 _GRPDEV) : GameObject(_GRPDEV)	{}
 Monster::Monster(const GameObject& _RHS)	: GameObject(_RHS)		{}
 Monster::~Monster()													{}
