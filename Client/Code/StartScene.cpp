@@ -38,6 +38,12 @@ HRESULT StartScene::Ready_Enviroment_Layer(CONST TCHAR* _LTAG) {
 	
 	if (nullptr == GOBJ)					return E_FAIL;
 	if (FAILED(LYR->Add_GameObject(GOBJ)))	return E_FAIL;
+
+	GOBJ = Monster::Create(GRPDEV);
+	GOBJ->Set_ObjectTag(L"Monster");
+
+	if (nullptr == GOBJ)					return E_FAIL;
+	if (FAILED(LYR->Add_GameObject(GOBJ)))	return E_FAIL;
 	
 	GOBJ = Terrain::Create(GRPDEV);
 	GOBJ->Set_ObjectTag(L"Terrain");
@@ -55,6 +61,12 @@ HRESULT StartScene::Ready_Enviroment_Layer(CONST TCHAR* _LTAG) {
 	GOBJ->Set_ObjectTag(L"Tile");
 
 	if (nullptr == GOBJ)					return E_FAIL;
+	if (FAILED(LYR->Add_GameObject(GOBJ)))	return E_FAIL;
+
+	GOBJ = CButton::Create(GRPDEV);
+	GOBJ->Set_ObjectTag(L"Button");
+
+	if (nullptr == GOBJ) return E_FAIL;
 	if (FAILED(LYR->Add_GameObject(GOBJ)))	return E_FAIL;
 
 	LayerList.push_back(LYR);

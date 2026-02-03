@@ -10,15 +10,13 @@ HRESULT GameManager::Ready_GameManager() {
 	return S_OK;
 }
 VOID	GameManager::Update_GameManager(CONST FLOAT& _DT) {
-
-	SceneManager::GetInstance()->Update_SceneManager(_DT);
-	KeyManager	::GetInstance()->Update_KeyManager(_DT);
-
 	TileManager::GetInstance()->Update_TileList(_DT);
+	KeyManager	::GetInstance()->Update_KeyManager(_DT);
+	SceneManager::GetInstance()->Update_SceneManager(_DT);
 }
 VOID	GameManager::LateUpdate_GameManager(CONST FLOAT& _DT) {
-	SceneManager::GetInstance()->LateUpdate_SceneManager(_DT);
 	KeyManager	::GetInstance()->LateUpdate_KeyManager(_DT);
+	SceneManager::GetInstance()->LateUpdate_SceneManager(_DT);
 }
 VOID	GameManager::Render_GameManager() {
 	DEVCLASS->Render_Begin(D3DXCOLOR(0.f, 0.f, 1.f, 1.f));
@@ -26,7 +24,7 @@ VOID	GameManager::Render_GameManager() {
 	TileManager::GetInstance()->Render_TileList();
 	SceneManager::GetInstance()->Render_SceneManager(GRPDEV);
 #ifdef _DEBUG
-	//cout << "File I/O Ãâ·Â" << endl;
+	//cout << "File I/O ÃƒÃ¢Â·Ã‚" << endl;
 #endif // _DEBUG
 
 	//DEVCLASS->Render_End();
@@ -81,12 +79,11 @@ VOID		 GameManager::Free() {
 	GraphicDevice::DestroyInstance();
 	KeyManager	 ::DestroyInstance();
 	TimeManager	 ::DestroyInstance();
-	TileManager  ::DestroyInstance();
 	SceneManager ::DestroyInstance();
 	ProtoManager ::DestroyInstance();
 	SoundManager ::DestroyInstance();
 	RenderManager::DestroyInstance();
 	GUIManager	 ::DestroyInstance();
-
+	TileManager	 ::DestroyInstance();
 	DEVCLASS     ->DestroyInstance();
 }

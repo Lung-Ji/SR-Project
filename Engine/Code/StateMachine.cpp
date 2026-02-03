@@ -34,13 +34,13 @@ Component* StateMachine::Clone() {
 VOID	StateMachine::Free() {
 	Component::Free();
 }
-VOID StateMachine::FSM_StateChange(const State* _State) {
+VOID StateMachine::FSM_StateChange(State* _State) {
 	if (CurrentState != nullptr) {
 		CurrentState->FSM_StateExit();
 		PreviousState = CurrentState;
 	}
 	
-	//CurrentState = _State;
+	CurrentState = _State;
 
 	CurrentState->FSM_StateEnter();
 }
