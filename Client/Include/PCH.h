@@ -39,6 +39,7 @@
 #include "Player.h"
 #include "Tile.h"
 #include "CubeTile.h"
+#include "CXZTile.h"
 //////////////////////////////////////////// Scene List
 
 #include "StartScene.h"

@@ -198,6 +198,7 @@
     </ClInclude>
     <ClInclude Include="BossMonster.h" />
     <ClInclude Include="Client.h" />
+    <ClInclude Include="CXZTile.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="PCH.h" />
     <ClInclude Include="Resource.h" />
@@ -262,6 +263,7 @@
     </ClCompile>
     <ClCompile Include="BossMonster.cpp" />
     <ClCompile Include="Client.cpp" />
+    <ClCompile Include="CXZTile.cpp" />
     <ClCompile Include="PCH.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
