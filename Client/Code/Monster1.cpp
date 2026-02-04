@@ -27,6 +27,8 @@ INT	Monster1::Update_GameObject(const _float& _DT)
 	// <플레이어 업데이트 시점>
 	GameObject::Update_GameObject(_DT);
 	
+	_frameTick += _DT;
+
 	Set_Target(L"Player");
 
 	if (pTarget == nullptr)
@@ -45,11 +47,22 @@ INT	Monster1::Update_GameObject(const _float& _DT)
 	case MON1_ATTACKING:
 		State_Attacking(_DT);
 		break;
+	case MON1_Hit:
+		break;
+	case MON1_DEAD:
+		break;
 	default:
 		break;
 	}
 	
+
+	//_vec3 vLook;
+	//Component_Transform->Get_Info(INFO_LOOK, &vLook);
+	//D3DXVec3Normalize(&vLook, &vLook);
+	//Component_Transform->Move_Pos(&vLook, Speed, _DT);
+	
 	D3DXVec3Normalize(&vDir, &vDir);
+	vDir.y = 0.f;
 	Component_Transform->Move_Pos(&vDir, Speed, _DT);
 
 	RenderManager::GetInstance()->Add_RenderGroup(RENDER_ALPHA, this);
@@ -65,8 +78,20 @@ VOID Monster1::Render_GameObject() {
 
 	GRPDEV->SetTransform(D3DTS_WORLD, Component_Transform->Get_World());
 
-	Component_Texture->Set_Texture(L"Monster1.png");
+	//Component_Texture->Set_Texture(L"Monster1.png");
+	TCHAR FileName[128] = L"";
+	//strcat_s(FileName, sizeof(FileName), L"L");
+	wsprintfW(FileName, L"Bat_LF_0%d.png", _frame);
 
+	Component_Texture->Set_Texture(FileName);
+
+	if (_frameTick > 0.1f)
+	{
+		if (++_frame > 6)
+			_frame = 1;
+
+		_frameTick = 0.f;
+	}
 	Component_Buffer->Render_Buffer();
 
 	GRPDEV->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
@@ -76,17 +101,12 @@ HRESULT Monster1::Component_Initialize() {
 	Component_Buffer = ADD_COMPONENT_RECTTEX;
 	Component_Transform = ADD_COMPONENT_TRANSFORM;
 
-	Component_Transform->Set_Pos(10.f, 2.f, 10.f);
-	Component_Transform->Set_Rotation(90.f, 0.f, 0.f);
+	Component_Transform->Set_Pos(10.f, 1.f, 10.f);
+	Component_Transform->Set_Rotation(0.f, 0.f, 0.f);
 	Component_Transform->Set_Scale(1.f, 1.f, 1.f);
 
 	Component_Texture = ADD_COMPONENT_TEXTURE;
-	Component_FSM = ADD_COMPONENT_FSM;
-
-	Component_Texture->Import_TextureFromFolder(L"../../Resource/Monster");
-	Component_FSM->FSM_StateInit(MONSTER_IDLE::GetInstance()->Instance());
-
-	//pTarget = SceneManager::GetInstance()->Get_GameObject(L"Player");
+	Component_Texture->Import_TextureFromFolder(L"../../Resource/Monster/Bat");
 
 	return S_OK;
 }
@@ -137,6 +157,7 @@ VOID Monster1::State_Idle()
 	if (pTarget != nullptr)
 	{
 		vDir = *POS(pTarget) - *MYPOS;
+		vDir.y = 0;
 		if (D3DXVec3Length(&vDir) < TRACKINGDIS)
 		{
 			Change_State(MON1_TRACKING);
@@ -148,6 +169,7 @@ VOID Monster1::State_Tracking(const _float& _DT)
 {
 	Speed = Default_Speed;
 	vDir = *POS(pTarget) - *MYPOS;
+	vDir.y = 0;
 	if (D3DXVec3Length(&vDir) < TRACKINGDIS)
 	{
 		Timer1 += _DT;
@@ -158,6 +180,19 @@ VOID Monster1::State_Tracking(const _float& _DT)
 		Timer2 += _DT;
 	}
 	
+	_vec3	vLook;
+	Component_Transform->Get_Info(INFO_LOOK, &vLook);
+
+	D3DXVec3Normalize(&vLook, &vLook);
+	D3DXVec3Normalize(&vDir, &vDir);
+
+	_float fRadian = 0.f;
+	fRadian = acosf(D3DXVec3Dot(&vLook, &vDir));
+	int fAngle = D3DXToDegree(fRadian);
+	Component_Transform->Rotation(ROT_Y, fRadian);
+	//Component_Transform->Set_Rotation(0.f, fAngle, 0.f);
+
+
 	if (Timer1 >= TRACKINGMAX)
 	{
 		Change_State(MON1_ATTACKING);

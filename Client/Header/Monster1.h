@@ -36,7 +36,8 @@ private:
 	Buffer*			Component_Buffer;
 	Transform*		Component_Transform;
 	Texture*		Component_Texture;
-	StateMachine*	Component_FSM;
+	//SpriteObject*	Component_Sprite;
+	//StateMachine*	Component_FSM;
 
 public:
 	static Monster1* Create(LPDIRECT3DDEVICE9 _GRPDEV);
@@ -44,8 +45,6 @@ private:
 	virtual VOID Free();
 
 	VOID Set_Target(CONST TCHAR* _TAG);
-	VOID Tracking_Target();
-
 
 	GameObject* pTarget;
 	_vec3*		pTargetPos;
@@ -65,5 +64,9 @@ private:
 
 	_float Default_Speed;
 	_float Speed;
+
+
+	_uint _frame;
+	_float _frameTick;
 
 };
