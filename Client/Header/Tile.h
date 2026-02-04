@@ -4,8 +4,8 @@
 
 namespace Engine
 {
-    TILE_SIDE;
-    TILEMODE_CHANGE;
+    Engine::TILE_SIDE;
+    Engine::TILEMODE_CHANGE;
 }
 class Tile :
     public GameObject
