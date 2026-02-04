@@ -1,10 +1,6 @@
 #pragma once
 #include "GameObject.h"
 
-namespace Engine
-{
-    Engine::TILE_SIDE;
-}
 
 class CXZTile :
     public GameObject
@@ -34,6 +30,7 @@ private:
     
     Buffer*         m_pBuffer;
     Transform*      m_pTransform;
+
     int             m_iTileNumber;
 public:
     static         CXZTile* Create(LPDIRECT3DDEVICE9 pGraphicDev, Engine::TILE_SIDE eId);

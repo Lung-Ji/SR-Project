@@ -2,7 +2,10 @@
 #include "../Include/PCH.h"
 #include <iostream>
 #include <fstream>
-Tile::Tile(LPDIRECT3DDEVICE9 _GRPDEV) : GameObject(_GRPDEV), m_bTileCheck(true), m_eMode(TILEMODE_CHANGE::MODE_END),m_eTile(Engine::TILE_SIDE::TILE_END), m_pBufferTileFRONT(nullptr),
+const _tchar* m_pTileName[128];
+Tile::Tile(LPDIRECT3DDEVICE9 _GRPDEV) : GameObject(_GRPDEV), m_bTileCheck(true),m_pTexture(nullptr),
+m_pTransform(nullptr), m_pBuffer(nullptr), m_pTileName(nullptr),
+m_eMode(TILEMODE_CHANGE::MODE_END),m_eTile(Engine::TILE_SIDE::TILE_END), m_pBufferTileFRONT(nullptr),
 m_pBufferTileRIGHT(nullptr), m_pBufferTileLEFT(nullptr), m_pBufferTileBACK(nullptr) {}
 Tile::Tile(const GameObject& _RHS) : GameObject(_RHS) {}
 Tile::~Tile() {}
@@ -10,9 +13,7 @@ Tile::~Tile() {}
 HRESULT Tile::Ready_GameObject() {
 
 	if (FAILED(Component_Initialize())) return E_FAIL;
-
-	
-	wstring path = L"../../../Tile";
+	wstring path = L"../../../test";
 	BITMAPINFOHEADER InfoHeader{};
 	BITMAPFILEHEADER fileHeader{};
 	_wfinddata64_t Data;
@@ -37,11 +38,11 @@ HRESULT Tile::Ready_GameObject() {
 		unsigned char sizeBuf[8];
 		fa.read(reinterpret_cast<char*>(sizeBuf), 8);
 		
-		imf.vSize.x = sizeBuf[0] << 24| sizeBuf[1] << 16 |
-					  sizeBuf[2] << 8 | sizeBuf[3];
+		imf.vSize.x = (_float)(sizeBuf[0] << 24| sizeBuf[1] << 16 |
+					  sizeBuf[2] << 8 | sizeBuf[3]);
 
-		imf.vSize.y = sizeBuf[0] << 24 | sizeBuf[1] << 16 |
-					  sizeBuf[2] << 8  | sizeBuf[3];
+		imf.vSize.y = (_float)(sizeBuf[0] << 24 | sizeBuf[1] << 16 |
+					  sizeBuf[2] << 8  | sizeBuf[3]);
 
 		m_vecImage.push_back(imf);
 		Result = _wfindnext64(Handle, &Data);
@@ -68,10 +69,12 @@ VOID Tile::LateUpdate_GameObject(const _float& _DT) {
 
 VOID Tile::Render_GameObject()
 {
-	GRPDEV->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 	GRPDEV->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	
+	//GRPDEV->SetRenderState(D3DRS_LIGHTING, FALSE);
 	GRPDEV->SetTransform(D3DTS_WORLD, m_pTransform->Get_World());
 	
+	m_pTexture->Set_Texture(m_pTileName);
 	//switch (m_eTile)
 	//{
 	//case TILE_SIDE::TILE_FRONT:
@@ -91,10 +94,8 @@ VOID Tile::Render_GameObject()
 	//	break;
 	//}
 
-
 	m_pBuffer->Render_Buffer();
 	GRPDEV->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
-	GRPDEV->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 }
 
 void Tile::Mode_Change()
@@ -189,7 +190,8 @@ void Tile::Imgui_Setting()
 void Tile::Imgui_Image()
 {
 	_bool bSetTexture = false;
-
+	_int  iChoice(0);
+	const char* cTile[] = { "0","1","2","3","4","5" };
 	ImGui::Text("IMAGE");
 	ImGui::SameLine(50.f, 0.f);
 	//기본 버튼 색
@@ -203,27 +205,40 @@ void Tile::Imgui_Image()
 
 	if (!ImGui::CollapsingHeader("Tiles"))
 		return;
+
+	ImGui::Text("Display Choice");
+	ImGui::SameLine(140.0f, 0.f);
+	bSetTexture = ImGui::Combo("##Choice", &iChoice, cTile, sizeof(char)*6);
+	if (bSetTexture)
+		cout << "Display Coice " << iChoice << endl;
+
+
+	ImGui::Text("Tile Choice");
+	ImVec2 chidSize = ImVec2(0.f, ImGui::GetFrameHeightWithSpacing() * 10);
+	ImGuiID id = ImGui::GetCurrentWindow()->GetID("##Tiles");
+	ImGui::BeginChildEx("##Tiles",  id, chidSize, ImGuiChildFlags_None,ImGuiWindowFlags_HorizontalScrollbar);
+	//아
 	_int nCount = 0;
 	for (size_t i = 0; i < m_vecImage.size(); i++)
 	{
 		_vec2 size = m_vecImage[i].vSize;
 		char scat[512] = "##";
-		char sDst[512] = {};
-		//strcpy_s(sDst,sizeof(char)*256,&m_vecImage[i].wstr->c_str());
 		strncat_s(scat, (char*)m_vecImage[i].wstr, sizeof(char) * 512);
 		
 		if (ImGui::ImageButton(scat,
 			m_pTexture->Find_Texture((m_vecImage[i].wstr)->c_str()),
-			ImVec2(size.x * 0.1f, size.y * 0.1f), ImVec2(0.f, 0.f), ImVec2(1.f, 1.f)
+			ImVec2(size.x * 0.5f, size.y * 0.5f), ImVec2(0.f, 0.f), ImVec2(1.f, 1.f)
 			, ImVec4(0, 0, 0, 0)))
 		{
-
+			m_pTileName = m_vecImage[i].wstr->c_str();
 		}
 		nCount++;
 		if (nCount < 3)
 			ImGui::SameLine();
 		else nCount = 0;
 	}
+	
+	ImGui::EndChild();
 }
 
 
@@ -236,7 +251,7 @@ HRESULT Tile::Component_Initialize() {
 	//m_pBufferTileRIGHT = ADD_COMPONENT_TILERIGHT;
 	//m_pBufferTileLEFT  = ADD_COMPONENT_TILELEFT;
 	//m_pBufferTileBACK  = ADD_COMPONENT_TILEBACK;
-	m_pTexture->Import_TextureFromFolder(L"../../../Tile");
+	m_pTexture->Import_TextureFromFolder(L"../../../test");
 	
 	return S_OK;
 }

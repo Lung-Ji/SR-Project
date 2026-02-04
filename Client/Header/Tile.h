@@ -1,12 +1,6 @@
 #pragma once
 #include "GameObject.h"
 
-
-namespace Engine
-{
-    Engine::TILE_SIDE;
-    Engine::TILEMODE_CHANGE;
-}
 class Tile :
     public GameObject
 {
@@ -52,6 +46,9 @@ private:
     _bool           m_bTileCheck;
 
     TILE_SIDE       m_eTile;
+
+
+    const _tchar*   m_pTileName;
 
 private:
   
