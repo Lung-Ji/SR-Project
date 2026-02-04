@@ -27,6 +27,20 @@ enum class pState
 	End
 };
 
+enum class pSee
+{
+	SEE_UP,
+	SEE_DOWN,
+	SEE_RIGHT,
+	SEE_LEFT,
+	SEE_LU,
+	SEE_RU,
+	SEE_LD,
+	SEE_RD,
+
+	End
+};
+
 class Player : public GameObject {
 private:
 	explicit Player(LPDIRECT3DDEVICE9 _GRPDEV);
@@ -59,6 +73,7 @@ private:
 	bool			Debug;
 
 	pState			_state;
+	pSee			_see;
 
 	_uint			_frame;
 	float			_frameTick;

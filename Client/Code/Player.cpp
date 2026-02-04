@@ -96,21 +96,25 @@ void Player::Key_Input(const _float& _DT)
 		{
 			_speed = _defaultSpeed * cos(D3DX_PI * 0.25f);
 			_state = pState::STATE_RUN_LU;
+			_see = pSee::SEE_LU;
 		}
 		else if (KEY_HOLD(DIK_S) && KEY_HOLD(DIK_A))
 		{
 			_speed = _defaultSpeed * cos(D3DX_PI * 0.25f);
 			_state = pState::STATE_RUN_LD;
+			_see = pSee::SEE_LD;
 		}
 		else if (KEY_HOLD(DIK_W) && KEY_HOLD(DIK_D))
 		{
 			_speed = _defaultSpeed * cos(D3DX_PI * 0.25f);
 			_state = pState::STATE_RUN_RU;
+			_see = pSee::SEE_RU;
 		}
 		else if (KEY_HOLD(DIK_S) && KEY_HOLD(DIK_D))
 		{
 			_speed = _defaultSpeed * cos(D3DX_PI * 0.25f);
 			_state = pState::STATE_RUN_RD;
+			_see = pSee::SEE_RD;
 		}
 		else
 		{
@@ -121,28 +125,40 @@ void Player::Key_Input(const _float& _DT)
 		{
 			Component_Transform->Move_Pos(D3DXVec3Normalize(&upDir, &upDir), _speed, _DT);
 			if (_speed == _defaultSpeed)
+			{
 				_state = pState::STATE_RUN_UP;
+				_see = pSee::SEE_UP;
+			}
 		}
 
 		if (KEY_HOLD(DIK_S))
 		{
 			Component_Transform->Move_Pos(D3DXVec3Normalize(&upDir, &upDir), -_speed, _DT);
 			if (_speed == _defaultSpeed)
+			{
 				_state = pState::STATE_RUN_DOWN;
+				_see = pSee::SEE_DOWN;
+			}
 		}
 
 		if (KEY_HOLD(DIK_A))
 		{
 			Component_Transform->Move_Pos(D3DXVec3Normalize(&rightDir, &rightDir), -_speed, _DT);
 			if (_speed == _defaultSpeed)
+			{
 				_state = pState::STATE_RUN_LEFT;
+				_see = pSee::SEE_LEFT;
+			}
 		}
 
 		if (KEY_HOLD(DIK_D))
 		{
 			Component_Transform->Move_Pos(D3DXVec3Normalize(&rightDir, &rightDir), _speed, _DT);
 			if (_speed == _defaultSpeed)
+			{
 				_state = pState::STATE_RUN_RIGHT;
+				_see = pSee::SEE_RIGHT;
+			}
 		}
 		//if (KEY_DOWN(DIK_C) && !_isJump)
 		//{
@@ -189,7 +205,33 @@ void Player::SetGrahpic()
 	case pState::STATE_STANDING :
 		Component_Transform->Set_Scale(size);
 
-		wsprintfW(FileName, L"Spr_Yeon_Stand_000_0%d.png", _frame);
+		switch (_see)
+		{
+		case pSee::SEE_DOWN :
+			wsprintfW(FileName, L"Spr_Yeon_Stand_000_0%d.png", _frame);
+			break;
+		case pSee::SEE_UP:
+			wsprintfW(FileName, L"Spr_Yeon_Stand_180_0%d.png", _frame);
+			break;
+		case pSee::SEE_RIGHT:
+			wsprintfW(FileName, L"Spr_Yeon_Stand_095_0%d.png", _frame);
+			break;
+		case pSee::SEE_LEFT:
+			wsprintfW(FileName, L"Spr_Yeon_Stand_090_0%d.png", _frame);
+			break;
+		case pSee::SEE_LU:
+			wsprintfW(FileName, L"Spr_Yeon_Stand_135_0%d.png", _frame);
+			break;
+		case pSee::SEE_RU:
+			wsprintfW(FileName, L"Spr_Yeon_Stand_130_0%d.png", _frame);
+			break;
+		case pSee::SEE_LD:
+			wsprintfW(FileName, L"Spr_Yeon_Stand_045_0%d.png", _frame);
+			break;
+		case pSee::SEE_RD:
+			wsprintfW(FileName, L"Spr_Yeon_Stand_040_0%d.png", _frame);
+			break;
+		}
 
 		Component_Texture->Set_Texture(FileName);
 
