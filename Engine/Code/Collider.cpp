@@ -17,7 +17,7 @@ INT			Collider::Update_Component(CONST FLOAT& _DT) {
 	
 	MinPoint = { CenterPos.x - Scale.x, CenterPos.y - Scale.y, CenterPos.z - Scale.z };
 	MaxPoint = { CenterPos.x + Scale.x, CenterPos.y + Scale.y, CenterPos.z + Scale.z };
-
+	// 1차 통합 테스트
 	return 0;
 }
 VOID		Collider::LateUpdate_Component(CONST FLOAT& _DT) {
