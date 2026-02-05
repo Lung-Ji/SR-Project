@@ -111,6 +111,8 @@ HRESULT Monster1::Component_Initialize() {
 	Component_FSM = ADD_COMPONENT_FSM;
 
 	Component_Collider = ADD_COMPONENT_COLLIDER;
+	Component_Collider->Set_CenterPos(Component_Transform);
+	Component_Collider->Set_Scale(1.f, 1.f, 1.f);
 
 	Component_Texture->Import_TextureFromFolder(L"../../Resource/Monster");
 	Component_FSM->FSM_StateInit(MONSTER_IDLE::GetInstance()->Instance());

@@ -10,15 +10,20 @@ HRESULT	StartScene::Ready_Scene() {
 	if (FAILED(Ready_Enviroment_Layer(L"Enviroment_Layer")))	return E_FAIL;
 	if (FAILED(Ready_GameLogic_Layer(L"GameLogic_Layer")))		return E_FAIL;
 	KeyManager::GetInstance()->Ready_KeyManager(hInst, hWnd);
+	CollisionManager::GetInstance()->Get_AllObjectOfScene();
 	return S_OK;
 }
 INT	 StartScene::Update_Scene(CONST FLOAT& _DT) {
+	CollisionManager::GetInstance()->Update_CollisionManager();
 	return Scene::Update_Scene(_DT);
 }
 VOID StartScene::LateUpdate_Scene(CONST FLOAT& _DT) {
+	CollisionManager::GetInstance()->LateUpdate_CollisionManager();
+	CollisionManager::GetInstance()->Render_CollisionManager();
 	Scene::LateUpdate_Scene(_DT);
 }
 VOID StartScene::Render_Scene() {
+	
 	//Scene::Render_Scene();
 }
 HRESULT StartScene::Ready_Enviroment_Layer(CONST TCHAR* _LTAG) {
@@ -35,10 +40,10 @@ HRESULT StartScene::Ready_Enviroment_Layer(CONST TCHAR* _LTAG) {
 
 	GOBJ = Monster::Create(GRPDEV);
 	GOBJ->Set_ObjectTag(L"Monster");
-
+	
 	if (nullptr == GOBJ)					return E_FAIL;
 	if (FAILED(LYR->Add_GameObject(GOBJ)))	return E_FAIL;
-
+	
 	GOBJ = Monster1::Create(GRPDEV);
 	GOBJ->Set_ObjectTag(L"Monster1");
 

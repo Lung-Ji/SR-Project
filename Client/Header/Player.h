@@ -13,6 +13,7 @@ public:
 	virtual			VOID		LateUpdate_GameObject(const _float& _DT);
 	virtual			VOID		Render_GameObject();
 
+	virtual			BOOL		OnCollisionEnter(GameObject* _other);
 private:
 	HRESULT			Component_Initialize();
 private:
@@ -20,6 +21,7 @@ private:
 	Transform*		Component_Transform;
 	Texture*		Component_Texture;
 	StateMachine*	Component_FSM;
+	Collider*		Component_Collider;
 public:
 	static Player* Create(LPDIRECT3DDEVICE9 _GRPDEV);
 private:

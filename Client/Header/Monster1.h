@@ -27,7 +27,6 @@ private:
 	Texture*		Component_Texture;
 	StateMachine*	Component_FSM;
 	Collider*		Component_Collider;
-
 	GameObject*		pTarget;
 
 public:

@@ -73,7 +73,7 @@
     <Filter Include="99. Component\05. Collider">
       <UniqueIdentifier>{9acb0940-4a9c-4647-8d97-6537cc18af61}</UniqueIdentifier>
     </Filter>
-    <Filter Include="99. Component\10. CollisionManager">
+    <Filter Include="10. CollisionManager">
       <UniqueIdentifier>{5b2479a8-ade8-4ea4-916a-156bb09c66f3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -160,7 +160,7 @@
       <Filter>99. Component\05. Collider</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\CollisionManager.h">
-      <Filter>99. Component\10. CollisionManager</Filter>
+      <Filter>10. CollisionManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -228,7 +228,7 @@
       <Filter>99. Component\05. Collider</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\CollisionManager.cpp">
-      <Filter>99. Component\10. CollisionManager</Filter>
+      <Filter>10. CollisionManager</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

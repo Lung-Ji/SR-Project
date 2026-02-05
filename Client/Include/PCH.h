@@ -48,6 +48,7 @@
 
 //////////////////////////////////////////// Manager
 #include "GUIManager.h"
+#include "CollisionManager.h"
 #include "KeyManager.h"
 #include "SoundManager.h"
 #include "RenderManager.h"

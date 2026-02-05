@@ -76,14 +76,15 @@ VOID		 GameManager::Free() {
 	Safe_Release(DEVCLASS);
 	Safe_Release(GRPDEV);
 
-	GraphicDevice::DestroyInstance();
-	KeyManager	 ::DestroyInstance();
-	TimeManager	 ::DestroyInstance();
-	SceneManager ::DestroyInstance();
-	ProtoManager ::DestroyInstance();
-	SoundManager ::DestroyInstance();
-	RenderManager::DestroyInstance();
-	GUIManager	 ::DestroyInstance();
-	TileManager	 ::DestroyInstance();
-	DEVCLASS     ->DestroyInstance();
+	GraphicDevice	::DestroyInstance();
+	KeyManager		::DestroyInstance();
+	CollisionManager::DestroyInstance();
+	TimeManager		::DestroyInstance();
+	SceneManager	::DestroyInstance();
+	ProtoManager	::DestroyInstance();
+	SoundManager	::DestroyInstance();
+	RenderManager	::DestroyInstance();
+	GUIManager		::DestroyInstance();
+	TileManager		::DestroyInstance();
+	DEVCLASS		->DestroyInstance();
 }

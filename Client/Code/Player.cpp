@@ -30,6 +30,7 @@ HRESULT Player::Ready_GameObject() {
 	Component_Transform->Rotation(ROT_X, angle);
 	Component_Transform->Set_Pos({ 5.f, 1.f, 5.f });
 
+
 	Debug = false;
 
 	return S_OK;
@@ -62,6 +63,10 @@ HRESULT Player::Component_Initialize() {
 	Component_Transform = ADD_COMPONENT_TRANSFORM;
 	Component_Texture	= ADD_COMPONENT_TEXTURE;
 	//Component_FSM		= ADD_COMPONENT_FSM;
+
+	Component_Collider = ADD_COMPONENT_COLLIDER;					// 충돌체 컴포넌트 추가
+	Component_Collider->Set_CenterPos(Component_Transform);			// 충돌체가 오브젝트를 따라 다니도록
+	Component_Collider->Set_Scale(0.5f, 0.5f, 0.5f);				// 충돌체의 범위 조절
 
 	Component_Texture->Import_TextureFromFolder(L"../../Resource/Extra/Example");
 
@@ -147,6 +152,11 @@ void Player::Gravity(const _float& _DT)
 
 		Component_Transform->Set_Pos({ pos.x, 1.f, pos.z });
 	}
+}
+BOOL  Player::OnCollisionEnter(GameObject* _other) {
+	int a = 0;
+	int b = 0;
+	return TRUE;
 }
 Player* Player::Create(LPDIRECT3DDEVICE9 _GRPDEV) {
 	Player* PLAYER = new Player(_GRPDEV);
