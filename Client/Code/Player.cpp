@@ -11,7 +11,7 @@ HRESULT Player::Ready_GameObject() {
 	_state = pState::STATE_STANDING;
 	_see = pSee::SEE_DOWN;
 
-	_defaultSpeed = 12.f;
+	_defaultSpeed = 8.f;
 	_speed = 0.f;
 
 	_isJump = false;
@@ -27,10 +27,9 @@ HRESULT Player::Ready_GameObject() {
 	_vec3 planeDir = { 0.f, 1.f, 0.f };
 	
 	_float angle = acosf(D3DXVec3Dot(D3DXVec3Normalize(&cameraDir, &cameraDir), D3DXVec3Normalize(&planeDir, &planeDir)));
-	angle = angle / D3DX_PI * 180.f;
+	_cameraAngle = angle / D3DX_PI * 180.f;
 
-	Component_Transform->Set_Scale({ 1.f, 1.f, 1.f });
-	Component_Transform->Rotation(ROT_X, angle);
+	Component_Transform->Rotation(ROT_X, 90.f - _cameraAngle);
 	Component_Transform->Set_Pos({ 5.f, 1.f, 5.f });
 
 
@@ -73,9 +72,10 @@ HRESULT Player::Component_Initialize() {
 	Component_Collider->Set_CenterPos(Component_Transform);			// 충돌체가 오브젝트를 따라 다니도록
 	Component_Collider->Set_Scale(0.5f, 0.5f, 0.5f);				// 충돌체의 범위 조절
 
-	Component_Texture->Import_TextureFromFolder(L"../../Resource/Extra/Example");
 	Component_Texture->Import_TextureFromFolder(L"../../Resource/Player/Stand");
 	Component_Texture->Import_TextureFromFolder(L"../../Resource/Player/Run");
+	Component_Texture->Import_TextureFromFolder(L"../../Resource/Player/Slide");
+	Component_Texture->Import_TextureFromFolder(L"../../Resource/Player/Attack");
 
 	return S_OK;
 }
@@ -94,104 +94,312 @@ void Player::Key_Input(const _float& _DT)
 		D3DXVec3Normalize(&rightDir, &rightDir);
 
 		//Component_Transform->Get_Info(INFO_LOOK, &vDir);
-		if(_speed == 0.f)
-			_state = pState::STATE_STANDING;
+		if (_speed == 0.f)
+		{
+			if (_state != pState::STATE_STANDING)
+			{
+				_state = pState::STATE_STANDING;
+				//_frame = 1;
+			}
+		}
+
+		bool mouseLB = KeyManager::GetInstance()->Get_MouseState(DIM_LB) & 0x80;
+
+		if (!mouseLB && _frame > 8)
+			_frame = 1;
+
+		if (mouseLB)
+		{
+			POINT point;
+			GetCursorPos(&point);
+			ScreenToClient(hWnd, &point);
+
+			_vec2 playerPos = { WINCX / 2 , WINCY / 2 };
+
+			if (point.x <= playerPos.x && point.y >= playerPos.y)
+				_state = pState::STATE_ATTACK_LD;
+			else if(point.x > playerPos.x && point.y > playerPos.y)
+				_state = pState::STATE_ATTACK_RD;
+			else if (point.x < playerPos.x && point.y < playerPos.y)
+				_state = pState::STATE_ATTACK_LU;
+			else if (point.x >= playerPos.x && point.y <= playerPos.y)
+				_state = pState::STATE_ATTACK_RU;
+
+		}
+			
 		Component_Transform->Set_Scale({ 1.f, 1.f, 1.f });
 
 		if (KEY_HOLD(DIK_W) && KEY_HOLD(DIK_A))
 		{
-			_speed = _defaultSpeed * cos(D3DX_PI * 0.25f);
-			Component_Transform->Move_Pos(D3DXVec3Normalize(&upDir, &upDir), _speed, _DT);
-			Component_Transform->Move_Pos(D3DXVec3Normalize(&rightDir, &rightDir), -_speed, _DT);
-			if (_state != pState::STATE_RUN_LU)
+			switch (_state)
 			{
-				_frame = 1;
+			case pState::STATE_ATTACK_LU:
+				_state = pState::STATE_ATTACK_RUN_LU;
+				break;
+			case pState::STATE_ATTACK_RU:
+				_state = pState::STATE_ATTACK_RUN_RU;
+				break;
+			case pState::STATE_ATTACK_LD:
+				_state = pState::STATE_ATTACK_RUN_LD;
+				break;
+			case pState::STATE_ATTACK_RD:
+				_state = pState::STATE_ATTACK_RUN_RD;
+				break;
+			case pState::STATE_RUN_LU:
+				break;
+			default:
+				//_frame = 1;
 				_state = pState::STATE_RUN_LU;
 				_see = pSee::SEE_LU;
+				break;
 			}
+
+			_speed = _defaultSpeed * cos(D3DX_PI * 0.25f);
+
+			if (mouseLB)
+				_speed *= 0.5f;
+			else
+				_state = pState::STATE_RUN_LU;
+
+			Component_Transform->Move_Pos(D3DXVec3Normalize(&upDir, &upDir), _speed, _DT);
+			Component_Transform->Move_Pos(D3DXVec3Normalize(&rightDir, &rightDir), -_speed, _DT);
+
 
 		}
 		else if (KEY_HOLD(DIK_S) && KEY_HOLD(DIK_A))
 		{
-			_speed = _defaultSpeed * cos(D3DX_PI * 0.25f);
-			Component_Transform->Move_Pos(D3DXVec3Normalize(&upDir, &upDir), -_speed, _DT);
-			Component_Transform->Move_Pos(D3DXVec3Normalize(&rightDir, &rightDir), -_speed, _DT);
-			if (_state != pState::STATE_RUN_LD)
+			switch (_state)
 			{
-				_frame = 1;
+			case pState::STATE_ATTACK_LU:
+				_state = pState::STATE_ATTACK_RUN_LU;
+				break;
+			case pState::STATE_ATTACK_RU:
+				_state = pState::STATE_ATTACK_RUN_RU;
+				break;
+			case pState::STATE_ATTACK_LD:
+				_state = pState::STATE_ATTACK_RUN_LD;
+				break;
+			case pState::STATE_ATTACK_RD:
+				_state = pState::STATE_ATTACK_RUN_RD;
+				break;
+			case pState::STATE_RUN_LD:
+				break;
+			default:
+				//_frame = 1;
 				_state = pState::STATE_RUN_LD;
 				_see = pSee::SEE_LD;
+				break;
 			}
+
+			_speed = _defaultSpeed * cos(D3DX_PI * 0.25f);
+
+			if(mouseLB)
+				_speed *= 0.5f;
+			else
+				_state = pState::STATE_RUN_LD;
+
+			Component_Transform->Move_Pos(D3DXVec3Normalize(&upDir, &upDir), -_speed, _DT);
+			Component_Transform->Move_Pos(D3DXVec3Normalize(&rightDir, &rightDir), -_speed, _DT);
+
 		}
 		else if (KEY_HOLD(DIK_W) && KEY_HOLD(DIK_D))
 		{
-			_speed = _defaultSpeed * cos(D3DX_PI * 0.25f);
-			Component_Transform->Move_Pos(D3DXVec3Normalize(&upDir, &upDir), _speed, _DT);
-			Component_Transform->Move_Pos(D3DXVec3Normalize(&rightDir, &rightDir), _speed, _DT);
-			if (_state != pState::STATE_RUN_RU)
+			switch (_state)
 			{
-				_frame = 1;
+			case pState::STATE_ATTACK_LU:
+				_state = pState::STATE_ATTACK_RUN_LU;
+				break;
+			case pState::STATE_ATTACK_RU:
+				_state = pState::STATE_ATTACK_RUN_RU;
+				break;
+			case pState::STATE_ATTACK_LD:
+				_state = pState::STATE_ATTACK_RUN_LD;
+				break;
+			case pState::STATE_ATTACK_RD:
+				_state = pState::STATE_ATTACK_RUN_RD;
+				break;
+			case pState::STATE_RUN_RU:
+				break;
+			default:
+				//_frame = 1;
 				_state = pState::STATE_RUN_RU;
 				_see = pSee::SEE_RU;
 			}
+
+			_speed = _defaultSpeed * cos(D3DX_PI * 0.25f);
+
+			if (mouseLB)
+				_speed *= 0.5f;
+			else
+				_state = pState::STATE_RUN_RU;
+
+			Component_Transform->Move_Pos(D3DXVec3Normalize(&upDir, &upDir), _speed, _DT);
+			Component_Transform->Move_Pos(D3DXVec3Normalize(&rightDir, &rightDir), _speed, _DT);
+
 		}
 		else if (KEY_HOLD(DIK_S) && KEY_HOLD(DIK_D))
 		{
-			_speed = _defaultSpeed * cos(D3DX_PI * 0.25f);
-			Component_Transform->Move_Pos(D3DXVec3Normalize(&upDir, &upDir), -_speed, _DT);
-			Component_Transform->Move_Pos(D3DXVec3Normalize(&rightDir, &rightDir), _speed, _DT);
-			if (_state != pState::STATE_RUN_RD)
+			switch (_state)
 			{
-				_frame = 1;
+			case pState::STATE_ATTACK_LU:
+				_state = pState::STATE_ATTACK_RUN_LU;
+				break;
+			case pState::STATE_ATTACK_RU:
+				_state = pState::STATE_ATTACK_RUN_RU;
+				break;
+			case pState::STATE_ATTACK_LD:
+				_state = pState::STATE_ATTACK_RUN_LD;
+				break;
+			case pState::STATE_ATTACK_RD:
+				_state = pState::STATE_ATTACK_RUN_RD;
+				break;
+			case pState::STATE_RUN_RD:
+				break;
+			default:
+				//_frame = 1;
 				_state = pState::STATE_RUN_RD;
 				_see = pSee::SEE_RD;
 			}
+
+			_speed = _defaultSpeed * cos(D3DX_PI * 0.25f);
+
+			if (mouseLB)
+				_speed *= 0.5f;
+			else
+				_state = pState::STATE_RUN_RD;
+
+			Component_Transform->Move_Pos(D3DXVec3Normalize(&upDir, &upDir), -_speed, _DT);
+			Component_Transform->Move_Pos(D3DXVec3Normalize(&rightDir, &rightDir), _speed, _DT);
+
 		}
 		else if (KEY_HOLD(DIK_W))
 		{
-			Component_Transform->Move_Pos(D3DXVec3Normalize(&upDir, &upDir), _speed, _DT);
-			_speed = _defaultSpeed;
-			if (_state != pState::STATE_RUN_UP)
+			switch (_state)
 			{
-				_frame = 1;
+			case pState::STATE_ATTACK_LU:
+				_state = pState::STATE_ATTACK_RUN_LU;
+				break;
+			case pState::STATE_ATTACK_RU:
+				_state = pState::STATE_ATTACK_RUN_RU;
+				break;
+			case pState::STATE_ATTACK_LD:
+				_state = pState::STATE_ATTACK_RUN_LD;
+				break;
+			case pState::STATE_ATTACK_RD:
+				_state = pState::STATE_ATTACK_RUN_RD;
+				break;
+			case pState::STATE_RUN_UP:
+				break;
+			default:
+				//_frame = 1;
 				_state = pState::STATE_RUN_UP;
 				_see = pSee::SEE_UP;
+				break;
 			}
+
+			_speed = _defaultSpeed;
+			if (mouseLB)
+				_speed *= 0.5f;
+			else
+				_state = pState::STATE_RUN_UP;
+			Component_Transform->Move_Pos(D3DXVec3Normalize(&upDir, &upDir), _speed, _DT);
+
 		}
 
 		else if (KEY_HOLD(DIK_S))
 		{
-			Component_Transform->Move_Pos(D3DXVec3Normalize(&upDir, &upDir), -_speed, _DT);
-			_speed = _defaultSpeed;
-			if (_state != pState::STATE_RUN_DOWN)
+			switch (_state)
 			{
-				_frame = 1;
+			case pState::STATE_ATTACK_LU:
+				_state = pState::STATE_ATTACK_RUN_LU;
+				break;
+			case pState::STATE_ATTACK_RU:
+				_state = pState::STATE_ATTACK_RUN_RU;
+				break;
+			case pState::STATE_ATTACK_LD:
+				_state = pState::STATE_ATTACK_RUN_LD;
+				break;
+			case pState::STATE_ATTACK_RD:
+				_state = pState::STATE_ATTACK_RUN_RD;
+				break;
+			case pState::STATE_RUN_DOWN:
+				break;
+			default:
+				//_frame = 1;
 				_state = pState::STATE_RUN_DOWN;
 				_see = pSee::SEE_DOWN;
 			}
+
+			_speed = _defaultSpeed;
+			if (mouseLB)
+				_speed *= 0.5f;
+			else
+				_state = pState::STATE_RUN_DOWN;
+			Component_Transform->Move_Pos(D3DXVec3Normalize(&upDir, &upDir), -_speed, _DT);
 		}
 
 		else if (KEY_HOLD(DIK_A))
 		{
-			Component_Transform->Move_Pos(D3DXVec3Normalize(&rightDir, &rightDir), -_speed, _DT);
-			_speed = _defaultSpeed;
-			if (_state != pState::STATE_RUN_LEFT)
+			switch (_state)
 			{
-				_frame = 1;
+			case pState::STATE_ATTACK_LU:
+				_state = pState::STATE_ATTACK_RUN_LU;
+				break;
+			case pState::STATE_ATTACK_RU:
+				_state = pState::STATE_ATTACK_RUN_RU;
+				break;
+			case pState::STATE_ATTACK_LD:
+				_state = pState::STATE_ATTACK_RUN_LD;
+				break;
+			case pState::STATE_ATTACK_RD:
+				_state = pState::STATE_ATTACK_RUN_RD;
+				break;
+			case pState::STATE_RUN_LEFT:
+				break;
+			default:
+				//_frame = 1;
 				_state = pState::STATE_RUN_LEFT;
 				_see = pSee::SEE_LEFT;
 			}
+
+			_speed = _defaultSpeed;
+			if (mouseLB)
+				_speed *= 0.5f;
+			else
+				_state = pState::STATE_RUN_LEFT;
+			Component_Transform->Move_Pos(D3DXVec3Normalize(&rightDir, &rightDir), -_speed, _DT);
+
 		}
 		else if (KEY_HOLD(DIK_D))
 		{
-			Component_Transform->Move_Pos(D3DXVec3Normalize(&rightDir, &rightDir), _speed, _DT);
-			_speed = _defaultSpeed;
-			if (_state != pState::STATE_RUN_RIGHT)
+			switch (_state)
 			{
-				_frame = 1;
+			case pState::STATE_ATTACK_LU:
+				_state = pState::STATE_ATTACK_RUN_LU;
+				break;
+			case pState::STATE_ATTACK_RU:
+				_state = pState::STATE_ATTACK_RUN_RU;
+				break;
+			case pState::STATE_ATTACK_LD:
+				_state = pState::STATE_ATTACK_RUN_LD;
+				break;
+			case pState::STATE_ATTACK_RD:
+				_state = pState::STATE_ATTACK_RUN_RD;
+				break;
+			case pState::STATE_RUN_RIGHT:
+				break;
+			default:
+				//_frame = 1;
 				_state = pState::STATE_RUN_RIGHT;
 				_see = pSee::SEE_RIGHT;
 			}
+
+			_speed = _defaultSpeed;
+			if (mouseLB)
+				_speed *= 0.5f;
+			else
+				_state = pState::STATE_RUN_RIGHT;
+			Component_Transform->Move_Pos(D3DXVec3Normalize(&rightDir, &rightDir), _speed, _DT);
 		}
 		else
 		{
@@ -234,39 +442,39 @@ void Player::SetGrahpic()
 {
 	TCHAR FileName[128] = L"";
 
+	Component_Transform->Set_Scale({ 2.f, 2.f, 2.f });
+
 	_vec3 size = { 0.44f, 1.f, 1.f };
 	size *= 1.2;
 
 	switch (_state)
 	{
 	case pState::STATE_STANDING :
-		Component_Transform->Set_Scale(size);
-
 		switch (_see)
 		{
 		case pSee::SEE_DOWN :
-			wsprintfW(FileName, L"Spr_Yeon_Stand_000_0%d.png", _frame);
+			wsprintfW(FileName, L"Player_Stand_Down%d.png", _frame);
 			break;
 		case pSee::SEE_UP:
-			wsprintfW(FileName, L"Spr_Yeon_Stand_180_0%d.png", _frame);
+			wsprintfW(FileName, L"Player_Stand_UP%d.png", _frame);
 			break;
 		case pSee::SEE_RIGHT:
-			wsprintfW(FileName, L"Spr_Yeon_Stand_095_0%d.png", _frame);
+			wsprintfW(FileName, L"StandRS0%d.png", _frame);
 			break;
 		case pSee::SEE_LEFT:
-			wsprintfW(FileName, L"Spr_Yeon_Stand_090_0%d.png", _frame);
+			wsprintfW(FileName, L"Player_Stand_Left%d.png", _frame);
 			break;
 		case pSee::SEE_LU:
-			wsprintfW(FileName, L"Spr_Yeon_Stand_135_0%d.png", _frame);
+			wsprintfW(FileName, L"Player_Stand_LT%d.png", _frame);
 			break;
 		case pSee::SEE_RU:
-			wsprintfW(FileName, L"Spr_Yeon_Stand_130_0%d.png", _frame);
+			wsprintfW(FileName, L"StandRT0%d.png", _frame);
 			break;
 		case pSee::SEE_LD:
-			wsprintfW(FileName, L"Spr_Yeon_Stand_045_0%d.png", _frame);
+			wsprintfW(FileName, L"Stand_LB0%d.png", _frame);
 			break;
 		case pSee::SEE_RD:
-			wsprintfW(FileName, L"Spr_Yeon_Stand_040_0%d.png", _frame);
+			wsprintfW(FileName, L"Stand_RB0%d.png", _frame);
 			break;
 		}
 
@@ -281,9 +489,7 @@ void Player::SetGrahpic()
 		}
 		break;
 	case pState::STATE_RUN_UP:
-		Component_Transform->Set_Scale(size);
-
-		wsprintfW(FileName, L"Spr_Yeon_Run_180_0%d.png", _frame);
+		wsprintfW(FileName, L"Player_Run_UP%d.png", _frame);
 
 		Component_Texture->Set_Texture(FileName);
 
@@ -296,9 +502,7 @@ void Player::SetGrahpic()
 		}
 		break;
 	case pState::STATE_RUN_DOWN:
-		Component_Transform->Set_Scale(size);
-
-		wsprintfW(FileName, L"Spr_Yeon_Run_000_0%d.png", _frame);
+		wsprintfW(FileName, L"Player_Run_Down%d.png", _frame);
 
 		Component_Texture->Set_Texture(FileName);
 
@@ -312,7 +516,7 @@ void Player::SetGrahpic()
 		break;
 
 	case pState::STATE_RUN_LEFT:
-		wsprintfW(FileName, L"Spr_Yeon_Run_090_0%d.png", _frame);
+		wsprintfW(FileName, L"Player_Run_LEFT%d.png", _frame);
 
 		Component_Texture->Set_Texture(FileName);
 
@@ -326,7 +530,7 @@ void Player::SetGrahpic()
 		break;
 
 	case pState::STATE_RUN_LU:
-		wsprintfW(FileName, L"Spr_Yeon_Run_135_0%d.png", _frame);
+		wsprintfW(FileName, L"Player_Run_LU%d.png", _frame);
 
 		Component_Texture->Set_Texture(FileName);
 
@@ -340,7 +544,7 @@ void Player::SetGrahpic()
 		break;
 
 	case pState::STATE_RUN_LD:
-		wsprintfW(FileName, L"Spr_Yeon_Run_045_0%d.png", _frame);
+		wsprintfW(FileName, L"Player_Run_LD%d.png", _frame);
 
 		Component_Texture->Set_Texture(FileName);
 
@@ -354,7 +558,7 @@ void Player::SetGrahpic()
 		break;
 
 	case pState::STATE_RUN_RIGHT:
-		wsprintfW(FileName, L"Spr_Yeon_Run_080_0%d.png", _frame);
+		wsprintfW(FileName, L"Player_Run_Right%d.png", _frame);
 
 		Component_Texture->Set_Texture(FileName);
 
@@ -368,7 +572,7 @@ void Player::SetGrahpic()
 		break;
 
 	case pState::STATE_RUN_RU:
-		wsprintfW(FileName, L"Spr_Yeon_Run_130_0%d.png", _frame);
+		wsprintfW(FileName, L"RTRun0%d.png", _frame);
 
 		Component_Texture->Set_Texture(FileName);
 
@@ -382,7 +586,7 @@ void Player::SetGrahpic()
 		break;
 
 	case pState::STATE_RUN_RD:
-		wsprintfW(FileName, L"Spr_Yeon_Run_040_0%d.png", _frame);
+		wsprintfW(FileName, L"Player_Run_RD%d.png", _frame);
 
 		Component_Texture->Set_Texture(FileName);
 
@@ -394,6 +598,119 @@ void Player::SetGrahpic()
 			_frameTick = 0.f;
 		}
 		break;
+
+	case pState::STATE_ATTACK_LU:
+		wsprintfW(FileName, L"Player_Attack_Stand_LU%d.png", _frame);
+
+		Component_Texture->Set_Texture(FileName);
+
+		if (_frameTick > 0.1f)
+		{
+			if (++_frame > 10)
+				_frame = 1;
+
+			_frameTick = 0.f;
+		}
+		break;
+
+	case pState::STATE_ATTACK_LD:
+		wsprintfW(FileName, L"Player_Attack_Stand_LD%d.png", _frame);
+
+		Component_Texture->Set_Texture(FileName);
+
+		if (_frameTick > 0.1f)
+		{
+			if (++_frame > 10)
+				_frame = 1;
+
+			_frameTick = 0.f;
+		}
+		break;
+
+	case pState::STATE_ATTACK_RU:
+		wsprintfW(FileName, L"Player_Attack_Stand_RU%d.png", _frame);
+
+		Component_Texture->Set_Texture(FileName);
+
+		if (_frameTick > 0.1f)
+		{
+			if (++_frame > 10)
+				_frame = 1;
+
+			_frameTick = 0.f;
+		}
+		break;
+
+	case pState::STATE_ATTACK_RD:
+		wsprintfW(FileName, L"Player_Attack_Stand_RD%d.png", _frame);
+
+		Component_Texture->Set_Texture(FileName);
+
+		if (_frameTick > 0.1f)
+		{
+			if (++_frame > 10)
+				_frame = 1;
+
+			_frameTick = 0.f;
+		}
+		break;
+
+	case pState::STATE_ATTACK_RUN_LU:
+		wsprintfW(FileName, L"Player_Attack_LU%d.png", _frame);
+
+		Component_Texture->Set_Texture(FileName);
+
+		if (_frameTick > 0.1f)
+		{
+			if (++_frame > 10)
+				_frame = 1;
+
+			_frameTick = 0.f;
+		}
+		break;
+
+	case pState::STATE_ATTACK_RUN_LD:
+		wsprintfW(FileName, L"Player_Attack_LD%d.png", _frame);
+
+		Component_Texture->Set_Texture(FileName);
+
+		if (_frameTick > 0.1f)
+		{
+			if (++_frame > 10)
+				_frame = 1;
+
+			_frameTick = 0.f;
+		}
+		break;
+
+	case pState::STATE_ATTACK_RUN_RU:
+		wsprintfW(FileName, L"Player_Attack_RU%d.png", _frame);
+
+		Component_Texture->Set_Texture(FileName);
+
+		if (_frameTick > 0.1f)
+		{
+			if (++_frame > 10)
+				_frame = 1;
+
+			_frameTick = 0.f;
+		}
+		break;
+
+	case pState::STATE_ATTACK_RUN_RD:
+		wsprintfW(FileName, L"Player_Attack_RD%d.png", _frame);
+
+		Component_Texture->Set_Texture(FileName);
+
+		if (_frameTick > 0.1f)
+		{
+			if (++_frame > 10)
+				_frame = 1;
+
+			_frameTick = 0.f;
+		}
+		break;
+
 
 	default:
 		wsprintfW(FileName, L"Spr_Yeon_Stand_000_0%d.png", _frame);

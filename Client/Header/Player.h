@@ -17,9 +17,15 @@ enum class pState
 	STATE_LANDING_DOWN,
 	STATE_LANDING_UP,
 
-	STATE_SHOTING,
-	STATE_TARGETING,
-	STATE_CHARGE_ATTACK,
+	STATE_ATTACK_LU,
+	STATE_ATTACK_RU,
+	STATE_ATTACK_LD,
+	STATE_ATTACK_RD,
+
+	STATE_ATTACK_RUN_LU,
+	STATE_ATTACK_RUN_RU,
+	STATE_ATTACK_RUN_LD,
+	STATE_ATTACK_RUN_RD,
 
 	STATE_VICTORY,
 	STATE_DEAD,
@@ -37,6 +43,16 @@ enum class pSee
 	SEE_RU,
 	SEE_LD,
 	SEE_RD,
+
+	End
+};
+
+enum class mousePos
+{
+	MOUSE_LT,
+	MOUSE_RT,
+	MOUSE_LD,
+	MOUSE_RD,
 
 	End
 };
@@ -72,6 +88,7 @@ private:
 	void			SetGrahpic();
 private:
 	bool			Debug;
+	float			_cameraAngle;
 
 	pState			_state;
 	pSee			_see;
