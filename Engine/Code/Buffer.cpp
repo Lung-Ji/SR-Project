@@ -402,7 +402,7 @@ HRESULT Buffer::Ready_Tile_Buffer()
 	Vertex[0].vTexUV = {0,0,0};
 
 	Vertex[1].vPosition = { 1.f, 0.f, 1.f };
-	Vertex[1].vTexUV = {0,1,0};
+	Vertex[1].vTexUV = {1,0,0};
 
 	Vertex[2].vPosition = { 1.f, 0.f, -1.f };
 	Vertex[2].vTexUV = { 1,1,0 };

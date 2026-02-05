@@ -12,7 +12,7 @@ Tile::~Tile() {}
 HRESULT Tile::Ready_GameObject() {
 
 	if (FAILED(Component_Initialize())) return E_FAIL;
-	wstring path = L"../../Resource/Tile";
+	wstring path = L"../../../Tile";
 	BITMAPINFOHEADER InfoHeader{};
 	BITMAPFILEHEADER fileHeader{};
 	_wfinddata64_t Data;
@@ -215,8 +215,14 @@ HRESULT Tile::Component_Initialize() {
 	m_pBuffer		   = ADD_COMPONENT_TILE; 
 	m_pTransform	   = ADD_COMPONENT_TRANSFORM;
 	m_pTexture		   = ADD_COMPONENT_TEXTURE;
+
 	m_pTexture->Import_TextureFromFolder(L"../../Resource/Tile");
-	
+
+	//m_pBufferTileFRONT = ADD_COMPONENT_TILEFRONT;
+	//m_pBufferTileRIGHT = ADD_COMPONENT_TILERIGHT;
+	//m_pBufferTileLEFT  = ADD_COMPONENT_TILELEFT;
+	//m_pBufferTileBACK  = ADD_COMPONENT_TILEBACK;
+	m_pTexture->Import_TextureFromFolder(L"../../Resource/Tile");
 	return S_OK;
 }
 _bool Tile::Check_Bottom(_vec3* vOrigin)
@@ -228,7 +234,7 @@ _bool Tile::Check_Bottom(_vec3* vOrigin)
 	_int iDst(0);
 	Component* pTransform = SceneManager::GetInstance()->Get_GameObject(L"Terrain")->Get_Component(Engine::COMPONENT_TYPE::COMPONENT_TERRAIN);
 	Buffer* pBuffer = dynamic_cast<Buffer*>(pTransform);
-	
+
 	for (auto& iter : TileManager::GetInstance()->Get_TileList(m_eMode))
 	{	
 		switch (m_eMode)
