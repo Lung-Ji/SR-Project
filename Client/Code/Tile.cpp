@@ -216,8 +216,6 @@ HRESULT Tile::Component_Initialize() {
 	m_pTransform	   = ADD_COMPONENT_TRANSFORM;
 	m_pTexture		   = ADD_COMPONENT_TEXTURE;
 	m_pTexture->Import_TextureFromFolder(L"../../Resource/Tile");
-
-	
 	return S_OK;
 }
 _bool Tile::Check_Bottom(_vec3* vOrigin)
@@ -229,7 +227,7 @@ _bool Tile::Check_Bottom(_vec3* vOrigin)
 	_int iDst(0);
 	Component* pTransform = SceneManager::GetInstance()->Get_GameObject(L"Terrain")->Get_Component(Engine::COMPONENT_TYPE::COMPONENT_TERRAIN);
 	Buffer* pBuffer = dynamic_cast<Buffer*>(pTransform);
-	
+
 	for (auto& iter : TileManager::GetInstance()->Get_TileList(m_eMode))
 	{	
 		switch (m_eMode)
