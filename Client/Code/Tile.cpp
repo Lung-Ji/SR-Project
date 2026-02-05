@@ -13,7 +13,7 @@ Tile::~Tile() {}
 HRESULT Tile::Ready_GameObject() {
 
 	if (FAILED(Component_Initialize())) return E_FAIL;
-	wstring path = L"../../../test";
+	wstring path = L"../../../Tile";
 	BITMAPINFOHEADER InfoHeader{};
 	BITMAPFILEHEADER fileHeader{};
 	_wfinddata64_t Data;
@@ -54,7 +54,7 @@ HRESULT Tile::Ready_GameObject() {
 }
 INT	Tile::Update_GameObject(const _float& _DT) {
 
-	RenderManager::GetInstance()->Add_RenderGroup(RENDER_NONALPHA, this);
+	RenderManager::GetInstance()->Add_RenderGroup(RENDER_ALPHA, this);
 	return GameObject::Update_GameObject(_DT);
 
 }
@@ -70,7 +70,10 @@ VOID Tile::LateUpdate_GameObject(const _float& _DT) {
 VOID Tile::Render_GameObject()
 {
 	GRPDEV->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-	
+	GRPDEV->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+	GRPDEV->SetRenderState(D3DRS_SHADEMODE,D3DSHADE_FLAT);
+	GRPDEV->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_NONE);
+
 	//GRPDEV->SetRenderState(D3DRS_LIGHTING, FALSE);
 	GRPDEV->SetTransform(D3DTS_WORLD, m_pTransform->Get_World());
 	
@@ -94,8 +97,10 @@ VOID Tile::Render_GameObject()
 	//	break;
 	//}
 
+
 	m_pBuffer->Render_Buffer();
 	GRPDEV->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+	
 }
 
 void Tile::Mode_Change()
@@ -227,7 +232,7 @@ void Tile::Imgui_Image()
 		
 		if (ImGui::ImageButton(scat,
 			m_pTexture->Find_Texture((m_vecImage[i].wstr)->c_str()),
-			ImVec2(size.x * 0.5f, size.y * 0.5f), ImVec2(0.f, 0.f), ImVec2(1.f, 1.f)
+			ImVec2(size.x * 0.1f, size.y * 0.1f), ImVec2(0.f, 0.f), ImVec2(1.f, 1.f)
 			, ImVec4(0, 0, 0, 0)))
 		{
 			m_pTileName = m_vecImage[i].wstr->c_str();
@@ -251,7 +256,7 @@ HRESULT Tile::Component_Initialize() {
 	//m_pBufferTileRIGHT = ADD_COMPONENT_TILERIGHT;
 	//m_pBufferTileLEFT  = ADD_COMPONENT_TILELEFT;
 	//m_pBufferTileBACK  = ADD_COMPONENT_TILEBACK;
-	m_pTexture->Import_TextureFromFolder(L"../../../test");
+	m_pTexture->Import_TextureFromFolder(L"../../../Tile");
 	
 	return S_OK;
 }
@@ -491,7 +496,7 @@ void Tile::Check_TilePoint()
 				switch (m_eMode)
 				{
 				case TILEMODE_CHANGE::MODE_TILE:
-					pTile = CXZTile::Create(GRPDEV, m_eTile);
+					pTile = CXZTile::Create(GRPDEV, m_eTile,m_pTileName);
 					break;
 				case TILEMODE_CHANGE::MODE_CUBE:
 					pTile = CubeTile::Create(GRPDEV);
