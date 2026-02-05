@@ -12,7 +12,7 @@ Tile::~Tile() {}
 HRESULT Tile::Ready_GameObject() {
 
 	if (FAILED(Component_Initialize())) return E_FAIL;
-	wstring path = L"../../Resource/Tile";
+	wstring path = L"../../../Tile";
 	BITMAPINFOHEADER InfoHeader{};
 	BITMAPFILEHEADER fileHeader{};
 	_wfinddata64_t Data;
@@ -60,7 +60,7 @@ INT	Tile::Update_GameObject(const _float& _DT) {
 VOID Tile::LateUpdate_GameObject(const _float& _DT) {
 	GameObject::LateUpdate_GameObject(_DT);
 	
-	Mode_Change();  //≈∏¿œ ≈•∫Í Ω∫ø“øÎ O : ≈•∫Í, P : ≈∏¿œ
+	Mode_Change();  //ÌÉÄÏùº ÌÅêÎ∏å Ïä§ÏôëÏö© O : ÌÅêÎ∏å, P : ÌÉÄÏùº
 	Imgui();
 	Check_TilePoint();
 	
@@ -115,7 +115,7 @@ void Tile::Imgui()
 		{
 			if (ImGui::MenuItem("Save"))
 				cout << ("Save clicked\n");
-			ImGui::Separator(); //±∏∫–¡Ÿ
+			ImGui::Separator(); //Íµ¨Î∂ÑÏ§Ñ
 			if (ImGui::MenuItem("Open"))
 				cout << ("Open clicked\n");			
 			ImGui::EndMenu();
@@ -139,9 +139,9 @@ void Tile::Imgui_Setting()
 		return;
 	else
 	{
-		ImGui::Text("Scale"); //≈ÿΩ∫∆Æ 
-		ImGui::SameLine(50.f, 0.f);//≈ÿΩ∫∆Æ ø¿∏•¬ ø°
-		ImGui::SliderFloat3("##1", vScale, fMin, fMax); //scale √‚∑¬
+		ImGui::Text("Scale"); //ÌÖçÏä§Ìä∏ 
+		ImGui::SameLine(50.f, 0.f);//ÌÖçÏä§Ìä∏ Ïò§Î•∏Ï™ΩÏóê
+		ImGui::SliderFloat3("##1", vScale, fMin, fMax); //scale Ï∂úÎ†•
 		m_pTransform->Set_Scale(vScale);
 
 		ImGui::Text("Rotation");
@@ -162,11 +162,11 @@ void Tile::Imgui_Image()
 	const char* cTile[] = { "0","1","2","3","4","5" };
 	ImGui::Text("IMAGE");
 	ImGui::SameLine(50.f, 0.f);
-	//±‚∫ª πˆ∆∞ ªˆ
+	//Í∏∞Î≥∏ Î≤ÑÌäº ÏÉâ
 	ImGui::PushStyleColor(ImGuiCol_Button, D3DXCOLOR(0.0f, 0.f, 0.f, 1.f));
-	//∏∂øÏΩ∫ ø√∂Û∞¨¿ª∂ß πˆ∆∞ªˆ
+	//ÎßàÏö∞Ïä§ Ïò¨ÎùºÍ∞îÏùÑÎïå Î≤ÑÌäºÏÉâ
 	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, (ImVec4)ImColor::HSV(0.8f, 0.7f, 0.7f));
-	//≈¨∏Ø«ﬂ¿ª ∂ß πˆ∆∞ ªˆ
+	//ÌÅ¥Î¶≠ÌñàÏùÑ Îïå Î≤ÑÌäº ÏÉâ
 	ImGui::PushStyleColor(ImGuiCol_ButtonActive, (ImVec4)ImColor::HSV(0.5f, 0.7f, 0.7f));
 	ImGui::Button("First");
 	ImGui::PopStyleColor(3);	
@@ -185,7 +185,7 @@ void Tile::Imgui_Image()
 	ImVec2 chidSize = ImVec2(0.f, ImGui::GetFrameHeightWithSpacing() * 10);
 	ImGuiID id = ImGui::GetCurrentWindow()->GetID("##Tiles");
 	ImGui::BeginChildEx("##Tiles",  id, chidSize, ImGuiChildFlags_None,ImGuiWindowFlags_HorizontalScrollbar);
-	//æ∆
+	//ÏïÑ
 	_int nCount = 0;
 	for (size_t i = 0; i < m_vecImage.size(); i++)
 	{
@@ -216,6 +216,7 @@ HRESULT Tile::Component_Initialize() {
 	m_pTransform	   = ADD_COMPONENT_TRANSFORM;
 	m_pTexture		   = ADD_COMPONENT_TEXTURE;
 	m_pTexture->Import_TextureFromFolder(L"../../Resource/Tile");
+
 	
 	return S_OK;
 }
@@ -242,7 +243,7 @@ _bool Tile::Check_Bottom(_vec3* vOrigin)
 			iDst = dynamic_cast<CubeTile*>(iter)->Get_TileNumber();
 			break;
 		}
-		//æ»∞„ƒ°∞‘ øπø‹√≥∏Æø‰ ±Ÿµ• ¡§¿∞∏È√º ±‚¡ÿ
+		//ÏïàÍ≤πÏπòÍ≤å ÏòàÏô∏Ï≤òÎ¶¨Ïöî Í∑ºÎç∞ Ï†ïÏú°Î©¥Ï≤¥ Í∏∞Ï§Ä
 		_int iMiddle	  = (_int) (vOrigin->z  * VTXCNTX + vOrigin->x	  );
 		_int iCheckR	  = (_int) (vOrigin->z  * VTXCNTX + vOrigin->x - 1);
 		_int iCheckL	  = (_int) (vOrigin->z  * VTXCNTX + vOrigin->x + 1);
@@ -278,7 +279,7 @@ _bool Tile::Check_Bottom(_vec3* vOrigin)
 }
 void Tile::Check_TilePoint()
 {
-	//¿¿æ÷
+	//ÏùëÏï†
 	_matrix proj, vWorldInvese, matView, InversView;
 	D3DVIEWPORT9 vp;
 	_vec3 vPlayerPos, vRight, vLook, vOrigin, vDirection, vMousePos;
@@ -290,7 +291,7 @@ void Tile::Check_TilePoint()
 	GetCursorPos(&pt);
 	ScreenToClient(hWnd, &pt);
 
-	//«»≈∑ ∞ËªÍ :<
+	//ÌîΩÌÇπ Í≥ÑÏÇ∞ :<
 	Component* ComBuff = SceneManager::GetInstance()->Get_GameObject(L"Terrain")->Get_Component(Engine::COMPONENT_TYPE::COMPONENT_TERRAIN);
 	Buffer* pBuffer = dynamic_cast<Buffer*>(ComBuff);
 	
@@ -313,7 +314,7 @@ void Tile::Check_TilePoint()
 	D3DXVec3TransformNormal(&vDirection, &vDirection, &vWorldInvese);
 	D3DXVec3Normalize(&vDirection, &vDirection);
 
-	//¡ˆ«¸ ¿¸√º±‚¡ÿ¿∏∑Œ ±§º± Ω˜º≠ æÓ¥¿ ¿ßƒ°ø° ≥ı¿ª¡ˆ ∞·¡§
+	//ÏßÄÌòï Ï†ÑÏ≤¥Í∏∞Ï§ÄÏúºÎ°ú Í¥ëÏÑ† Ïè¥ÏÑú Ïñ¥Îäê ÏúÑÏπòÏóê ÎÜìÏùÑÏßÄ Í≤∞Ï†ï
 	_vec3 vMouseCheck, vMouseBlockCheck{}, vMouseTest;
 	_float fu(0), fv(0), ft(0);
 	if (D3DXIntersectTri(pBuffer->Get_BufferPos((VTXCNTZ - 1) * VTXCNTX), pBuffer->Get_BufferPos(0), pBuffer->Get_BufferPos((VTXCNTZ-1) * VTXCNTX + VTXCNTX -1), &vOrigin, &vDirection, &fu, &fv, &ft))
@@ -332,19 +333,19 @@ void Tile::Check_TilePoint()
 	_matrix InverseWorld, CheckWorld;
 	_float	ftCheck(VTXCNTX - 1);
 	_int    iCheckZero(0);
-	//º≥ƒ° µ«æÓ¿÷¥¬ ∫Ì∑∞ √Êµπ ∫Ò±≥
+	//ÏÑ§Ïπò ÎêòÏñ¥ÏûàÎäî Î∏îÎü≠ Ï∂©Îèå ÎπÑÍµê
 	{
 		if (m_eMode != TILEMODE_CHANGE::MODE_END)
 		{
 			for (auto iter : TileManager::GetInstance()->Get_TileList(m_eMode))
 			{
-				//»Ï
+				//Ìù†
 				dynamic_cast<Transform*>(iter->Get_Component(Engine::COMPONENT_TYPE::COMPONENT_TRANSFORM))->Get_Info(INFO_POS, &vPos);
 				memcpy(&InverseWorld, dynamic_cast<Transform*>(iter->Get_Component(Engine::COMPONENT_TYPE::COMPONENT_TRANSFORM))->Get_World(), sizeof(_matrix));
-				vTileLocalPos[0] = { -1.f, 0.f, -1.f }; //¡¬«œ¥‹ y+ ±‚¡ÿ
-				vTileLocalPos[1] = { 1.f, 0.f, -1.f }; //øÏ«œ¥‹ y+ ±‚¡ÿ
-				vTileLocalPos[2] = { -1.f, 0.f,  1.f }; //¡¬ªÛ¥‹ y+ ±‚¡ÿ
-				vTileLocalPos[3] = { 1.f, 0.f,  1.f }; //øÏªÛ¥‹ y+ ±‚¡ÿ
+				vTileLocalPos[0] = { -1.f, 0.f, -1.f }; //Ï¢åÌïòÎã® y+ Í∏∞Ï§Ä
+				vTileLocalPos[1] = { 1.f, 0.f, -1.f }; //Ïö∞ÌïòÎã® y+ Í∏∞Ï§Ä
+				vTileLocalPos[2] = { -1.f, 0.f,  1.f }; //Ï¢åÏÉÅÎã® y+ Í∏∞Ï§Ä
+				vTileLocalPos[3] = { 1.f, 0.f,  1.f }; //Ïö∞ÏÉÅÎã® y+ Í∏∞Ï§Ä
 
 				for (int i = 0; i < 4; ++i)
 					D3DXVec3TransformCoord(&vTileLocalPos[i], &vTileLocalPos[i], &InverseWorld);
@@ -355,7 +356,7 @@ void Tile::Check_TilePoint()
 					vMouseCheck = vOrigin + vDirection * ft;
 					if (ftCheck > ft)
 					{
-						//Check_Distance(vMouseCheck); //5πÊ«‚ ∆Ú∏È ∫Ò±≥ ¿·Ω√ ∆Û±‚
+						//Check_Distance(vMouseCheck); //5Î∞©Ìñ• ÌèâÎ©¥ ÎπÑÍµê Ïû†Ïãú ÌèêÍ∏∞
 
 						m_eTile = TILE_SIDE::TILE_OTHER;
 						vMouseBlockCheck = vMouseCheck;
@@ -365,7 +366,7 @@ void Tile::Check_TilePoint()
 			}
 		}
 	}
-		// ∫∏¡§
+		// Î≥¥Ï†ï
 		vMouseCheck.x = floor(vMouseCheck.x);
 		vMouseCheck.y = floor(vMouseCheck.y);
 		vMouseCheck.z = floor(vMouseCheck.z);
@@ -384,13 +385,13 @@ void Tile::Check_TilePoint()
 			m_bTileCheck = false;
 		}
 		m_pTransform->Set_Pos(vMouseCheck.x, vMouseCheck.y, vMouseCheck.z);
-	   //¡¬≈¨∏ØΩ√ ∫Ì∑∞ º≥ƒ°
+	   //Ï¢åÌÅ¥Î¶≠Ïãú Î∏îÎü≠ ÏÑ§Ïπò
 
 		if (m_bTileCheck)
 		{
 			if (KeyManager::GetInstance()->Get_MouseState(DIM_LB) & 0x80)
 			{
-				////¡§¿∞∏È√º∏ª∞Ì ¥Ÿ∏• ≈∏¿œ ±Ú∞ÌΩÕ¿∏∏È ≈¨∑°Ω∫ ∏∏µÈæÓº≠ πŸ≤Ÿ∏Èµ 
+				////Ï†ïÏú°Î©¥Ï≤¥ÎßêÍ≥† Îã§Î•∏ ÌÉÄÏùº ÍπîÍ≥†Ïã∂ÏúºÎ©¥ ÌÅ¥ÎûòÏä§ ÎßåÎì§Ïñ¥ÏÑú Î∞îÍæ∏Î©¥Îê®
 				GameObject* pTile = nullptr;
 				switch (m_eMode)
 				{
@@ -427,7 +428,7 @@ void Tile::Check_TilePoint()
 					Safe_Release(pTile);
 			}
 		}
-		//øÏ≈¨∏Ø ªË¡¶
+		//Ïö∞ÌÅ¥Î¶≠ ÏÇ≠Ï†ú
 		if (KeyManager::GetInstance()->Get_MouseState(DIM_RB) & 0x80)
 			TileManager::GetInstance()->Delete_Tile(vMouseCheck, vOrigin, vDirection);
 
