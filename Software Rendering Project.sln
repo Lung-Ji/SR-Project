@@ -13,11 +13,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03. Base", "03. Base", "{A3
 		Base\Base.inl = Base\Base.inl
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Client", "Client\Include\Client.vcxproj", "{E0FCC02A-C993-4A36-904D-10D6F27416D6}"
-	ProjectSection(ProjectDependencies) = postProject
-		{0EA0C1C3-93DC-4E32-8E37-89439B6ABC3C} = {0EA0C1C3-93DC-4E32-8E37-89439B6ABC3C}
-	EndProjectSection
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Engine", "Engine\Include\Engine.vcxproj", "{0EA0C1C3-93DC-4E32-8E37-89439B6ABC3C}"
 EndProject
 Global
@@ -28,14 +23,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{E0FCC02A-C993-4A36-904D-10D6F27416D6}.Debug|x64.ActiveCfg = Debug|x64
-		{E0FCC02A-C993-4A36-904D-10D6F27416D6}.Debug|x64.Build.0 = Debug|x64
-		{E0FCC02A-C993-4A36-904D-10D6F27416D6}.Debug|x86.ActiveCfg = Debug|Win32
-		{E0FCC02A-C993-4A36-904D-10D6F27416D6}.Debug|x86.Build.0 = Debug|Win32
-		{E0FCC02A-C993-4A36-904D-10D6F27416D6}.Release|x64.ActiveCfg = Release|x64
-		{E0FCC02A-C993-4A36-904D-10D6F27416D6}.Release|x64.Build.0 = Release|x64
-		{E0FCC02A-C993-4A36-904D-10D6F27416D6}.Release|x86.ActiveCfg = Release|Win32
-		{E0FCC02A-C993-4A36-904D-10D6F27416D6}.Release|x86.Build.0 = Release|Win32
 		{0EA0C1C3-93DC-4E32-8E37-89439B6ABC3C}.Debug|x64.ActiveCfg = Debug|x64
 		{0EA0C1C3-93DC-4E32-8E37-89439B6ABC3C}.Debug|x64.Build.0 = Debug|x64
 		{0EA0C1C3-93DC-4E32-8E37-89439B6ABC3C}.Debug|x86.ActiveCfg = Debug|Win32
@@ -49,7 +36,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{E0FCC02A-C993-4A36-904D-10D6F27416D6} = {C8D5274F-AC00-46C7-1F8D-E88E81087A52}
 		{0EA0C1C3-93DC-4E32-8E37-89439B6ABC3C} = {061A721D-8825-44C9-9408-B71FE012FADF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution

@@ -152,6 +152,8 @@ call Copy.bat</Command>
     <ClInclude Include="..\Header\Engine_Macro.h" />
     <ClInclude Include="..\Header\Engine_Struct.h" />
     <ClInclude Include="..\Header\Engine_Typedef.h" />
+    <ClInclude Include="..\Header\Font.h" />
+    <ClInclude Include="..\Header\FontManager.h" />
     <ClInclude Include="..\Header\KeyManager.h" />
     <ClInclude Include="..\Header\Light.h" />
     <ClInclude Include="..\Header\LightManager.h" />
@@ -177,6 +179,8 @@ call Copy.bat</Command>
   <ItemGroup>
     <ClCompile Include="..\Code\Buffer.cpp" />
     <ClCompile Include="..\Code\Component.cpp" />
+    <ClCompile Include="..\Code\Font.cpp" />
+    <ClCompile Include="..\Code\FontManager.cpp" />
     <ClCompile Include="..\Code\KeyManager.cpp" />
     <ClCompile Include="..\Code\Light.cpp" />
     <ClCompile Include="..\Code\LightManager.cpp" />

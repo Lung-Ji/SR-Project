@@ -208,6 +208,9 @@
     <ClInclude Include="..\Header\MainMenuLogo.h">
       <Filter>04. UI\01. Sprite\MainMenu</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\Font.h">
+      <Filter>04. UI\02. Font</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\GameManager.cpp">
@@ -306,6 +309,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\MainMenuLogo.cpp">
       <Filter>04. UI\01. Sprite\MainMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Font.cpp">
+      <Filter>04. UI\02. Font</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
