@@ -48,7 +48,6 @@ private:
 
 	VOID Set_Target(CONST TCHAR* _TAG);
 
-	GameObject* pTarget;
 	_vec3*		pTargetPos;
 	_vec3		vDir;
 
