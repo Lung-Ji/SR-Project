@@ -13,7 +13,7 @@ Tile::~Tile() {}
 HRESULT Tile::Ready_GameObject() {
 
 	if (FAILED(Component_Initialize())) return E_FAIL;
-	wstring path = L"../../../Tile";
+	wstring path = L"../../Resource/Tile";
 	BITMAPINFOHEADER InfoHeader{};
 	BITMAPFILEHEADER fileHeader{};
 	_wfinddata64_t Data;
@@ -256,7 +256,7 @@ HRESULT Tile::Component_Initialize() {
 	//m_pBufferTileRIGHT = ADD_COMPONENT_TILERIGHT;
 	//m_pBufferTileLEFT  = ADD_COMPONENT_TILELEFT;
 	//m_pBufferTileBACK  = ADD_COMPONENT_TILEBACK;
-	m_pTexture->Import_TextureFromFolder(L"../../../Tile");
+	m_pTexture->Import_TextureFromFolder(L"../../Resource/Tile");
 	
 	return S_OK;
 }
