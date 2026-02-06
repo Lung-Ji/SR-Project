@@ -18,9 +18,12 @@ public:
 public:
 	BOOL	AABB_Collision();
 	VOID	Get_AllObjectOfScene();
+	VOID	Add_ColliderObject(GameObject* _Effect) { SceneObjectList.push_back(_Effect); }
 
 private:
-	vector<GameObject*> SceneObjectList;
+	list<GameObject*>		SceneObjectList;
+
+	BOOL					CollisionLine_Visibility;
 
 private:
 	virtual VOID	Free();
