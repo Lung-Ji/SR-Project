@@ -24,10 +24,11 @@ public:
     void                        Mode_Change();
     void                        Imgui();
     void                        Imgui_Setting();
-    void                        Imgui_Image();
+    void                        Imgui_Image(const char* tName, TILE_STATE eid);
     void                        Imgui_ModeChanger();
                             
 private:
+    HRESULT                     Load_Image(const _tchar* pName, TILE_STATE eid);
     HRESULT                     LoadFile();
     HRESULT			            Component_Initialize();
     _bool                       Check_Bottom(_vec3* vOrigin);
@@ -40,15 +41,23 @@ private:
     Buffer*                      m_pTileBack;
     Buffer*                      m_pTileFront;
     Texture*                     m_pTexture;
+
     Transform*                   m_pTransform;
 
-    vector<ImageFile>            m_vecImage;
+    _float                       m_fHeight;
+
+    vector<const _tchar*>        m_vecName[TILE_STATE::STATE_END];
+    vector<ImageFile>            m_vecImage[TILE_STATE::STATE_END];
     _bool                        m_bTileCheck;
+    _bool                        m_bMouseClick;
 
-
+    const _tchar*                m_pPathName;
     const _tchar*                m_pTileName;
+    const _tchar*                m_pTileState;
 
 private:
+    _vec3                        m_vOriginal;
+private:  
     TILE_SIDE                    m_eTile;
     TILE_STATE                   m_eTileState;
     TILEMODE_CHANGE              m_eMode;

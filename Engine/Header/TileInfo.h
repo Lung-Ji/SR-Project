@@ -20,15 +20,16 @@ public:
     //이건.. 지형이 가지고 있는 타일의 인덱스 정보를 담기위함 해당 인덱스가 가진 위치위에 이 타일이 놓여있다는걸 확인하기 위해서
     void            Set_TileId(TILE_SIDE eid) { m_eTileSide = eid; }
     void            Set_TileNumber(_int iTileNumber) { m_iTileNumber = iTileNumber; }
-    void            Set_TileAll(const _tchar* pName, Engine::TILE_SIDE eId, TILE_STATE eState, TILEMODE_CHANGE eMode, _int iTileNumber = 0)
+    void            Set_TileAll(const _tchar* pPath, const _tchar* pName, Engine::TILE_SIDE eId, TILE_STATE eState, TILEMODE_CHANGE eMode, _int iTileNumber = 0)
     {
+        m_pPathName = pPath;
         m_pTileName = pName;
         m_eTileSide = eId;
         m_eTileState = eState;
         m_eTileMode = eMode;
         m_iTileNumber = iTileNumber;
 
-        wstring  path = L"../../Resource/Tile";
+        wstring  path = pPath;
         wstring WideRootPath = path + L"/" + m_pTileName;
         D3DXIMAGE_INFO img;
 
@@ -39,20 +40,23 @@ public:
     void            Set_TileState(TILE_STATE eid) { m_eTileState = eid; }
 
 
-    _int                 Get_TileNumber() { return m_iTileNumber; }
-    TILE_SIDE            Get_TileSideName() { return m_eTileSide; }
-    TILE_STATE           Get_TileStateName() { return m_eTileState; }
-    TILEMODE_CHANGE      Get_TileMode() { return m_eTileMode; }
-    const _tchar*        Get_TileTextureName() { return m_pTileName; }
-    IDirect3DBaseTexture9* Get_TileTexture() { return m_pTexture; }
+    _int                   Get_TileNumber()      { return m_iTileNumber;}
+    TILE_SIDE              Get_TileSideName()    { return m_eTileSide;  }
+    TILE_STATE             Get_TileStateName()   { return m_eTileState; }
+    TILEMODE_CHANGE        Get_TileMode()        { return m_eTileMode;  }
+    const _tchar*          Get_TileTextureName() { return m_pTileName;  }
+    const _tchar*          Get_TilePathName()    { return m_pPathName; }
+    IDirect3DBaseTexture9* Get_TileTexture()     { return m_pTexture;   }
 
 private:
     TILE_SIDE              m_eTileSide;
     TILE_STATE             m_eTileState;
     TILEMODE_CHANGE        m_eTileMode;
     const  _tchar*         m_pTileName;
-    IDirect3DBaseTexture9* m_pTexture;
+    const  _tchar*         m_pPathName;
 
+    IDirect3DBaseTexture9* m_pTexture;
+    vector< IDirect3DBaseTexture9*> m_vecAnimationTexture;
 private:
     _int                   m_iTileNumber;
 public:

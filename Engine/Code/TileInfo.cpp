@@ -5,7 +5,15 @@ m_eTileState(TILE_STATE::STATE_END), m_eTileSide(TILE_SIDE::TILE_END), m_eTileMo
 }
 TileInfo::TileInfo(const TileInfo& _RHS) : Component(_RHS), m_pTexture(_RHS.m_pTexture), m_eTileSide(_RHS.m_eTileSide),
 m_eTileState(_RHS.m_eTileState), m_eTileMode(_RHS.m_eTileMode), m_pTileName(_RHS.m_pTileName), m_iTileNumber(_RHS.m_iTileNumber) {
-	//m_pTexture->AddRef();
+		
+	   // m_pTexture->AddRef();
+
+		_int i = _RHS.m_vecAnimationTexture.size();
+
+		m_vecAnimationTexture.resize(i);
+
+		for (size_t i = 0; i < m_vecAnimationTexture.size(); ++i)
+			m_vecAnimationTexture[i]->AddRef();
 
 }
 TileInfo::~TileInfo() { }
@@ -42,5 +50,6 @@ Component* TileInfo::Clone() {
 }
 VOID TileInfo::Free() {
 	Safe_Release(m_pTexture);
+	for_each(m_vecAnimationTexture.begin(), m_vecAnimationTexture.end(), Safe_Release<IDirect3DBaseTexture9*>);
 	Component::Free();
 }

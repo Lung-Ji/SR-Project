@@ -54,7 +54,7 @@ HRESULT StartScene::Ready_Enviroment_Layer(CONST TCHAR* _LTAG) {
 	GOBJ = Terrain::Create(GRPDEV);
 	GOBJ->Set_ObjectTag(L"Terrain");
 	
-if (nullptr == GOBJ)					return E_FAIL;
+	if (nullptr == GOBJ)					return E_FAIL;
 	if (FAILED(LYR->Add_GameObject(GOBJ)))	return E_FAIL;
 
 	GOBJ = MainMenuButton::Create(GRPDEV);
@@ -62,7 +62,7 @@ if (nullptr == GOBJ)					return E_FAIL;
 
 	if (nullptr == GOBJ)					return E_FAIL;
 	if (FAILED(LYR->Add_GameObject(GOBJ)))	return E_FAIL;
-
+	
 	GOBJ = Tile::Create(GRPDEV);
 	GOBJ->Set_ObjectTag(L"Tile");
 

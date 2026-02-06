@@ -20,8 +20,13 @@ HRESULT TileManager::Add_Tile(GameObject* pObject, _vec3 vPos, TILEMODE_CHANGE e
 	Component* pComponent = pObject->Get_Component(COMPONENT_TYPE::COMPONENT_TRANSFORM);
 	Transform* pTransform = dynamic_cast<Transform*>(pComponent);
 
-	if (eMode == TILEMODE_CHANGE::MODE_OBJECT&& eSid != TILE_SIDE::TILE_OTHER)
-		pTransform->Set_Pos(vPos.x, 1.f, vPos.z);
+	if (eMode == TILEMODE_CHANGE::MODE_OBJECT && eSid != TILE_SIDE::TILE_OTHER)
+	{
+		_float fHeight(0.f);
+		fHeight = 1.f + (pTransform->Get_Scale()->y) * 0.15;
+		
+		pTransform->Set_Pos(vPos.x, fHeight, vPos.z);
+	}
 	else pTransform->Set_Pos(vPos.x, 0.f, vPos.z);
 
 	m_vecTileBuffer[eMode].push_back(pObject);
@@ -35,7 +40,6 @@ void TileManager::Delete_Tile(_vec3 vPos, _vec3 Origin, _vec3 vDir)
 	//¿≠∏È ±‚¡ÿ¿∏∑Œ ±§º±Ω˜º≠ ªË¡¶
 	for (size_t i = 0; i < TILEMODE_CHANGE::MODE_END; ++i)
 	{
-
 		for (auto iter = m_vecTileBuffer[i].begin(); iter != m_vecTileBuffer[i].end();)
 		{
 			_vec3 vTileLocalPos[4];
@@ -109,14 +113,15 @@ void TileManager::Save_Tile(HWND g_hWnd)
 
 	DWORD		dwByte(0);
 	
-	_int             iTilenum   = 0;
-	TILE_SIDE        eTileSide  = TILE_SIDE::TILE_END;
-	TILE_STATE       eTileState = TILE_STATE::STATE_END;
-	TILEMODE_CHANGE  eTileMode  = TILEMODE_CHANGE::MODE_END;
-	_tchar    cTileName[256] = {};
-	_vec3		     Info		= {};
-	_vec3			 Scale		= {};
-	_vec3			 Rotation   = {};
+	_int             iTilenum		 = 0;
+	TILE_SIDE        eTileSide		 = TILE_SIDE::TILE_END;
+	TILE_STATE       eTileState		 = TILE_STATE::STATE_END;
+	TILEMODE_CHANGE  eTileMode		 = TILEMODE_CHANGE::MODE_END;
+	_tchar			 cTileName[256]  = {};
+	_vec3		     Info			 = {};
+	_vec3			 Scale			 = {};
+	_vec3			 Rotation		 = {};
+	_tchar			 cPathName[128]  = {};
 	for (size_t i = 0; i < TILEMODE_CHANGE::MODE_END; ++i)
 	{
 		for (auto& pTile : m_vecTileBuffer[i])
@@ -127,6 +132,8 @@ void TileManager::Save_Tile(HWND g_hWnd)
 			eTileState = dynamic_cast<TileInfo*>(pTile->Get_Component(COMPONENT_TYPE::COMPONENT_TILEINFO))->Get_TileStateName();
 			eTileMode = dynamic_cast<TileInfo*>(pTile->Get_Component(COMPONENT_TYPE::COMPONENT_TILEINFO))->Get_TileMode();
 			ua_tcscpy_s(cTileName, 128, dynamic_cast<TileInfo*>(pTile->Get_Component(COMPONENT_TYPE::COMPONENT_TILEINFO))->Get_TileTextureName());
+			ua_tcscpy_s(cPathName, 128, dynamic_cast<TileInfo*>(pTile->Get_Component(COMPONENT_TYPE::COMPONENT_TILEINFO))->Get_TilePathName());
+
 			Scale = *dynamic_cast<Transform*>(pTile->Get_Component(COMPONENT_TYPE::COMPONENT_TRANSFORM))->Get_Scale();
 			Rotation = *dynamic_cast<Transform*>(pTile->Get_Component(COMPONENT_TYPE::COMPONENT_TRANSFORM))->Get_Rotation();
 			dynamic_cast<Transform*>(pTile->Get_Component(COMPONENT_TYPE::COMPONENT_TRANSFORM))->Get_Info(INFO_POS, &Info);
@@ -139,6 +146,7 @@ void TileManager::Save_Tile(HWND g_hWnd)
 			WriteFile(hFile, &cTileName, sizeof(_tchar)*128, &dwByte, NULL);
 			WriteFile(hFile, &Scale, sizeof(_vec3), &dwByte, NULL);
 			WriteFile(hFile, &Rotation, sizeof(_vec3), &dwByte, NULL);
+			WriteFile(hFile, &cPathName, sizeof(_vec3), &dwByte, NULL);
 
 		}
 	}

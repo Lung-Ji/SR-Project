@@ -30,7 +30,7 @@ HRESULT Player::Ready_GameObject() {
 	angle = angle / D3DX_PI * 180.f;
 
 	Component_Transform->Set_Scale({ 1.f, 1.f, 1.f });
-	Component_Transform->Rotation(ROT_X, angle);
+	Component_Transform->Rotation(ROT_X, 90.f-angle);
 	Component_Transform->Set_Pos({ 5.f, 1.f, 5.f });
 
 
