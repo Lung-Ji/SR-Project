@@ -23,6 +23,9 @@ public:
 	VOID				Set_ObjectType(GAMEOBJECT_TYPE _OBJTYPE)	{ ObjectTYPE = _OBJTYPE; }
 	GAMEOBJECT_TYPE		Get_ObjectType()							{	return ObjectTYPE;	 }
 
+	VOID				Set_ObjectDead(BOOL _DEAD) { ObjectDead = _DEAD; }
+	BOOL				Get_ObjectDead() { return ObjectDead; }
+
 public:
 	virtual	HRESULT		Ready_GameObject();
 	virtual INT			Update_GameObject(CONST FLOAT& _DT);
@@ -43,6 +46,7 @@ protected:
 
 	GAMEOBJECT_TYPE					ObjectTYPE;
 	wstring							ObjectTAG;
+	BOOL							ObjectDead;
 
 	FLOAT							AlphaZValue;
 

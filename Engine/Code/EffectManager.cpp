@@ -1,5 +1,6 @@
 #include "EffectManager.h"
 
+
 IMPLEMENT_SINGLETON(EffectManager)
 
 EffectManager::EffectManager()	{			}
@@ -21,14 +22,43 @@ INT EffectManager::Update_EffectManager(CONST FLOAT& _DT) {
 	return 0;
 }
 VOID EffectManager::LateUpdate_EffectManager(CONST FLOAT& _DT) {
-	for (auto& PE : Container_PlayerEffect) 
-		PE->LateUpdate_GameObject(_DT);
-	for (auto& ME : Container_MonsterEffect) 
-		ME->LateUpdate_GameObject(_DT);
-	for (auto& EE : Container_EnviromentEffect) 
-		EE->LateUpdate_GameObject(_DT);
-	for (auto& UE : Container_UIEffect) 
-		UE->LateUpdate_GameObject(_DT);
+
+	for (auto iter = Container_PlayerEffect.begin(); iter != Container_PlayerEffect.end();) {
+		(*iter)->LateUpdate_GameObject(_DT);
+		if ((*iter)->Get_ObjectDead() == TRUE) { 
+			Safe_Release((*iter));
+			iter = Container_PlayerEffect.erase(iter); 
+			continue; 
+		}
+		else { ++iter; }
+	}
+	for (auto iter = Container_MonsterEffect.begin(); iter != Container_MonsterEffect.end();) {
+		(*iter)->LateUpdate_GameObject(_DT);
+		if ((*iter)->Get_ObjectDead() == TRUE) {
+			Safe_Release((*iter));
+			iter = Container_MonsterEffect.erase(iter);
+			continue;
+		}
+		else { ++iter; }
+	}
+	for (auto iter = Container_EnviromentEffect.begin(); iter != Container_EnviromentEffect.end();) {
+		(*iter)->LateUpdate_GameObject(_DT);
+		if ((*iter)->Get_ObjectDead() == TRUE) {
+			Safe_Release((*iter));
+			iter = Container_EnviromentEffect.erase(iter);
+			continue;
+		}
+		else { ++iter; }
+	}
+	for (auto iter = Container_UIEffect.begin(); iter != Container_UIEffect.end();) {
+		(*iter)->LateUpdate_GameObject(_DT);
+		if ((*iter)->Get_ObjectDead() == TRUE) {
+			Safe_Release((*iter));
+			iter = Container_UIEffect.erase(iter);
+			continue;
+		}
+		else { ++iter; }
+	}
 }
 VOID EffectManager::Render_EffectManager(LPDIRECT3DDEVICE9 _GRPDEV) {
 	_GRPDEV->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
@@ -59,6 +89,23 @@ HRESULT EffectManager::Append_Effect(EFFECT_OWNER _Owner, GameObject* _Effect) {
 	else if (_Owner == EFFECT_OWNER::UI) 
 		Container_UIEffect.push_back(_Effect);
 
+	return S_OK;
+}
+HRESULT EffectManager::Remove_Effect(EFFECT_OWNER _Owner, GameObject* _Effect) {
+	list<GameObject*>::iterator iter = Container_PlayerEffect.begin();
+
+	if (_Owner == EFFECT_OWNER::PLAYER) {
+		for (auto& PE : Container_PlayerEffect) {
+			if (PE == (*iter)) {
+				Container_PlayerEffect.erase(iter);
+				break;
+			}
+			else {
+				++iter;
+			}
+		}
+		
+	}
 	return S_OK;
 }
 VOID	EffectManager::Free() {

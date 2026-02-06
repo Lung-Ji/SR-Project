@@ -16,9 +16,12 @@ public:
 	virtual BOOL		OnCollisionEnter(GameObject* _Other);
 	virtual BOOL		OnCollisionStay (GameObject* _Other);
 	virtual BOOL		OnCollisionExit (GameObject* _Other);
-	
+
+	BOOL				Get_Alive() { return Sustainablility; }
+
 public:
 	HRESULT				Ready_Effect(PLAYER_SKILL _SKILLTYPE, Transform* _PlayerPOS, BOOL _Repeatable, FLOAT _PlayTime);
+	HRESULT				Make_TextureList(wstring _FileName);
 	static	Effect*		Create(LPDIRECT3DDEVICE9 _GRPDEV, PLAYER_SKILL _SKILLTYPE, Transform* _PlayerPOS, BOOL _Repeatable, FLOAT _PlayTime);
 private:
 	HRESULT				Component_Initialize();
