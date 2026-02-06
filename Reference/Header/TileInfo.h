@@ -37,15 +37,42 @@ public:
             D3DFMT_UNKNOWN, D3DPOOL_MANAGED, D3DX_FILTER_NONE, D3DX_FILTER_NONE, 0,
             &img, NULL, (LPDIRECT3DTEXTURE9*)&m_pTexture);
     }
+    void            Set_TileAnimaiton(const _tchar* pPath, _int iCnt, Engine::TILE_SIDE eId, TILE_STATE eState, TILEMODE_CHANGE eMode, _int iTileNumber = 0)
+    {
+        IDirect3DBaseTexture9* pTexture = nullptr;
+        m_vecAnimationTexture.reserve(iCnt);
+        m_iTextureCount = iCnt;
+        m_pAnimationName = pPath;
+        m_eTileSide = eId;
+        m_eTileState = eState;
+        m_eTileMode = eMode;
+        m_iTileNumber = iTileNumber;
+        for (_uint i = 1; i < iCnt; ++i)
+        {
+            TCHAR szFileName[128] = L"";
+            wsprintf(szFileName, pPath, i);
+            if (FAILED(D3DXCreateTextureFromFile(GRPDEV, szFileName, (LPDIRECT3DTEXTURE9*)&pTexture)))
+                break;
+            m_vecAnimationTexture.push_back(pTexture);
+        }
+    }
     void            Set_TileState(TILE_STATE eid) { m_eTileState = eid; }
 
+    void            Set_Texture(_uint& index)
+    {
+        if (m_vecAnimationTexture.size() <= index)
+            return;
+
+        GRPDEV->SetTexture(0, m_vecAnimationTexture[index]);
+    }
 
     _int                   Get_TileNumber()      { return m_iTileNumber;}
     TILE_SIDE              Get_TileSideName()    { return m_eTileSide;  }
     TILE_STATE             Get_TileStateName()   { return m_eTileState; }
     TILEMODE_CHANGE        Get_TileMode()        { return m_eTileMode;  }
     const _tchar*          Get_TileTextureName() { return m_pTileName;  }
-    const _tchar*          Get_TilePathName()    { return m_pPathName; }
+    const _tchar*          Get_TilePathName()    { return m_pPathName;  }
+    const _tchar*          Get_AnimationName()   { return m_pAnimationName;}
     IDirect3DBaseTexture9* Get_TileTexture()     { return m_pTexture;   }
 
 private:
@@ -54,11 +81,12 @@ private:
     TILEMODE_CHANGE        m_eTileMode;
     const  _tchar*         m_pTileName;
     const  _tchar*         m_pPathName;
-
+    const  _tchar*         m_pAnimationName;
     IDirect3DBaseTexture9* m_pTexture;
     vector< IDirect3DBaseTexture9*> m_vecAnimationTexture;
 private:
     _int                   m_iTileNumber;
+    _int                   m_iTextureCount;
 public:
     static          TileInfo* Create(LPDIRECT3DDEVICE9 pGraphicDev);
     virtual		    Component* Clone();

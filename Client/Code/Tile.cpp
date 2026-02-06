@@ -201,6 +201,7 @@ void Tile::Imgui_Image(const char* tName, TILE_STATE eid)
 			m_pTileName = m_vecImage[eid][i].wstr->c_str();
 			m_eTileState = eid;
 			m_pPathName = m_vecName[eid].front();
+			
 		}
 		ImGui::PopID();
 		nCount++;
@@ -619,8 +620,18 @@ void Tile::Check_TilePoint()
 					switch (m_eMode)
 					{
 					case TILEMODE_CHANGE::MODE_TILE:
-
-						dynamic_cast<TileInfo*>(pTile->Get_Component(COMPONENT_TYPE::COMPONENT_TILEINFO))->Set_TileAll(m_pPathName, m_pTileName, m_eTile, m_eTileState, m_eMode, (_int)vMouseCheck.z * VTXCNTX + (_int)vMouseCheck.x);
+						if (m_eTileState == STATE_ANIMATION)
+						{
+							wstring path;
+							wstring pa = m_vecName[TILE_STATE::STATE_ANIMATION].front();
+							if (wcscmp(m_pTileName, L"Spr_Deco_BushFlower01_0.png") == 0)
+								m_pTileName = L"Spr_Deco_BushFlower01_0%d.png";
+							if (wcscmp(m_pTileName, L"Spr_Deco_BushFlower02_0.png") == 0)
+								m_pTileName = L"Spr_Deco_BushFlower02_0%d.png";
+							path = pa + L"/Anmation/" + m_pTileName;
+							dynamic_cast<TileInfo*>(pTile->Get_Component(COMPONENT_TYPE::COMPONENT_TILEINFO))->Set_TileAnimaiton(path.c_str(), 6, m_eTile, m_eTileState, m_eMode, (_int)vMouseCheck.z * VTXCNTX + (_int)vMouseCheck.x);
+						}else dynamic_cast<TileInfo*>(pTile->Get_Component(COMPONENT_TYPE::COMPONENT_TILEINFO))->Set_TileAll(m_pPathName, m_pTileName, m_eTile, m_eTileState, m_eMode, (_int)vMouseCheck.z * VTXCNTX + (_int)vMouseCheck.x);
+						
 						dynamic_cast<Transform*>(pTile->Get_Component(COMPONENT_TYPE::COMPONENT_TRANSFORM))->Set_Scale(*m_pTransform->Get_Scale());
 						dynamic_cast<Transform*>(pTile->Get_Component(COMPONENT_TYPE::COMPONENT_TRANSFORM))->Set_Rotation(*m_pTransform->Get_Rotation());
 						TileManager::GetInstance()->Add_Tile(pTile, vMouseCheck, m_eMode, m_eTile);
@@ -634,7 +645,6 @@ void Tile::Check_TilePoint()
 						break;
 
 					case TILEMODE_CHANGE::MODE_OBJECT:
-						dynamic_cast<TileInfo*>(pTile->Get_Component(COMPONENT_TYPE::COMPONENT_TILEINFO))->Set_TileAll(m_pPathName, m_pTileName, m_eTile, m_eTileState, m_eMode,(_int)vMouseCheck.z * VTXCNTX + (_int)vMouseCheck.x);
 						dynamic_cast<Transform*>(pTile->Get_Component(COMPONENT_TYPE::COMPONENT_TRANSFORM))->Set_Scale(*m_pTransform->Get_Scale());
 						dynamic_cast<Transform*>(pTile->Get_Component(COMPONENT_TYPE::COMPONENT_TRANSFORM))->Set_Rotation(*m_pTransform->Get_Rotation());
 						TileManager::GetInstance()->Add_Tile(pTile, vMouseCheck, m_eMode, m_eTile);

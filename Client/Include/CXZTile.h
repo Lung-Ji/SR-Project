@@ -28,7 +28,7 @@ private:
     Buffer*                m_pBuffer;
     Transform*             m_pTransform;
 
-
+    _uint                  m_fFrame;
 public:
     static         CXZTile* Create(LPDIRECT3DDEVICE9 pGraphicDev, TILE_SIDE eid);
 
