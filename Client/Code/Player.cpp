@@ -489,6 +489,7 @@ void Player::IDLE_STATE(const _float& _DT)
 		//	_isJump = true;
 		//	_jumpSpeed = _defaultSpeed;
 		//}
+	// 광윤 - KeyInput이란 함수에 넣었었는데 Merge하니까 다른 곳으로 옮겨졌어요,////////////////////
 		if (KEY_DOWN(DIK_1)) { PLAY_PLAYER_EFFECT_ONCE(PLAYER_SKILL::SKILL_1, 0.5f); }
 		if (KEY_DOWN(DIK_2)) { PLAY_PLAYER_EFFECT_ONCE(PLAYER_SKILL::SKILL_2, 0.5f); }
 		if (KEY_DOWN(DIK_3)) { PLAY_PLAYER_EFFECT_ONCE(PLAYER_SKILL::SKILL_3, 0.5f); }
@@ -499,9 +500,9 @@ void Player::IDLE_STATE(const _float& _DT)
 		_vec3	vDir = vPickPos - *Component_Transform->Get_Position();
 
 		//Component_Transform->Move_Pos(D3DXVec3Normalize(&vDir, &vDir), 10.f, _DT);
-		// vDir = �߻�ü�� ���ư� ����
-
+		// vDir = (플레이어 -> 피킹 위치) 방향
 	}
+	///////////////////////////////////////////////////////////////////////////////////////////////
 }
 
 void Player::DASH_STATE(const _float& _DT)

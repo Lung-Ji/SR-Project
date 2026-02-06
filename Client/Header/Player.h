@@ -109,9 +109,7 @@ private:
 
 private:
 
-	void				Key_Input(const _float& _DT);
-	void				Gravity(const _float& _DT);
-	void				SetGrahpic();
+	
 
 	D3DXVECTOR3			MousePicker_NonTarget(HWND _hWnd, Buffer* _TerrainBuffer, Transform* _TerrainTransform);
 	D3DXVECTOR3			RayOnTerrain();

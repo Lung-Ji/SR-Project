@@ -1,7 +1,7 @@
 #include "CXZTile.h"
 #include "../Include/PCH.h"
 
-CXZTile::CXZTile(LPDIRECT3DDEVICE9 _GRPDEV) : GameObject(_GRPDEV), m_fFrame(0.f), m_pBuffer(nullptr), m_pTransform(nullptr), m_pTileInfo(nullptr){}
+CXZTile::CXZTile(LPDIRECT3DDEVICE9 _GRPDEV) : GameObject(_GRPDEV), m_fFrame(0), m_pBuffer(nullptr), m_pTransform(nullptr), m_pTileInfo(nullptr){}
 CXZTile::CXZTile(const GameObject& _RHS) : GameObject(_RHS) {}
 CXZTile::~CXZTile() { Free(); }
 
@@ -15,7 +15,7 @@ INT	CXZTile::Update_GameObject(const _float& _DT) {
 
 	
 	GameObject::Update_GameObject(_DT);
-	m_fFrame = 6+ _DT;
+	m_fFrame = 6 + _DT;					// 오류 뜨는데 한 번 확인해주세요
 	
 	if (m_fFrame > 6)
 		m_fFrame = 0;

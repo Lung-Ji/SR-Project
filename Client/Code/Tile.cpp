@@ -38,7 +38,7 @@ HRESULT Tile::Ready_GameObject() {
 	{
 		for (auto& iter : m_vecImage[i])
 		{
-			iter.vSize.x / 128;
+			iter.vSize.x / 128;			// 오류 뜨는데 한 번 확인해주세요
 			iter.vSize.y / 128;
 		}
 	}
@@ -185,7 +185,7 @@ void Tile::Imgui_Image(const char* tName, TILE_STATE eid)
 		return;
 
 	_int nCount = 0;
-	for (size_t i = 0; i < m_vecImage[eid].size(); i++)
+	for (int i = 0; i < m_vecImage[eid].size(); i++)
 	{
 		_vec2 size = m_vecImage[eid][i].vSize;
 		char scat[256] = "##";
@@ -368,6 +368,7 @@ HRESULT Tile::Load_Image(const _tchar* pName, TILE_STATE eid)
 		fa.close();
 	}
 	_findclose(Handle);
+	return S_OK;
 }
 HRESULT Tile::LoadFile()
 {
@@ -425,6 +426,7 @@ HRESULT Tile::LoadFile()
 
 	MSG_BOX("로드 성공");
 	CloseHandle(hFile);
+	return S_OK;
 }
 _bool Tile::Check_Bottom(_vec3* vOrigin)
 {

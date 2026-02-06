@@ -40,14 +40,14 @@ public:
     void            Set_TileAnimaiton(const _tchar* pPath, _int iCnt, Engine::TILE_SIDE eId, TILE_STATE eState, TILEMODE_CHANGE eMode, _int iTileNumber = 0)
     {
         IDirect3DBaseTexture9* pTexture = nullptr;
-        m_vecAnimationTexture.reserve(iCnt);
+        m_vecAnimationTexture.resize(iCnt);
         m_iTextureCount = iCnt;
         m_pAnimationName = pPath;
         m_eTileSide = eId;
         m_eTileState = eState;
         m_eTileMode = eMode;
         m_iTileNumber = iTileNumber;
-        for (_uint i = 1; i < iCnt; ++i)
+        for (_int i = 0; i < iCnt; ++i)
         {
             TCHAR szFileName[128] = L"";
             wsprintf(szFileName, pPath, i);

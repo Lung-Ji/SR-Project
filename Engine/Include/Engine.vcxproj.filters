@@ -73,16 +73,13 @@
     <Filter Include="11. UIManager">
       <UniqueIdentifier>{06dba40a-cde8-4d74-a015-c5cfb226400f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="12. ResourceManager">
+    <Filter Include="09. ResourceManager">
       <UniqueIdentifier>{4343f91f-80fb-46dc-8b79-fc3119b9473e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="13. EffectManager">
+    <Filter Include="12. EffectManager">
       <UniqueIdentifier>{f8acfc71-ce06-4098-b39d-8df3019fb773}</UniqueIdentifier>
     </Filter>
-    <Filter Include="10. UIManager">
-      <UniqueIdentifier>{06dba40a-cde8-4d74-a015-c5cfb226400f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="99. Component\06.Tile">
+    <Filter Include="99. Component\06. Tile">
       <UniqueIdentifier>{4e2a987d-50f6-4e59-bd84-9e0016b96795}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -169,14 +166,12 @@
       <Filter>11. UIManager</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\ResourceManager.h">
-      <Filter>12. ResourceManager</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\EffectManager.h">
-      <Filter>13. EffectManager</Filter>
+      <Filter>09. ResourceManager</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\TileInfo.h">
-      <Filter>99. Component\06.Tile</Filter>
+      <Filter>99. Component\06. Tile</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\EffectManager.h " />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\GraphicDevice.cpp">
@@ -243,13 +238,13 @@
       <Filter>11. UIManager</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\ResourceManager.cpp">
-      <Filter>12. ResourceManager</Filter>
+      <Filter>09. ResourceManager</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\EffectManager.cpp">
-      <Filter>13. EffectManager</Filter>
+      <Filter>12. EffectManager</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\TileInfo.cpp">
-      <Filter>99. Component\06.Tile</Filter>
+      <Filter>99. Component\06. Tile</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

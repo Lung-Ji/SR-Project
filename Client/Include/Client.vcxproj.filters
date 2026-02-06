@@ -64,9 +64,6 @@
     <Filter Include="04. UI\01. Sprite">
       <UniqueIdentifier>{c5ddb37a-c839-4e15-9417-7076814467ab}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. GameObject\05.Tile">
-      <UniqueIdentifier>{3f5d8e79-69ba-4afe-ab89-37fd086d4597}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03. GameObject\02. Monster\00. BaseMonster">
       <UniqueIdentifier>{d89099c6-b41c-429d-9f19-ec84a84cb870}</UniqueIdentifier>
     </Filter>
@@ -94,11 +91,14 @@
     <Filter Include="02. Scene\88. MapScene">
       <UniqueIdentifier>{76ac9252-3a58-4a11-91e2-f721f733b660}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. GameObject\06. ProJectile">
-      <UniqueIdentifier>{439bbeef-a25b-49de-a227-87dae46c6b96}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03. GameObject\99. Camera">
       <UniqueIdentifier>{4e81e72d-aaba-4f6f-aadb-fd7b0e176224}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\05. Tile">
+      <UniqueIdentifier>{3f5d8e79-69ba-4afe-ab89-37fd086d4597}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\07. ProJectile">
+      <UniqueIdentifier>{439bbeef-a25b-49de-a227-87dae46c6b96}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -178,13 +178,13 @@
       <Filter>05. IMGUI\00. EditorManager\01. MainEditor</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\CubeTile.h">
-      <Filter>03. GameObject\05.Tile</Filter>
+      <Filter>03. GameObject\05. Tile</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\Tile.h">
-      <Filter>03. GameObject\05.Tile</Filter>
+      <Filter>03. GameObject\05. Tile</Filter>
     </ClInclude>
     <ClInclude Include="CXZTile.h">
-      <Filter>03. GameObject\05.Tile</Filter>
+      <Filter>03. GameObject\05. Tile</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\Monster.h">
       <Filter>03. GameObject\02. Monster\00. BaseMonster</Filter>
@@ -223,7 +223,7 @@
       <Filter>02. Scene\88. MapScene</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\Bullet_Standard.h">
-      <Filter>03. GameObject\06. ProJectile</Filter>
+      <Filter>03. GameObject\07. ProJectile</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -285,13 +285,13 @@
       <Filter>05. IMGUI\00. EditorManager\01. MainEditor</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\CubeTile.cpp">
-      <Filter>03. GameObject\05.Tile</Filter>
+      <Filter>03. GameObject\05. Tile</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Tile.cpp">
-      <Filter>03. GameObject\05.Tile</Filter>
+      <Filter>03. GameObject\05. Tile</Filter>
     </ClCompile>
     <ClCompile Include="CXZTile.cpp">
-      <Filter>03. GameObject\05.Tile</Filter>
+      <Filter>03. GameObject\05. Tile</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Monster.cpp">
       <Filter>03. GameObject\02. Monster\00. BaseMonster</Filter>
@@ -328,9 +328,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\MapScene.cpp">
       <Filter>02. Scene\88. MapScene</Filter>
-   </ClCompile>
+    </ClCompile>
     <ClCompile Include="..\Code\Bullet_Standard.cpp">
-      <Filter>03. GameObject\06. ProJectile</Filter>
+      <Filter>03. GameObject\07. ProJectile</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
