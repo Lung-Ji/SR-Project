@@ -44,7 +44,7 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
-    <EnableUnitySupport>false</EnableUnitySupport>
+    <EnableUnitySupport>true</EnableUnitySupport>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
@@ -148,6 +148,10 @@ call Copy.bat</Command>
     <ClInclude Include="..\Header\Collider.h" />
     <ClInclude Include="..\Header\CollisionManager.h" />
     <ClInclude Include="..\Header\Component.h" />
+    <ClInclude Include="..\Header\EffectManager.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="..\Header\Engine_Define.h" />
     <ClInclude Include="..\Header\Engine_Enum.h" />
     <ClInclude Include="..\Header\Engine_Function.h" />
@@ -155,8 +159,7 @@ call Copy.bat</Command>
     <ClInclude Include="..\Header\Engine_Struct.h" />
     <ClInclude Include="..\Header\Engine_Typedef.h" />
     <ClInclude Include="..\Header\KeyManager.h" />
-    <ClInclude Include="..\Header\Light.h" />
-    <ClInclude Include="..\Header\LightManager.h" />
+    <ClInclude Include="..\Header\ResourceManager.h" />
     <ClInclude Include="..\Header\Sprite.h" />
     <ClInclude Include="..\Header\StateMachine.h" />
     <ClInclude Include="..\Header\GameObject.h" />
@@ -181,9 +184,12 @@ call Copy.bat</Command>
     <ClCompile Include="..\Code\Collider.cpp" />
     <ClCompile Include="..\Code\CollisionManager.cpp" />
     <ClCompile Include="..\Code\Component.cpp" />
+    <ClCompile Include="..\Code\EffectManager.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\Code\KeyManager.cpp" />
-    <ClCompile Include="..\Code\Light.cpp" />
-    <ClCompile Include="..\Code\LightManager.cpp" />
+    <ClCompile Include="..\Code\ResourceManager.cpp" />
     <ClCompile Include="..\Code\Sprite.cpp" />
     <ClCompile Include="..\Code\StateMachine.cpp" />
     <ClCompile Include="..\Code\GameObject.cpp" />

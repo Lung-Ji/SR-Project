@@ -8,6 +8,8 @@ Player::~Player()													{}
 HRESULT Player::Ready_GameObject() {
 	if (FAILED(Component_Initialize())) return E_FAIL;
 
+	AlphaZValue = -1.f;
+
 	_state = pState::STATE_STANDING;
 	_see = pSee::SEE_DOWN;
 
@@ -29,10 +31,9 @@ HRESULT Player::Ready_GameObject() {
 	_float angle = acosf(D3DXVec3Dot(D3DXVec3Normalize(&cameraDir, &cameraDir), D3DXVec3Normalize(&planeDir, &planeDir)));
 	angle = angle / D3DX_PI * 180.f;
 
+	Component_Transform->Rotation(ROT_X, 90.f - angle);
 	Component_Transform->Set_Scale({ 1.f, 1.f, 1.f });
-	Component_Transform->Rotation(ROT_X, angle);
 	Component_Transform->Set_Pos({ 5.f, 1.f, 5.f });
-
 
 	Debug = false;
 
@@ -41,6 +42,8 @@ HRESULT Player::Ready_GameObject() {
 INT	Player::Update_GameObject(const _float& _DT) {
 	GameObject::Update_GameObject(_DT);
 	RenderManager::GetInstance()->Add_RenderGroup(RENDER_ALPHA, this);
+
+	SetOnTerrain();
 
 	_frameTick += _DT;
 
@@ -193,6 +196,7 @@ void Player::Key_Input(const _float& _DT)
 				_see = pSee::SEE_RIGHT;
 			}
 		}
+		
 		else
 		{
 			_speed = 0.f;
@@ -202,6 +206,17 @@ void Player::Key_Input(const _float& _DT)
 		//	_isJump = true;
 		//	_jumpSpeed = _defaultSpeed;
 		//}
+		if (KEY_DOWN(DIK_1)) { PLAY_PLAYER_EFFECT_ONCE(PLAYER_SKILL::SKILL_1, 3.f); }
+		if (KEY_DOWN(DIK_2)) { PLAY_PLAYER_EFFECT_ONCE(PLAYER_SKILL::SKILL_2, 3.f); }
+		if (KEY_DOWN(DIK_3)) { PLAY_PLAYER_EFFECT_ONCE(PLAYER_SKILL::SKILL_3, 3.f); }
+	}
+	if (MOUSE_LBUTTON)
+	{
+		_vec3	vPickPos = RayOnTerrain();
+		_vec3	vDir = vPickPos - *Component_Transform->Get_Position();
+
+		//Component_Transform->Move_Pos(D3DXVec3Normalize(&vDir, &vDir), 10.f, _DT);
+		// vDir = 발사체가 날아갈 방향
 	}
 
 }
@@ -235,7 +250,7 @@ void Player::SetGrahpic()
 	TCHAR FileName[128] = L"";
 
 	_vec3 size = { 0.44f, 1.f, 1.f };
-	size *= 1.2;
+	size *= 1.2f;
 
 	switch (_state)
 	{
@@ -409,6 +424,116 @@ void Player::SetGrahpic()
 		}
 		break;
 	}
+}
+D3DXVECTOR3 Player::MousePicker_NonTarget(HWND _hWnd, Buffer* _TerrainBuffer, Transform* _TerrainTransform) {
+
+	POINT MousePoint {0, 0};
+	GetCursorPos(&MousePoint);
+	ScreenToClient(_hWnd, &MousePoint);
+
+	D3DVIEWPORT9		ViewPort;
+	ZeroMemory(&ViewPort, sizeof(D3DVIEWPORT9));
+	GRPDEV->GetViewport(&ViewPort);
+
+	_vec3		MousePosition;
+
+	MousePosition.x = MousePoint.x /  (ViewPort.Width * 0.5f)  - 1.f;
+	MousePosition.y = MousePoint.y / -(ViewPort.Height * 0.5f) + 1.f;
+	MousePosition.z = 0.f;
+
+	D3DXMATRIX	WorldMat, ProjectionMat, ViewMat;
+
+	GRPDEV->GetTransform(D3DTS_PROJECTION, &ProjectionMat);
+	D3DXMatrixInverse(&ProjectionMat, 0, &ProjectionMat);
+	D3DXVec3TransformCoord(&MousePosition, &MousePosition, &ProjectionMat);
+
+	GRPDEV->GetTransform(D3DTS_VIEW, &ViewMat);
+	D3DXMatrixInverse(&ViewMat, 0, &ViewMat);
+
+	_vec3	RayPosition = { 0.f, 0.f, 0.f };//*Component_Transform->Get_Position();
+	_vec3	RayDirection = MousePosition - RayPosition;
+
+	D3DXVec3TransformCoord(&RayPosition, &RayPosition, &ViewMat);
+	D3DXVec3TransformNormal(&RayDirection, &RayDirection, &ViewMat);
+
+	WorldMat = *(_TerrainTransform->Get_World());
+	D3DXMatrixInverse(&WorldMat, 0, &WorldMat);
+
+	D3DXVec3TransformCoord(&RayPosition, &RayPosition, &WorldMat);
+	D3DXVec3TransformNormal(&RayDirection, &RayDirection, &WorldMat);
+
+	const _vec3* TerrainVertexPos = _TerrainBuffer->Get_BufferPos(0);
+
+	ULONG	VertexNumb[3]{};
+	FLOAT	U(0.f), V(0.f), Distance(0.f);
+
+	for (ULONG Z = 0; Z < VTXCNTZ - 1; ++Z) {
+		for (ULONG X = 0; X < VTXCNTX - 1; ++X) {
+			ULONG INDEX = Z * VTXCNTX + X;
+
+			// 오른쪽 위
+			VertexNumb[0] = INDEX + VTXCNTX;
+			VertexNumb[1] = INDEX + VTXCNTX + 1;
+			VertexNumb[2] = INDEX + 1;
+
+			// V1 + U(V2 - V1) + V(V3 - V1)
+
+			if (D3DXIntersectTri(&TerrainVertexPos[VertexNumb[1]], &TerrainVertexPos[VertexNumb[0]], &TerrainVertexPos[VertexNumb[2]],
+								&RayPosition, &RayDirection, &U, &V, &Distance))
+			{
+				return _vec3(TerrainVertexPos[VertexNumb[1]].x + U * (TerrainVertexPos[VertexNumb[0]].x - TerrainVertexPos[VertexNumb[1]].x),
+					0.f,
+					TerrainVertexPos[VertexNumb[1]].z + V * (TerrainVertexPos[VertexNumb[2]].z - TerrainVertexPos[VertexNumb[1]].z));
+			}
+
+
+
+			// 왼쪽 아래
+			VertexNumb[0] = INDEX + VTXCNTX;
+			VertexNumb[1] = INDEX + 1;
+			VertexNumb[2] = INDEX;
+
+			// V1 + U(V2 - V1) + V(V3 - V1)
+
+			if (D3DXIntersectTri(&TerrainVertexPos[VertexNumb[2]],
+				&TerrainVertexPos[VertexNumb[1]],
+				&TerrainVertexPos[VertexNumb[0]],
+				&RayPosition, &RayDirection,
+				&U, &V, &Distance))
+			{	
+				return _vec3(TerrainVertexPos[VertexNumb[2]].x + U * (TerrainVertexPos[VertexNumb[1]].x - TerrainVertexPos[VertexNumb[2]].x),
+					0.f,
+					TerrainVertexPos[VertexNumb[2]].z + V * (TerrainVertexPos[VertexNumb[0]].z - TerrainVertexPos[VertexNumb[2]].z));
+			}
+
+		}
+	}
+
+	return _vec3(0.f, 0.f, 0.f);
+}
+D3DXVECTOR3 Player::RayOnTerrain() {
+	Buffer* TerrainBuffer = dynamic_cast<Buffer*>(SceneManager::GetInstance()->Get_GameObject(L"Terrain")
+		->Get_Component(COMPONENT_TYPE::COMPONENT_TERRAIN));
+
+	if (TerrainBuffer == nullptr) return D3DXVECTOR3(0.f, 0.f, 0.f);
+
+	Transform* TerrainTransform = dynamic_cast<Transform*>(SceneManager::GetInstance()->Get_GameObject(L"Terrain")
+		->Get_Component(COMPONENT_TYPE::COMPONENT_TRANSFORM));
+
+	if (TerrainTransform == nullptr) return D3DXVECTOR3(0.f, 0.f, 0.f);
+
+	return MousePicker_NonTarget(hWnd, TerrainBuffer, TerrainTransform);
+}
+D3DXVECTOR3 Player::SetOnTerrain() {
+	_vec3*	Position;
+	Position = Component_Transform->Get_Position();
+
+	Buffer* TerrainBuffer = dynamic_cast<Buffer*>(SceneManager::GetInstance()->Get_GameObject(L"Terrain")
+		->Get_Component(COMPONENT_TYPE::COMPONENT_TERRAIN));
+
+	if (TerrainBuffer == nullptr) return D3DXVECTOR3(0.f, 0.f, 0.f);
+
+	return D3DXVECTOR3(Position->x, 1.f, Position->z);
 }
 Player* Player::Create(LPDIRECT3DDEVICE9 _GRPDEV) {
 	Player* PLAYER = new Player(_GRPDEV);

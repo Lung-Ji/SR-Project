@@ -20,7 +20,9 @@ public:
 	VOID	Get_AllObjectOfScene();
 
 private:
-	vector<GameObject*> SceneObjectList;
+	vector<GameObject*>		SceneObjectList;
+
+	BOOL					CollisionLine_Visibility;
 
 private:
 	virtual VOID	Free();
