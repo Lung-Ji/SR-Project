@@ -187,7 +187,7 @@ VOID Monster1::State_Tracking(const _float& _DT)
 
 	_float fRadian = 0.f;
 	fRadian = acosf(D3DXVec3Dot(&vLook, &vDir));
-	int fAngle = D3DXToDegree(fRadian);
+	FLOAT fAngle = D3DXToDegree(fRadian);
 	Component_Transform->Rotation(ROT_Y, fRadian);
 	//Component_Transform->Set_Rotation(0.f, fAngle, 0.f);
 

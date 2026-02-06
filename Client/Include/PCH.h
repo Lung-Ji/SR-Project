@@ -31,6 +31,7 @@
 #include "Camera.h"
 #include "Terrain.h"
 #include "MainUI.h"
+#include "Effect.h"
 #include "NPC.h"
 //
 #include "Monster_State.h"
@@ -54,7 +55,9 @@
 
 //////////////////////////////////////////// Manager
 #include "GUIManager.h"
+#include "ResourceManager.h"
 #include "CollisionManager.h"
+#include "EffectManager.h"
 #include "KeyManager.h"
 #include "SoundManager.h"
 #include "RenderManager.h"

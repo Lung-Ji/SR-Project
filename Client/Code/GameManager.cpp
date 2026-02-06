@@ -7,6 +7,7 @@ GameManager::~GameManager() { Free(); }
 HRESULT GameManager::Ready_GameManager() {
 	if (FAILED(Ready_DefaultSetting()))					return E_FAIL;
 	if (FAILED(Ready_SceneSetting()))					return E_FAIL;
+	ResourceManager::GetInstance()->GlobalImport_Texture(GRPDEV, L"C:/Users/Yun/Desktop/Software Rendering Project/Resource");
 	return S_OK;
 }
 VOID	GameManager::Update_GameManager(CONST FLOAT& _DT) {
@@ -22,11 +23,7 @@ VOID	GameManager::Render_GameManager() {
 	DEVCLASS->Render_Begin(D3DXCOLOR(0.f, 0.f, 1.f, 1.f));
 
 	SceneManager::GetInstance()->Render_SceneManager(GRPDEV);
-
-#ifdef _DEBUG
-	//cout << "File I/O Ãâ·Â" << endl;
-#endif // _DEBUG
-
+	TileManager::GetInstance()->Render_TileList();
 	//DEVCLASS->Render_End();
 }
 HRESULT GameManager::Ready_DefaultSetting() {
@@ -63,8 +60,6 @@ HRESULT GameManager::Ready_SceneSetting() {
 	}
 	return S_OK;
 }
-
-
 GameManager* GameManager::Create() {
 	GameManager* Instance = new GameManager;
 	if (FAILED(Instance->Ready_GameManager())) {
@@ -89,5 +84,7 @@ VOID		 GameManager::Free() {
 	RenderManager	::DestroyInstance();
 	GUIManager		::DestroyInstance();
 	TileManager		::DestroyInstance();
+	ResourceManager	::DestroyInstance();
+	EffectManager	::DestroyInstance();
 	DEVCLASS		->DestroyInstance();
 }

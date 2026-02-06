@@ -18,7 +18,6 @@ private:
 public:
 	HRESULT		Ready_Prototype(LPDIRECT3DDEVICE9 _GRPDEV);
 	Component*	Clone_Prototype(COMPONENT_TYPE _TYPE);
-	HRESULT		Push_ProtoType(LPDIRECT3DDEVICE9 _GRPDEV, Component* _Push);
 
 private:
 	vector<Component*>		ComponentList;

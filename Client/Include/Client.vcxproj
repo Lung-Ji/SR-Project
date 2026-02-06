@@ -122,7 +122,7 @@
       <AdditionalIncludeDirectories>../Header;../../Base;../../Reference/Header;</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MaxFilesInUnityFile>10</MaxFilesInUnityFile>
-      <LanguageStandard>Default</LanguageStandard>
+      <LanguageStandard>stdcpp14</LanguageStandard>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -156,10 +156,11 @@
     <ClInclude Include="..\Header\Bullet_Standard.h" />
     <ClInclude Include="..\Header\Camera.h" />
     <ClInclude Include="..\Header\CubeTile.h" />
+    <ClInclude Include="..\Header\DebugScene.h" />
     <ClInclude Include="..\Header\DungeonScene.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-      </ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="..\Header\Effect.h" />
     <ClInclude Include="..\Header\GameManager.h" />
     <ClInclude Include="..\Header\GUIManager.h" />
     <ClInclude Include="..\Header\imconfig.h" />
@@ -192,7 +193,8 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\Header\NPC.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\Header\Player.h" />
     <ClInclude Include="..\Header\StartScene.h" />
@@ -200,11 +202,9 @@
     <ClInclude Include="..\Header\Tile.h" />
     <ClInclude Include="..\Header\UITest.h" />
     <ClInclude Include="..\Header\VillageScene.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-      </ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="BossMonster.h" />
-    <ClInclude Include="CKeyButton.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="CXZTile.h" />
     <ClInclude Include="framework.h" />
@@ -213,16 +213,16 @@
     <ClInclude Include="targetver.h" />
     <ClInclude Include="DEFINE.h" />
     <ClInclude Include="ENUM.h" />
-    <ClInclude Include="Tutorial.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\Bullet_Standard.cpp" />
     <ClCompile Include="..\Code\Camera.cpp" />
     <ClCompile Include="..\Code\CubeTile.cpp" />
+    <ClCompile Include="..\Code\DebugScene.cpp" />
     <ClCompile Include="..\Code\DungeonScene.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-      </ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="..\Code\Effect.cpp" />
     <ClCompile Include="..\Code\GameManager.cpp" />
     <ClCompile Include="..\Code\GUIManager.cpp" />
     <ClCompile Include="..\Code\imgui.cpp">
@@ -265,7 +265,8 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\Code\NPC.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\Code\Player.cpp" />
     <ClCompile Include="..\Code\StartScene.cpp" />
@@ -273,11 +274,9 @@
     <ClCompile Include="..\Code\Tile.cpp" />
     <ClCompile Include="..\Code\UITest.cpp" />
     <ClCompile Include="..\Code\VillageScene.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-      </ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="BossMonster.cpp" />
-    <ClCompile Include="CKeyButton.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="CXZTile.cpp" />
     <ClCompile Include="PCH.cpp">
@@ -286,7 +285,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Tutorial.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc" />

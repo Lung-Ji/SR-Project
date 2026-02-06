@@ -1,10 +1,11 @@
 #include "CollisionManager.h"
 #include "SceneManager.h"
+#include "KeyManager.h"
 
 IMPLEMENT_SINGLETON(CollisionManager)
 
-CollisionManager::CollisionManager()	{}
-CollisionManager::~CollisionManager()	{}
+CollisionManager::CollisionManager()	: CollisionLine_Visibility(TRUE) {}
+CollisionManager::~CollisionManager()									 {}
 
 INT CollisionManager::Update_CollisionManager() {
 	
@@ -12,13 +13,16 @@ INT CollisionManager::Update_CollisionManager() {
 }
 
 VOID CollisionManager::LateUpdate_CollisionManager() {
+	if (KeyManager::GetInstance()->KEY_STATE_DOWN(DIK_F11) == TRUE) 
+		CollisionLine_Visibility ? CollisionLine_Visibility = FALSE : CollisionLine_Visibility = TRUE;
+	
 	AABB_Collision();
 }
 
 VOID CollisionManager::Render_CollisionManager() {
 	for (auto& OBJ : SceneObjectList) {
 		Component* ColCom = OBJ->Get_Component(COMPONENT_TYPE::COMPONENT_COLLIDER);
-		if (ColCom == nullptr) continue;
+		if (ColCom == nullptr || !CollisionLine_Visibility) continue;
 		ColCom->Render_Component();
 	}
 }
@@ -43,7 +47,7 @@ BOOL CollisionManager::AABB_Collision() {
 				return TRUE;
 			}
 			else {
-				if (SRC->Get_CollisionState() == TRUE) { SRC->Set_CollisionState(FALSE); SOBJ->OnCollisionExit(DOBJ); }
+				if (SRC->Get_CollisionState() == TRUE)	{ SRC->Set_CollisionState(FALSE);  SOBJ->OnCollisionExit(DOBJ); }
 				if (DEST->Get_CollisionState() == TRUE) { DEST->Set_CollisionState(FALSE); DOBJ->OnCollisionExit(SOBJ); }
 			}
 		}

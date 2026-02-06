@@ -108,6 +108,15 @@ private:
 	virtual VOID Free();
 
 private:
+
+	void				Key_Input(const _float& _DT);
+	void				Gravity(const _float& _DT);
+	void				SetGrahpic();
+
+	D3DXVECTOR3			MousePicker_NonTarget(HWND _hWnd, Buffer* _TerrainBuffer, Transform* _TerrainTransform);
+	D3DXVECTOR3			RayOnTerrain();
+	D3DXVECTOR3			SetOnTerrain();
+
 	void			IDLE_STATE(const _float& _DT);
 	void			DASH_STATE(const _float& _DT);
 	void			ATTACK_STATE(const _float& _DT);
@@ -115,6 +124,7 @@ private:
 	void			Gravity(const _float& _DT);
 	void			SetGrahpic();
 	void			Anim(TCHAR FileName[128], float delay, int maxIdx, bool reverse = false);
+
 private:
 	bool			Debug;
 	float			_cameraAngle;
