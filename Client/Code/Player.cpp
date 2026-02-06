@@ -516,6 +516,7 @@ void Player::SetGrahpic()
 				wsprintfW(FileName, L"Player_Stand_Down%d.png", _frame);
 			}
 			else {
+				if (_frame > 4) _frame = 1;
 				if (_slideTime < 0.1f) _frame = 1;
 				wsprintfW(FileName, L"Player_Down_Slide%d.png", _frame);
 			}
@@ -526,6 +527,7 @@ void Player::SetGrahpic()
 				wsprintfW(FileName, L"Player_Stand_UP%d.png", _frame);
 			}
 			else {
+				if (_frame > 4) _frame = 1;
 				if (_slideTime < 0.1f) _frame = 1;
 				wsprintfW(FileName, L"Player_Up_Slide%d.png", _frame);
 			}
@@ -536,6 +538,7 @@ void Player::SetGrahpic()
 				wsprintfW(FileName, L"StandRS0%d.png", _frame);
 			}
 			else {
+				if (_frame > 4) _frame = 1;
 				if (_slideTime < 0.1f) _frame = 1;
 				wsprintfW(FileName, L"Player_Right_Slide%d.png", _frame);
 			}
@@ -546,6 +549,7 @@ void Player::SetGrahpic()
 				wsprintfW(FileName, L"Player_Stand_Left%d.png", _frame);
 			}
 			else{
+				if (_frame > 4) _frame = 1;
 				if (_slideTime < 0.1f) _frame = 1;
 				wsprintfW(FileName, L"Player_Left_Slide%d.png", _frame);
 			}
