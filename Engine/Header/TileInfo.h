@@ -29,61 +29,51 @@ public:
         m_eTileMode = eMode;
         m_iTileNumber = iTileNumber;
 
-        wstring  path = pPath;
-        wstring WideRootPath = path + L"/" + m_pTileName;
-        D3DXIMAGE_INFO img;
-
-        D3DXCreateTextureFromFileEx(GRPDEV, WideRootPath.c_str(), 0, 0, 1, 0,
-            D3DFMT_UNKNOWN, D3DPOOL_MANAGED, D3DX_FILTER_NONE, D3DX_FILTER_NONE, 0,
-            &img, NULL, (LPDIRECT3DTEXTURE9*)&m_pTexture);
     }
-    void            Set_TileAnimaiton(const _tchar* pPath, _int iCnt, Engine::TILE_SIDE eId, TILE_STATE eState, TILEMODE_CHANGE eMode, _int iTileNumber = 0)
+    void            Set_TileAnimaiton(const _tchar* pName, _int iCnt, Engine::TILE_SIDE eId, TILE_STATE eState, TILEMODE_CHANGE eMode, _int iTileNumber = 0)
     {
-        IDirect3DBaseTexture9* pTexture = nullptr;
-        m_vecAnimationTexture.resize(iCnt);
         m_iTextureCount = iCnt;
-        m_pAnimationName = pPath;
+        m_pAnimationName = pName;
         m_eTileSide = eId;
         m_eTileState = eState;
         m_eTileMode = eMode;
         m_iTileNumber = iTileNumber;
-        for (_uint i = 0; i < iCnt; ++i)
+
+        for (int i = 0; i < iCnt; ++i)
         {
-            TCHAR szFileName[128] = L"";
-            wsprintf(szFileName, pPath, i);
-            if (FAILED(D3DXCreateTextureFromFile(GRPDEV, szFileName, (LPDIRECT3DTEXTURE9*)&pTexture)))
-                break;
-            m_vecAnimationTexture.push_back(pTexture);
+            TCHAR   Name[128] = L"";
+            wsprintf(Name, pName, i);
+            m_vecAnimationName.push_back(Name);
+
         }
+    
     }
     void            Set_TileState(TILE_STATE eid) { m_eTileState = eid; }
 
     void            Set_Texture(_uint& index)
     {
-        if (m_vecAnimationTexture.size() <= index)
-            return;
-
-        GRPDEV->SetTexture(0, m_vecAnimationTexture[index]);
+            
     }
 
     _int                   Get_TileNumber()      { return m_iTileNumber;}
     TILE_SIDE              Get_TileSideName()    { return m_eTileSide;  }
     TILE_STATE             Get_TileStateName()   { return m_eTileState; }
     TILEMODE_CHANGE        Get_TileMode()        { return m_eTileMode;  }
+    _int                   Get_TileTextureNumber() { return m_iTextureCount; }
     const _tchar*          Get_TileTextureName() { return m_pTileName;  }
     const _tchar*          Get_TilePathName()    { return m_pPathName;  }
-    const _tchar*          Get_AnimationName()   { return m_pAnimationName;}
-    IDirect3DBaseTexture9* Get_TileTexture()     { return m_pTexture;   }
-
+    const _tchar*          Get_AnimationName(_uint iCnt) { return m_vecAnimationName[iCnt].c_str(); }
+    
 private:
     TILE_SIDE              m_eTileSide;
     TILE_STATE             m_eTileState;
     TILEMODE_CHANGE        m_eTileMode;
+
     const  _tchar*         m_pTileName;
     const  _tchar*         m_pPathName;
     const  _tchar*         m_pAnimationName;
-    IDirect3DBaseTexture9* m_pTexture;
-    vector< IDirect3DBaseTexture9*> m_vecAnimationTexture;
+
+    vector<wstring>  m_vecAnimationName;
 private:
     _int                   m_iTileNumber;
     _int                   m_iTextureCount;

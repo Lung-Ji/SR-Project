@@ -3,7 +3,7 @@
 #include <iostream>
 #include <fstream>
 const _tchar* m_pTileName[128];
-Tile::Tile(LPDIRECT3DDEVICE9 _GRPDEV) : GameObject(_GRPDEV), m_pTileState(nullptr),m_bTileCheck(true), m_pTexture(nullptr),m_pTileFront(nullptr),m_pTileLeft(nullptr),m_pTileRight(nullptr)
+Tile::Tile(LPDIRECT3DDEVICE9 _GRPDEV) : GameObject(_GRPDEV), m_pTileState(nullptr),m_bTileCheck(true),m_pTileFront(nullptr),m_pTileLeft(nullptr),m_pTileRight(nullptr)
 , m_eTileState(TILE_STATE::STATE_END),m_pTileBack(nullptr), m_fHeight(0.f), m_pTransform(nullptr), m_pBuffer(nullptr), m_pTileName(nullptr), m_bMouseClick(false), m_eMode(TILEMODE_CHANGE::MODE_END),m_eTile(Engine::TILE_SIDE::TILE_END)
 {
 	m_vOriginal = {};
@@ -18,10 +18,7 @@ HRESULT Tile::Component_Initialize() {
 	m_pTileBack = ADD_COMPONENT_TILEBACK;
 	m_pTileFront = ADD_COMPONENT_TILEFRONT;
 	m_pTransform = ADD_COMPONENT_TRANSFORM;
-	m_pTexture = ADD_COMPONENT_TEXTURE;
 
-	m_pTexture->Import_TextureFromFolder(L"../../Tile/Stage1");
-	m_pTexture->Import_TextureFromFolder(L"../../Tile/AnimationObject");
 	m_vecName[TILE_STATE::STATE_NORMAL].push_back(L"../../Tile/Stage1");
 	m_vecName[TILE_STATE::STATE_ANIMATION].push_back(L"../../Tile/AnimationObject");
   
@@ -38,8 +35,8 @@ HRESULT Tile::Ready_GameObject() {
 	{
 		for (auto& iter : m_vecImage[i])
 		{
-			iter.vSize.x / 128;			// 오류 뜨는데 한 번 확인해주세요
-			iter.vSize.y / 128;
+			iter.vSize.x /= 256;			// 오류 뜨는데 한 번 확인해주세요
+			iter.vSize.y /= 256;
 		}
 	}
 	return S_OK;
@@ -48,8 +45,6 @@ INT	Tile::Update_GameObject(const _float& _DT) {
 
 	RenderManager::GetInstance()->Add_RenderGroup(RENDER_TILE, this);
 	return GameObject::Update_GameObject(_DT);
-
-
 }
 VOID Tile::LateUpdate_GameObject(const _float& _DT) {
 	GameObject::LateUpdate_GameObject(_DT);
@@ -74,9 +69,9 @@ VOID Tile::Render_GameObject()
 	GRPDEV->SetTransform(D3DTS_WORLD, m_pTransform->Get_World());
 	
 	if (m_eMode == TILEMODE_CHANGE::MODE_END)
-		m_pTexture->Set_Texture(nullptr);
+		GRPDEV->SetTexture(0, nullptr);
 	else
-		m_pTexture->Set_Texture(m_pTileName);
+		GRPDEV->SetTexture(0,ResourceManager::GetInstance()->Find_Texture(m_pTileName));
 
 	switch (m_eTile)
 	{
@@ -117,7 +112,6 @@ void Tile::Imgui()
 		}
 		Imgui_Setting();
 
-
 		ImGui::End();
 
 		ImGui::Begin("Mode Changer", NULL, ImGuiWindowFlags_MenuBar);
@@ -137,6 +131,18 @@ void Tile::Imgui_Setting()
 	_vec3 vSca = { 1.f,1.f,1.f };
 	_vec3 vRot = { 0.f,0.f,0.f };
 	
+	for (size_t i = 0; i < STATE_END ;++i)
+	{
+		for (auto iter : m_vecImage[i])
+		{
+			if (m_pTileName == iter.wstr->c_str())
+			{
+				vScale.x = iter.vSize.x;
+				vScale.y = iter.vSize.y;
+			}
+		}
+	}
+
 	if (TILE_SIDE::TILE_OTHER != m_eTile) vRotation.x = 65.f;
 	else vRotation.x = 0;
 	if (!ImGui::CollapsingHeader("Setting"))
@@ -147,7 +153,6 @@ void Tile::Imgui_Setting()
 		ImGui::SameLine(50.f, 0.f);//텍스트 오른쪽에
 		ImGui::SliderFloat3("##1", vScale, fMin, fMax); //scale 출력 ##하면 글자 다음으로 출력됨
 		m_pTransform->Set_Scale(vScale);
-
 
 		ImGui::Text("Rotation");
 		ImGui::SameLine(100.f, 0.f);
@@ -194,8 +199,8 @@ void Tile::Imgui_Image(const char* tName, TILE_STATE eid)
 		ImGui::PushID(i); //버튼 중복 방지용
 
 		if (ImGui::ImageButton(scat,
-			m_pTexture->Find_Texture((m_vecImage[eid][i].wstr)->c_str()),
-			ImVec2(size.x * 0.1f, size.y * 0.1f), ImVec2(0.f, 0.f), ImVec2(1.f, 1.f)
+			ResourceManager::GetInstance()->Find_Texture((m_vecImage[eid][i].wstr)->c_str()),
+			ImVec2(size.x *128, size.y*128), ImVec2(0.f, 0.f), ImVec2(1.f, 1.f)
 			, ImVec4(0, 0, 0, 0))) //이미지 클릭 관련해서 true false 반환
 		{
 			m_pTileName = m_vecImage[eid][i].wstr->c_str();
@@ -274,7 +279,8 @@ void Tile::Imgui_ModeChanger()
 			ImGui::PushStyleColor(ImGuiCol_ButtonHovered, (ImVec4)ImColor::HSV(0.8f, 0.7f, 0.7f));
 			//클릭했을 때 버튼 색
 			ImGui::PushStyleColor(ImGuiCol_ButtonActive, (ImVec4)ImColor::HSV(0.5f, 0.7f, 0.7f));
-			ImGui::Button("Mode_Object");
+			if(ImGui::Button("Mode_Object"))
+				m_eMode = TILEMODE_CHANGE::MODE_OBJECT;
 			ImGui::PopStyleColor(3);
 
 			ImGui::Text("TileMode_TIle");
@@ -292,7 +298,6 @@ void Tile::Imgui_ModeChanger()
 						else if (cSelect_Tile == cTile[1]) m_eTile = TILE_SIDE::TILE_RIGHT;
 						else if (cSelect_Tile == cTile[2]) m_eTile = TILE_SIDE::TILE_LEFT;
 
-						m_eMode = TILEMODE_CHANGE::MODE_OBJECT;
 					}
 					if (bSelect)
 						ImGui::SetItemDefaultFocus();
@@ -624,15 +629,9 @@ void Tile::Check_TilePoint()
 					case TILEMODE_CHANGE::MODE_TILE:
 						if (m_eTileState == STATE_ANIMATION)
 						{
-							wstring path;
-							wstring pa = m_vecName[TILE_STATE::STATE_ANIMATION].front();
-							if (wcscmp(m_pTileName, L"Spr_Deco_BushFlower01_0.png") == 0)
-								m_pTileName = L"Spr_Deco_BushFlower01_0%d.png";
-							if (wcscmp(m_pTileName, L"Spr_Deco_BushFlower02_0.png") == 0)
-								m_pTileName = L"Spr_Deco_BushFlower02_0%d.png";
-							path = pa + L"/Anmation/" + m_pTileName;
-							dynamic_cast<TileInfo*>(pTile->Get_Component(COMPONENT_TYPE::COMPONENT_TILEINFO))->Set_TileAnimaiton(path.c_str(), 6, m_eTile, m_eTileState, m_eMode, (_int)vMouseCheck.z * VTXCNTX + (_int)vMouseCheck.x);
-						}else dynamic_cast<TileInfo*>(pTile->Get_Component(COMPONENT_TYPE::COMPONENT_TILEINFO))->Set_TileAll(m_pPathName, m_pTileName, m_eTile, m_eTileState, m_eMode, (_int)vMouseCheck.z * VTXCNTX + (_int)vMouseCheck.x);
+	
+							  dynamic_cast<TileInfo*>(pTile->Get_Component(COMPONENT_TYPE::COMPONENT_TILEINFO))->Set_TileAnimaiton(m_pTileName, 8, m_eTile, m_eTileState, m_eMode, (_int)vMouseCheck.z * VTXCNTX + (_int)vMouseCheck.x);
+						}else dynamic_cast<TileInfo*>(pTile->Get_Component(COMPONENT_TYPE::COMPONENT_TILEINFO))->Set_TileAll(m_pPathName,m_pTileName, m_eTile, m_eTileState, m_eMode, (_int)vMouseCheck.z * VTXCNTX + (_int)vMouseCheck.x);
 						
 						dynamic_cast<Transform*>(pTile->Get_Component(COMPONENT_TYPE::COMPONENT_TRANSFORM))->Set_Scale(*m_pTransform->Get_Scale());
 						dynamic_cast<Transform*>(pTile->Get_Component(COMPONENT_TYPE::COMPONENT_TRANSFORM))->Set_Rotation(*m_pTransform->Get_Rotation());

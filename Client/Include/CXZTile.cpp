@@ -15,10 +15,10 @@ INT	CXZTile::Update_GameObject(const _float& _DT) {
 
 	
 	GameObject::Update_GameObject(_DT);
-	m_fFrame = 6 + _DT;					// 오류 뜨는데 한 번 확인해주세요
+	m_fFrame += 30.f * _DT;					// 오류 뜨는데 한 번 확인해주세요
 	
-	if (m_fFrame > 6)
-		m_fFrame = 0;
+	if (m_fFrame > m_pTileInfo->Get_TileTextureNumber()-1)
+		m_fFrame = 0.f;
 		
 		return 0;
 
@@ -34,8 +34,9 @@ VOID CXZTile::Render_GameObject()
 	GRPDEV->SetTransform(D3DTS_WORLD, m_pTransform->Get_World());
 	if (m_pTileInfo->Get_TileStateName() == TILE_STATE::STATE_ANIMATION)
 	{
-		m_pTileInfo->Set_Texture(m_fFrame);
-	}else GRPDEV->SetTexture(0, m_pTileInfo->Get_TileTexture());
+		GRPDEV->SetTexture(0, ResourceManager::GetInstance()->Find_Texture(m_pTileInfo->Get_AnimationName(m_fFrame)));
+
+	}else GRPDEV->SetTexture(0, ResourceManager::GetInstance()->Find_Texture(m_pTileInfo->Get_TileTextureName()));
 	if(m_pBuffer!=nullptr)
 	m_pBuffer->Render_Buffer();
 

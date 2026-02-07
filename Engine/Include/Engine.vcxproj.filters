@@ -61,9 +61,6 @@
     <Filter Include="08. TileManager">
       <UniqueIdentifier>{fb375aba-e013-4696-be93-303247a99c6c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="08. TileManager\TileImageManager">
-      <UniqueIdentifier>{de85b09c-bdf0-41ed-ab1d-3450338f2975}</UniqueIdentifier>
-    </Filter>
     <Filter Include="99. Component\05. Collider">
       <UniqueIdentifier>{9acb0940-4a9c-4647-8d97-6537cc18af61}</UniqueIdentifier>
     </Filter>
@@ -153,12 +150,6 @@
     <ClInclude Include="..\Header\TileManager.h">
       <Filter>08. TileManager</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\TileImageManager.h">
-      <Filter>08. TileManager\TileImageManager</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\Collider.h">
-      <Filter>99. Component\05. Collider</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\CollisionManager.h">
       <Filter>10. CollisionManager</Filter>
     </ClInclude>
@@ -173,6 +164,9 @@
     </ClInclude>
     <ClInclude Include="..\Header\EffectManager.h ">
       <Filter>12. EffectManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Collider.h">
+      <Filter>99. Component\06. Tile</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -226,9 +220,6 @@
     </ClCompile>
     <ClCompile Include="..\Code\TileManager.cpp">
       <Filter>08. TileManager</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\TileImageManager.cpp">
-      <Filter>08. TileManager\TileImageManager</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Collider.cpp">
       <Filter>99. Component\05. Collider</Filter>

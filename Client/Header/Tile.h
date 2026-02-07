@@ -40,7 +40,6 @@ private:
     Buffer*                      m_pTileRight;
     Buffer*                      m_pTileBack;
     Buffer*                      m_pTileFront;
-    Texture*                     m_pTexture;
 
     Transform*                   m_pTransform;
 
