@@ -6,7 +6,7 @@
 
 BEGIN(Engine)
 
-//삽입 삭제가 활발히 이루어지는 특수한 UI들만 적용되는 enum
+// UI 오브젝트들의 enum값을 설정, 각각의 분류에 따라 구분 가능케 함.
 enum UIType {
 	Inventory,
 	Object,
@@ -26,9 +26,10 @@ public:
 public:
 	HRESULT		Ready_UI();
 	INT				Update_UI();
-	VOID			Delete_UI(CONST TCHAR* _uiName);
+	// 스프라이트 출력 함수
 	VOID			Render_UI(UIType _uitype, CONST TCHAR* _UINAME);
 
+	// 스프라이트 추가 함수
 	HRESULT		Import_UISprite(UIType _uitype, CONST TCHAR* _PATH, UINT _WIDTH,
 		UINT _HEIGHT, FLOAT _POSX, FLOAT _POSY, BOOL _VIS, INT _OPACITY);
 
@@ -41,7 +42,7 @@ public:
 private: 
 	ID3DXSprite* Sprite;
 
-	map<UIType, map<CONST _tchar*, SpriteINFO>> UIList;
+	//map<UIType, map<CONST _tchar*, SpriteINFO>> UIList;
 	//map<const _tchar*,SpriteINFO>UIList;
 	vector<pair<UIType,vector<SpriteINFO>>> vecList;
 private:
