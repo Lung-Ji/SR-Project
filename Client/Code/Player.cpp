@@ -601,7 +601,6 @@ void Player::DASH_STATE(const _float& _DT)
 		_pState = pState::STATE_IDLE;
 		_speed = 0;
 		_dashTime = 0.f;
-		_frame = 1;
 	}
 		
 }
