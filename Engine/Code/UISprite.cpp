@@ -1,5 +1,13 @@
 #include "UISprite.h"
 
+UISprite::UISprite()
+{
+}
+
+UISprite::~UISprite()
+{
+}
+
 UISprite* UISprite::Create(LPDIRECT3DDEVICE9 _GRPDEV, CONST TCHAR* _PATH, UINT _WIDTH, UINT _HEIGHT,
   FLOAT _POSX, FLOAT _POSY, BOOL _VIS, INT _OPACITY)
 {
@@ -31,6 +39,7 @@ HRESULT	UISprite::Ready_UI(CONST TCHAR* _PATH, UINT _WIDTH, UINT _HEIGHT,
 INT UISprite::Update_Sprite() {
   return 0;
 }
+
 VOID UISprite::Render_Sprite() {
   GRPDEV->SetRenderState(D3DRS_ZENABLE, FALSE);
   Sprite->Begin(D3DXSPRITE_ALPHABLEND);
@@ -39,9 +48,6 @@ VOID UISprite::Render_Sprite() {
   GRPDEV->SetRenderState(D3DRS_ZENABLE, TRUE);
 }
 
-VOID UISprite::Render_Sprite() {
-
-}
 Component* UISprite::Clone() {
   return new UISprite(*this);
 }

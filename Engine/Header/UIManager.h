@@ -1,17 +1,19 @@
 #pragma once
 
 #include "Component.h"
+#include "GameObject.h"
 #include "UISprite.h"
 
 BEGIN(Engine)
 
-enum class UIType {
+//삽입 삭제가 활발히 이루어지는 특수한 UI들만 적용되는 enum
+enum UIType {
 	Inventory,
 	Object,
 	Settings
 };
 
-class ENGINE_DLL UIManager : public Base {
+class ENGINE_DLL UIManager : public Component {
 	DECLARE_SINGLETON(UIManager)
 
 private:
@@ -20,31 +22,28 @@ private:
 
 public:
 	HRESULT Ready_UIObject(UIManager* _Component_Sprite );
-	UISprite* Find_Sprite(const _tchar* pSpriteTag);
-
-	UISprite* Set_UIType(UIType _type);
-
-	VOID  Show_UI(UIManager* _Sprite);
-	VOID	Hide_UI(UIManager* _Sprite);
-
+	
 public:
 	HRESULT		Ready_UI();
 	INT				Update_UI();
-	VOID			Render_UI(CONST _tchar* _UINAME);
+	VOID			Delete_UI(CONST TCHAR* _uiName);
+	VOID			Render_UI(UIType _uitype, CONST TCHAR* _UINAME);
 
-	HRESULT		Import_UISprite(const _tchar* _UINAME, CONST TCHAR* _PATH, UINT _WIDTH, UINT _HEIGHT, FLOAT _POSX, FLOAT _POSY, BOOL _VIS, INT _OPACITY = 255);
+	HRESULT		Import_UISprite(UIType _uitype, CONST TCHAR* _PATH, UINT _WIDTH,
+		UINT _HEIGHT, FLOAT _POSX, FLOAT _POSY, BOOL _VIS, INT _OPACITY);
 
 public:
-	static  UIManager* Create(LPDIRECT3DDEVICE9 _GRPDEV,CONST TCHAR* _PATH, UINT _WIDTH, UINT _HEIGHT,
+	static  UIManager* Create(LPDIRECT3DDEVICE9 _GRPDEV,CONST TCHAR* _uiName,CONST TCHAR* _PATH, UINT _WIDTH, UINT _HEIGHT,
   FLOAT _POSX, FLOAT _POSY, BOOL _VIS, INT _OPACITY);
 
-private:
-	virtual VOID	Free();
 	BOOL		isActive;
 
-private:
+private: 
 	ID3DXSprite* Sprite;
-	map<const _tchar*, SpriteINFO> UIList;
+
+	map<UIType, map<CONST _tchar*, SpriteINFO>> UIList;
+	//map<const _tchar*,SpriteINFO>UIList;
+	vector<pair<UIType,vector<SpriteINFO>>> vecList;
 private:
 	virtual VOID Free();
 
