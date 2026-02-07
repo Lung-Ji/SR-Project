@@ -50,48 +50,6 @@ HRESULT ResourceManager::PathFinder(IDirect3DDevice9* _GRPDEV, wstring _MasterFo
 	return S_OK;
 }
 
-HRESULT ResourceManager::PathFinder_Tile(IDirect3DDevice9* _GRPDEV, wstring _MasterFolder)
-{
-	_wfinddata64_t Data;
-	INT Result = 1;
-
-	wstring STRUNI = _MasterFolder + L"/*.*";
-
-	intptr_t Handle = _wfindfirst64(STRUNI.c_str(), &Data);
-	if (Handle == -1)	return E_FAIL;
-
-	IDirect3DBaseTexture9* TEX = nullptr;
-
-	if (Handle == -1)	return E_FAIL;
-	while (Result != -1) {
-
-		wstring Route = Data.name;
-		if (Route == L".." || Route == L".") {
-			Result = _wfindnext64(Handle, &Data);
-			continue;
-		}
-		wstring WideRootPath = _MasterFolder + L"/" + Data.name;
-
-
-		if (Data.attrib & FILE_ATTRIBUTE_DIRECTORY) {
-			PathFinder(_GRPDEV, WideRootPath);
-		}
-		else {
-			wstring* KEY = new wstring(Data.name);
-			KEY_Array.push_back(KEY);
-			D3DXCreateTextureFromFileEx(_GRPDEV, WideRootPath.c_str(),
-				0,0,1,0,D3DFMT_UNKNOWN,D3DPOOL_MANAGED,D3DX_DEFAULT,
-				D3DX_FILTER_NONE,D3DXCOLOR(1,1,1,1),nullptr,nullptr,(LPDIRECT3DTEXTURE9*)&TEX);
-			if (TEX != nullptr)	TextureList.insert({ KEY_Array.back()->c_str(), TEX });
-		}
-		Result = _wfindnext64(Handle, &Data);
-	}
-
-	_findclose(Handle);
-
-	return S_OK;
-}
-
 IDirect3DBaseTexture9* ResourceManager::Find_Texture(const TCHAR* _FileName) {
 	auto iter = find_if(TextureList.begin(), TextureList.end(), CTag_Finder(_FileName));
 	if (iter == TextureList.end())	return nullptr;

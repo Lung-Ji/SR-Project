@@ -23,7 +23,7 @@ HRESULT TileManager::Add_Tile(GameObject* pObject, _vec3 vPos, TILEMODE_CHANGE e
 	if (eMode == TILEMODE_CHANGE::MODE_OBJECT && eSid != TILE_SIDE::TILE_OTHER)
 	{
 		_float fHeight(0.f);
-		fHeight = 1.f + (pTransform->Get_Scale()->y) * 0.15;
+		fHeight = 1.f + (pTransform->Get_Scale()->y) * 0.5;
 		
 		pTransform->Set_Pos(vPos.x, fHeight, vPos.z);
 	}

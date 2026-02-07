@@ -13,6 +13,7 @@ public:
     struct ImageFile {
         wstring* wstr;
         _vec2     vSize;
+        void SetSize(_float x, _float y)  { vSize.x = x; vSize.y = y;}
     };
 public:
 

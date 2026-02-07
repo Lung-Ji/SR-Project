@@ -1,7 +1,7 @@
 #include "CXZTile.h"
 #include "../Include/PCH.h"
 
-CXZTile::CXZTile(LPDIRECT3DDEVICE9 _GRPDEV) : GameObject(_GRPDEV), m_fFrame(0), m_pBuffer(nullptr), m_pTransform(nullptr), m_pTileInfo(nullptr){}
+CXZTile::CXZTile(LPDIRECT3DDEVICE9 _GRPDEV) : GameObject(_GRPDEV), m_fTime(0), m_fFrame(1), m_pBuffer(nullptr), m_pTransform(nullptr), m_pTileInfo(nullptr){}
 CXZTile::CXZTile(const GameObject& _RHS) : GameObject(_RHS) {}
 CXZTile::~CXZTile() { Free(); }
 
@@ -15,11 +15,18 @@ INT	CXZTile::Update_GameObject(const _float& _DT) {
 
 	
 	GameObject::Update_GameObject(_DT);
-	m_fFrame += 30.f * _DT;					// 오류 뜨는데 한 번 확인해주세요
+	m_fTime += _DT;					//지난 시간
+	if (m_fTime > 0.5f) //0.1초가 지나면
+	{
+		++m_fFrame;     //프레임 증가
+		m_fTime = 0.f;	//시간 초기화
 	
-	if (m_fFrame > m_pTileInfo->Get_TileTextureNumber()-1)
-		m_fFrame = 0.f;
-		
+		if (m_fFrame >= (_float)m_pTileInfo->Get_TileTextureNumber() - 1.f)
+			m_fFrame = 1.f;
+	}
+	
+	
+	RenderManager::GetInstance()->Add_RenderGroup(RENDER_TILE, this);
 		return 0;
 
 }
@@ -30,17 +37,22 @@ VOID CXZTile::LateUpdate_GameObject(const _float& _DT) {
 
 VOID CXZTile::Render_GameObject()
 {
-	GRPDEV->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+
+	GRPDEV->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	GRPDEV->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	GRPDEV->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 	GRPDEV->SetTransform(D3DTS_WORLD, m_pTransform->Get_World());
+
 	if (m_pTileInfo->Get_TileStateName() == TILE_STATE::STATE_ANIMATION)
 	{
-		GRPDEV->SetTexture(0, ResourceManager::GetInstance()->Find_Texture(m_pTileInfo->Get_AnimationName(m_fFrame)));
+			GRPDEV->SetTexture(0, ResourceManager::GetInstance()->Find_Texture(m_pTileInfo->Get_AnimationName((_uint)(m_fFrame))));
 
 	}else GRPDEV->SetTexture(0, ResourceManager::GetInstance()->Find_Texture(m_pTileInfo->Get_TileTextureName()));
 	if(m_pBuffer!=nullptr)
+
 	m_pBuffer->Render_Buffer();
 
-	GRPDEV->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+	GRPDEV->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 }
 
 void CXZTile::Set_Buffer(TILE_SIDE eid)

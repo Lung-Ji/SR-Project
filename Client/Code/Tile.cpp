@@ -35,8 +35,8 @@ HRESULT Tile::Ready_GameObject() {
 	{
 		for (auto& iter : m_vecImage[i])
 		{
-			iter.vSize.x /= 256;			// 오류 뜨는데 한 번 확인해주세요
-			iter.vSize.y /= 256;
+			iter.vSize.x /= 200;			
+			iter.vSize.y /= 200;
 		}
 	}
 	return S_OK;
@@ -88,7 +88,9 @@ VOID Tile::Render_GameObject()
 		m_pBuffer->Render_Buffer();
 		break;
 	}
+	GRPDEV->SetTexture(0, nullptr);
 }
+
 void Tile::Mode_Change()
 {
 	if (KeyManager::GetInstance()->Get_KeyState(DIK_F9)) m_eMode = TILEMODE_CHANGE::MODE_END;
@@ -130,11 +132,13 @@ void Tile::Imgui_Setting()
 	_float fRotation(-180.f), fRotationMax(180);
 	_vec3 vSca = { 1.f,1.f,1.f };
 	_vec3 vRot = { 0.f,0.f,0.f };
-	
+	_int iCnt(0.f);
+	_int eid(0);
 	for (size_t i = 0; i < STATE_END ;++i)
 	{
 		for (auto iter : m_vecImage[i])
 		{
+
 			if (m_pTileName == iter.wstr->c_str())
 			{
 				vScale.x = iter.vSize.x;
@@ -153,6 +157,8 @@ void Tile::Imgui_Setting()
 		ImGui::SameLine(50.f, 0.f);//텍스트 오른쪽에
 		ImGui::SliderFloat3("##1", vScale, fMin, fMax); //scale 출력 ##하면 글자 다음으로 출력됨
 		m_pTransform->Set_Scale(vScale);
+		//m_vecImage[eid][iCnt].SetSize(vScale.x, vScale.y);
+
 
 		ImGui::Text("Rotation");
 		ImGui::SameLine(100.f, 0.f);

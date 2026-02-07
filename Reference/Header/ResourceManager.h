@@ -11,7 +11,7 @@ private:
 public:
 	HRESULT					GlobalImport_Texture(IDirect3DDevice9* _GRPDEV, wstring _MasterFolder);
 	HRESULT					PathFinder(IDirect3DDevice9* _GRPDEV, wstring _MasterFolder);
-	HRESULT					PathFinder_Tile(IDirect3DDevice9* _GRPDEV, wstring _MasterFolder);
+
 	IDirect3DBaseTexture9* Find_Texture(const TCHAR* _FileName);
 
 private:
