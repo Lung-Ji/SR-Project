@@ -44,11 +44,6 @@ INT	Player::Update_GameObject(const _float& _DT) {
 
 	_frameTick += _DT;
 
-	// 광윤 - KeyInput이란 함수에 넣었었는데 Merge하니까 다른 곳으로 옮겨졌어요,////////////////////
-	if (KEY_DOWN(DIK_1)) { PLAY_PLAYER_EFFECT_ONCE(PLAYER_SKILL::SKILL_1, 0.5f); }
-	if (KEY_DOWN(DIK_2)) { PLAY_PLAYER_EFFECT_ONCE(PLAYER_SKILL::SKILL_2, 0.5f); }
-	if (KEY_DOWN(DIK_3)) { PLAY_PLAYER_EFFECT_ONCE(PLAYER_SKILL::SKILL_3, 0.5f); }
-
 	switch (_pState)
 	{
 	case pState::STATE_IDLE:
@@ -69,6 +64,11 @@ INT	Player::Update_GameObject(const _float& _DT) {
 }
 VOID Player::LateUpdate_GameObject(const _float& _DT) {
 	GameObject::LateUpdate_GameObject(_DT);
+
+	// 광윤 - KeyInput이란 함수에 넣었었는데 Merge하니까 다른 곳으로 옮겨졌어요,////////////////////
+	if (KEY_DOWN(DIK_1)) { PLAY_PLAYER_EFFECT_ONCE(PLAYER_SKILL::SKILL_1, 0.5f); }
+	if (KEY_DOWN(DIK_2)) { PLAY_PLAYER_EFFECT_ONCE(PLAYER_SKILL::SKILL_2, 0.5f); }
+	if (KEY_DOWN(DIK_3)) { PLAY_PLAYER_EFFECT_ONCE(PLAYER_SKILL::SKILL_3, 0.5f); }
 }
 VOID Player::Render_GameObject() {
 	GRPDEV->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
