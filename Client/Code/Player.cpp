@@ -611,7 +611,7 @@ void Player::ATTACK_STATE(const _float& _DT)
 
 void Player::Idle_Final_Input(const _float& _DT)
 {
-	if (KEY_DOWN(DIK_LSHIFT)) {
+	if (MOUSE_RBUTTON) {
 		_pState = pState::STATE_DASH;
 		_dashStart = true;
 		_frame = 1;
