@@ -57,7 +57,7 @@ public:
     const _tchar*          Get_AnimationName(_uint iCnt) { return m_vecAnimationName[iCnt].c_str(); }
     TILE_STAGE             Get_TileStage()               { return m_eTileStage; }
     _vec3                  Get_NextPos()                 { return m_NextPos; }
-
+    _bool                  Set_PotalOpen()               { return m_bPortal; }
     void                   Set_TextureID(IDirect3DBaseTexture9* pTexture) { m_pTexture = pTexture; }
     
     IDirect3DBaseTexture9* Get_Texture()                    { return m_pTexture; }
@@ -72,6 +72,7 @@ private:
            
     vector<wstring>  m_vecAnimationName;
 private:
+    _bool                  m_bPortal;
     _vec3                  m_NextPos;
     _int                   m_iTileNumber;
     _int                   m_iTextureCount;

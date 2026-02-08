@@ -70,36 +70,14 @@ void CXZTile::Frame_Move(const FLOAT& _DT)
 
 	switch (m_pTileInfo->Get_TileStateName())
 	{
-	case TILE_STATE::STATE_ANIMATION:   //플레이어와 충돌 했고, 플레이어가 충돌한 상태에서 이동 했을때 true
-		if (m_bStopFrame)
-		{
-			m_fTime += _DT;					//지난 시간
-			if (m_fTime > 0.5f) //0.1초가 지나면
-			{
-				++m_fFrame;     //프레임 증가
-				m_fTime = 0.f;	//시간 초기화
-
-				if (m_fFrame >= (_float)m_pTileInfo->Get_TileTextureNumber() - 1.f)
-				{
-					m_fFrame = 1.f;
-					m_bStopFrame = false;;
-				}
-			}
-		}
-
+	case TILE_STATE::STATE_ANIMATION:  
+		Tile_Animation(_DT);
 		break;
 	case TILE_STATE::STATE_DESTORY: //플레이어 또는 몬스터 총알에 닿았을떄
-		if (m_bStopFrame)
-		{
-			// 애니메이션 터트린후 프레임 ++
-			// 현재 이미지 개수보다 크지 않을때 까지 이펙트 터트리고 카운트
-			if (!(m_fFrame >= m_pTileInfo->Get_TileTextureNumber() - 1))
-			{
-				++m_fFrame;
-				//이펙트;
-			}
-		}
-
+		Tile_Destory(_DT);
+		break;
+	case TILE_STATE::STATE_POTAL:
+		Tile_Potal(_DT);
 		break;
 	}
 	
@@ -107,16 +85,63 @@ void CXZTile::Frame_Move(const FLOAT& _DT)
 
 void CXZTile::Tile_Animation(const FLOAT& _DT)
 {
-}
+	//플레이어와 충돌 했고, 플레이어가 충돌한 상태에서 이동 했을때 true
+	Transform* pTransform = Crash_Player();
+	if (pTransform != nullptr)
+		m_bStopFrame = true;
 
+	if (m_bStopFrame)
+	{
+		m_fTime += _DT;					//지난 시간
+		if (m_fTime > 0.3f) //0.1초가 지나면
+		{
+			++m_fFrame;     //프레임 증가
+			m_fTime = 0.f;	//시간 초기화
+
+			if (m_fFrame >= (_float)m_pTileInfo->Get_TileTextureNumber() - 1.f)
+			{
+				m_fFrame = 1.f;
+				m_bStopFrame = false;
+			}
+		}
+	}
+
+
+}
 void CXZTile::Tile_Destory(const FLOAT& _DT)
 {
+	if (m_bStopFrame)
+	{
+		// 애니메이션 터트린후 프레임 ++
+		// 현재 이미지 개수보다 크지 않을때 까지 이펙트 터트리고 카운트
+		if (!(m_fFrame >= m_pTileInfo->Get_TileTextureNumber() - 1))
+		{
+			++m_fFrame;
+			//이펙트;
+		}
+	}
 }
-
 void CXZTile::Tile_Potal(const FLOAT& _DT)
 {
+	Transform*  pTransform = Crash_Player();
+
+		if(Crash_Player() != nullptr)
+			pTransform->Set_Pos(m_pTileInfo->Get_NextPos());
 }
 
+Transform* CXZTile::Crash_Player()
+{
+	_vec3 vPos{}, vTilePos{};
+	//플레이어와 부딪히면 다음 좌표로 이동
+	Transform* pPlayer = dynamic_cast<Transform*>(SceneManager::GetInstance()->Get_CurrentScene()->Get_GameObject(L"Player")->Get_Component(COMPONENT_TYPE::COMPONENT_TRANSFORM));
+
+	pPlayer->Get_Info(INFO_POS, &vPos);
+	m_pTransform->Get_Info(INFO_POS, &vTilePos);
+	if (vPos.x > vTilePos.x - 1 && vPos.x < vTilePos.x + 1 && vPos.z > vTilePos.z - 1 && vPos.z < vTilePos.z + 1)
+		return pPlayer;
+
+	return nullptr;
+}
 HRESULT CXZTile::Component_Initialize(TILE_SIDE eid, TILE_STATE eState) {
 
 	m_pTransform = ADD_COMPONENT_TRANSFORM;

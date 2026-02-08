@@ -235,7 +235,6 @@ void Tile::Imgui_Setting()
 		Imgui_Image("Stage_AinmationObject", TILE_STATE::STATE_ANIMATION);
 		Imgui_Image("Stage_DestoryObj", TILE_STATE::STATE_DESTORY);
 	}
-
 }
 void Tile::Imgui_Image(const char* tName, TILE_STATE eid)
 {
@@ -297,10 +296,10 @@ void Tile::Imgui_ModeChanger()
 					if (ImGui::Selectable(cTileMode[i], bSelect))
 					{
 						cSelect_Mode = cTileMode[i];
-						if (cSelect_Mode == cTileMode[0])      m_eMode = TILEMODE_CHANGE::MODE_TILE;
-						else if (cSelect_Mode == cTileMode[1]) m_eMode = TILEMODE_CHANGE::MODE_CUBE;
-						else if (cSelect_Mode == cTileMode[2]) m_eMode = TILEMODE_CHANGE::MODE_OBJECT;
-						else if (cSelect_Mode == cTileMode[3]) m_eMode = TILEMODE_CHANGE::MODE_END;
+						if		(!strcmp(cSelect_Mode, cTileMode[0])) m_eMode = TILEMODE_CHANGE::MODE_TILE;
+						else if (!strcmp(cSelect_Mode, cTileMode[1])) m_eMode = TILEMODE_CHANGE::MODE_CUBE;
+						else if (!strcmp(cSelect_Mode, cTileMode[2])) m_eMode = TILEMODE_CHANGE::MODE_OBJECT;
+						else if (!strcmp(cSelect_Mode, cTileMode[3])) m_eMode = TILEMODE_CHANGE::MODE_END;
 					}
 					if (bSelect)
 						ImGui::SetItemDefaultFocus();
@@ -323,10 +322,10 @@ void Tile::Imgui_ModeChanger()
 					if (ImGui::Selectable(cTile[i], bSelect))
 					{
 						cSelect_Tile = cTile[i];
-						if (cSelect_Tile == cTile[0]) m_eTile = TILE_SIDE::TILE_FRONT;
-						else if (cSelect_Tile == cTile[1]) m_eTile = TILE_SIDE::TILE_RIGHT;
-						else if (cSelect_Tile == cTile[2]) m_eTile = TILE_SIDE::TILE_LEFT;
-						else if (cSelect_Tile == cTile[3]) m_eTile = TILE_SIDE::TILE_OTHER;
+						if	    (!strcmp(cSelect_Tile, cTile[0])) m_eTile = TILE_SIDE::TILE_FRONT;
+						else if (!strcmp(cSelect_Tile, cTile[1])) m_eTile = TILE_SIDE::TILE_RIGHT;
+						else if (!strcmp(cSelect_Tile, cTile[2])) m_eTile = TILE_SIDE::TILE_LEFT;
+						else if (!strcmp(cSelect_Tile, cTile[3])) m_eTile = TILE_SIDE::TILE_OTHER;
 					}
 					if (bSelect)
 						ImGui::SetItemDefaultFocus();
@@ -348,17 +347,17 @@ void Tile::Imgui_ModeChanger()
 					if (ImGui::Selectable(cTileStage[i], bSelect))
 					{
 						cSelect_Stage = cTileStage[i];
-						if (cSelect_Stage == cTileStage[0])	   m_eStage =     TILE_STAGE::TILE_STAGE1;
-						else if (cSelect_Stage == cTileStage[1]) m_eStage = TILE_STAGE::TILE_STAGE2;
-						else if (cSelect_Stage == cTileStage[2]) m_eStage = TILE_STAGE::TILE_STAGE3;
-						else if (cSelect_Stage == cTileStage[3]) m_eStage = TILE_STAGE::TILE_STAGE4;
-						else if (cSelect_Stage == cTileStage[4]) m_eStage = TILE_STAGE::TILE_STAGE5;
-						else if (cSelect_Stage == cTileStage[5]) m_eStage = TILE_STAGE::TILE_STAGE6;
-						else if (cSelect_Stage == cTileStage[6]) m_eStage = TILE_STAGE::TILE_STAGE7;
-						else if (cSelect_Stage == cTileStage[7]) m_eStage = TILE_STAGE::TILE_STAGE8;
-						else if (cSelect_Stage == cTileStage[8]) m_eStage = TILE_STAGE::TILE_STAGE9;
-						else if (cSelect_Stage == cTileStage[9]) m_eStage = TILE_STAGE::TILE_STAGE10;
-						else if (cSelect_Stage == cTileStage[10]) m_eStage = TILE_STAGE::TILE_BOSS;
+						if      (!strcmp(cSelect_Stage, cTileStage[0]))	m_eStage = TILE_STAGE::TILE_STAGE1;
+						else if (!strcmp(cSelect_Stage, cTileStage[1])) m_eStage = TILE_STAGE::TILE_STAGE2;
+						else if (!strcmp(cSelect_Stage, cTileStage[2])) m_eStage = TILE_STAGE::TILE_STAGE3;
+						else if (!strcmp(cSelect_Stage, cTileStage[3])) m_eStage = TILE_STAGE::TILE_STAGE4;
+						else if (!strcmp(cSelect_Stage, cTileStage[4])) m_eStage = TILE_STAGE::TILE_STAGE5;
+						else if (!strcmp(cSelect_Stage, cTileStage[5])) m_eStage = TILE_STAGE::TILE_STAGE6;
+						else if (!strcmp(cSelect_Stage, cTileStage[6])) m_eStage = TILE_STAGE::TILE_STAGE7;
+						else if (!strcmp(cSelect_Stage, cTileStage[7])) m_eStage = TILE_STAGE::TILE_STAGE8;
+						else if (!strcmp(cSelect_Stage, cTileStage[8])) m_eStage = TILE_STAGE::TILE_STAGE9;
+						else if (!strcmp(cSelect_Stage, cTileStage[9])) m_eStage = TILE_STAGE::TILE_STAGE10;
+						else if (!strcmp(cSelect_Stage, cTileStage[10])) m_eStage = TILE_STAGE::TILE_BOSS;
 					}
 					if (bSelect)
 						ImGui::SetItemDefaultFocus();
@@ -380,12 +379,12 @@ void Tile::Imgui_ModeChanger()
 					if (ImGui::Selectable(cTileStater[i], bSelect))
 					{
 						cSelect_State = cTileStater[i];
-						if (cSelect_State == cTileStater[0])       m_eTileState = TILE_STATE::STATE_NORMAL;
-						else if (cSelect_State == cTileStater[1])  m_eTileState = TILE_STATE::STATE_COLLISION;
-						else if (cSelect_State == cTileStater[2])  m_eTileState = TILE_STATE::STATE_TRIGGER;
-						else if (cSelect_State == cTileStater[3])  m_eTileState = TILE_STATE::STATE_ANIMATION;
-						else if (cSelect_State == cTileStater[4])  m_eTileState = TILE_STATE::STATE_DESTORY;	
-						else if (cSelect_State == cTileStater[5])  m_eTileState = TILE_STATE::STATE_POTAL;
+						if      (!strcmp(cSelect_State, cTileStater[0]))  m_eTileState = TILE_STATE::STATE_NORMAL;
+						else if (!strcmp(cSelect_State, cTileStater[1]))  m_eTileState = TILE_STATE::STATE_COLLISION;
+						else if (!strcmp(cSelect_State, cTileStater[2]))  m_eTileState = TILE_STATE::STATE_TRIGGER;
+						else if (!strcmp(cSelect_State, cTileStater[3]))  m_eTileState = TILE_STATE::STATE_ANIMATION;
+						else if (!strcmp(cSelect_State, cTileStater[4]))  m_eTileState = TILE_STATE::STATE_DESTORY;	
+						else if (!strcmp(cSelect_State, cTileStater[5]))  m_eTileState = TILE_STATE::STATE_POTAL;
 					}
 					if (bSelect)
 						ImGui::SetItemDefaultFocus();
@@ -724,13 +723,18 @@ void Tile::Check_TilePoint()
 					switch (m_eMode)
 					{
 					case TILEMODE_CHANGE::MODE_TILE:
-						if (m_eTileState == STATE_ANIMATION || m_eTileState == STATE_DESTORY || m_eTileState == STATE_POTAL)
+						if (m_eTileState == STATE_ANIMATION || m_eTileState == STATE_DESTORY)
 						{
 							_int i(0);
 							Set_AnimationCount(&i);
 							  dynamic_cast<TileInfo*>(pTile->Get_Component(COMPONENT_TYPE::COMPONENT_TILEINFO))->Set_TileAnimaiton(m_pTileName, i, m_eTile, m_eTileState, m_eMode, (_int)vMouseCheck.z * VTXCNTX + (_int)vMouseCheck.x, m_vNextPos);
-						}else dynamic_cast<TileInfo*>(pTile->Get_Component(COMPONENT_TYPE::COMPONENT_TILEINFO))->Set_TileAll(m_pPathName,m_pTileName, m_eTile, m_eTileState, m_eMode, (_int)vMouseCheck.z * VTXCNTX + (_int)vMouseCheck.x), m_vNextPos;
-						
+						}
+						else
+						{
+							dynamic_cast<TileInfo*>(pTile->Get_Component(COMPONENT_TYPE::COMPONENT_TILEINFO))->Set_TileAll(m_pPathName, m_pTileName, m_eTile, m_eTileState, m_eMode, (_int)vMouseCheck.z * VTXCNTX + (_int)vMouseCheck.x, m_vNextPos);
+							dynamic_cast<TileInfo*>(pTile->Get_Component(COMPONENT_TYPE::COMPONENT_TILEINFO))
+								->Set_TextureID(ResourceManager::GetInstance()->Find_Texture(dynamic_cast<TileInfo*>(pTile->Get_Component(COMPONENT_TYPE::COMPONENT_TILEINFO))->Get_TileTextureName().c_str()));
+						}
 						dynamic_cast<Transform*>(pTile->Get_Component(COMPONENT_TYPE::COMPONENT_TRANSFORM))->Set_Scale(*m_pTransform->Get_Scale());
 						dynamic_cast<Transform*>(pTile->Get_Component(COMPONENT_TYPE::COMPONENT_TRANSFORM))->Set_Rotation(*m_pTransform->Get_Rotation());
 						TileManager::GetInstance()->Add_Tile(pTile, vMouseCheck, m_eStage, m_eMode, m_eTile);
@@ -793,7 +797,6 @@ void Tile::Check_Distance(_vec3 vMouse)
 	 else if (Src == fBack)
 		 m_eTile = TILE_SIDE::TILE_BACK;
 }
-
 Tile* Tile::Create(LPDIRECT3DDEVICE9 _GRPDEV) {
 	Tile* pTile = new Tile(_GRPDEV);
 

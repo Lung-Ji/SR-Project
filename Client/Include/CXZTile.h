@@ -21,7 +21,12 @@ public:
   
 public:
     void            Set_Buffer(TILE_SIDE eid);
-    void            Frame_Move(CONST FLOAT& _DT);
+    void            Frame_Move      (CONST FLOAT& _DT);
+    void            Tile_Animation  (CONST FLOAT& _DT);
+    void            Tile_Destory    (CONST FLOAT& _DT);
+    void            Tile_Potal      (CONST FLOAT& _DT);
+
+    Transform*       Crash_Player();
 private:
     HRESULT			Component_Initialize(TILE_SIDE eid, TILE_STATE eState);
     
