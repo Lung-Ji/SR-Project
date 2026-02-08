@@ -27,7 +27,8 @@ public:
     void                        Imgui_Setting();
     void                        Imgui_Image(const char* tName, TILE_STATE eid);
     void                        Imgui_ModeChanger();
-                            
+public:
+    void                        Set_AnimationCount(int* icnt);
 private:
     HRESULT                     Load_Image(const _tchar* pName, TILE_STATE eid);
     HRESULT                     LoadFile();
@@ -57,10 +58,13 @@ private:
 
 private:
     _vec3                        m_vOriginal;
+    _vec3                        m_vNextPos;
+    _vec3                        m_vMousePos;
 private:  
     TILE_SIDE                    m_eTile;
     TILE_STATE                   m_eTileState;
     TILEMODE_CHANGE              m_eMode;
+    TILE_STAGE                   m_eStage;
 public:
     static      Tile* Create(LPDIRECT3DDEVICE9 pGraphicDev);
    

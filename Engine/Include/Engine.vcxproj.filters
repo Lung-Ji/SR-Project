@@ -166,7 +166,7 @@
       <Filter>12. EffectManager</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\Collider.h">
-      <Filter>99. Component\06. Tile</Filter>
+      <Filter>99. Component\05. Collider</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

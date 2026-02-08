@@ -11,11 +11,12 @@ VOID RenderManager::Add_RenderGroup(RENDERID _RID, GameObject* _GOBJ) {
 	_GOBJ->AddRef();
 }
 VOID RenderManager::Render_GameObject(LPDIRECT3DDEVICE9& _GRPDEV) {
+
+	Render_TILE(_GRPDEV);
 	Render_Priority(_GRPDEV);
 	Render_NonAlpha(_GRPDEV);
 	Render_Alpha(_GRPDEV);
 	Render_UI(_GRPDEV);
-	Render_TILE(_GRPDEV);
 
 	Clear_RenderGroup();
 }
@@ -34,20 +35,21 @@ VOID RenderManager::Render_NonAlpha(LPDIRECT3DDEVICE9& _GRPDEV) {
 		_OBJ->Render_GameObject();
 }
 VOID RenderManager::Render_Alpha(LPDIRECT3DDEVICE9& _GRPDEV) {
-	_GRPDEV->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+	_GRPDEV->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 	_GRPDEV->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 	_GRPDEV->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	_GRPDEV->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
-	RenderGroup[RENDER_ALPHA].sort([](GameObject* DEST, GameObject* SRC)->bool
-		{
-			return DEST->Get_AlphaZValue() > SRC->Get_AlphaZValue();
-		});
+	//RenderGroup[RENDER_ALPHA].sort([](GameObject* DEST, GameObject* SRC)->bool
+	//	{
+	//		return DEST->Get_AlphaZValue() > SRC->Get_AlphaZValue();
+	//	});
+
 	for (auto& _OBJ : RenderGroup[RENDER_ALPHA])
 		_OBJ->Render_GameObject();
-	
+
 	_GRPDEV->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-	_GRPDEV->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+	_GRPDEV->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 }
 VOID RenderManager::Render_UI(LPDIRECT3DDEVICE9& _GRPDEV)	{
 	for (auto& _OBJ : RenderGroup[RENDER_UI])
@@ -59,13 +61,25 @@ VOID RenderManager::Render_TILE(LPDIRECT3DDEVICE9& _GRPDEV)
 	_GRPDEV->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 	_GRPDEV->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	_GRPDEV->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-	_GRPDEV->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+	
+	_GRPDEV->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 	_GRPDEV->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
+	_GRPDEV->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+	_GRPDEV->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+	_GRPDEV->SetRenderState(D3DRS_ALPHAREF, 0xc0);
+
+//	RenderGroup[RENDER_TILE].sort([](GameObject* pDst, GameObject* pSrc)->bool
+//	{
+//			return pDst->Get_AlphaZValue() > pSrc->Get_AlphaZValue();
+//	});
 	for (auto& _OBJ : RenderGroup[RENDER_TILE])
 		_OBJ->Render_GameObject();
 
-	_GRPDEV->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+	TileManager::GetInstance()->Render_TileList();
+
+	_GRPDEV->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+
 	_GRPDEV->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 	_GRPDEV->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 	return VOID();

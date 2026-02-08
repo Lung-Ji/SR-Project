@@ -1,7 +1,7 @@
 #include "TileInfo.h"
 
 TileInfo::TileInfo(LPDIRECT3DDEVICE9 _GRPDEV) : Component(_GRPDEV), m_iTileNumber(0),
-m_eTileState(TILE_STATE::STATE_END), m_eTileSide(TILE_SIDE::TILE_END), m_eTileMode(TILEMODE_CHANGE::MODE_END) {
+m_eTileState(TILE_STATE::STATE_END), m_iTextureCount(0), m_eTileSide(TILE_SIDE::TILE_END), m_eTileMode(TILEMODE_CHANGE::MODE_END) {
 }
 TileInfo::TileInfo(const TileInfo& _RHS) : Component(_RHS),  m_eTileSide(_RHS.m_eTileSide),
 m_eTileState(_RHS.m_eTileState), m_eTileMode(_RHS.m_eTileMode), m_pTileName(_RHS.m_pTileName), m_iTileNumber(_RHS.m_iTileNumber) {
