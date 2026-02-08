@@ -28,6 +28,7 @@ VOID	MainMenu::Render_GameObject() {
 HRESULT MainMenu::Component_Initialize(){
 	UIManager::GetInstance()->Import_UISprite(GRPDEV, Inventory, L"../../Resource/MainMenu/Spr_Tilte_Illustration.png", 1280, 720,0,0,TRUE, 255);
 
+	Component_Sprite->Import_Sprite(L"../../Resource/Extra/Example/Spr_Tilte_logo.png", L"Title", 100, 100, 400, 250, 100, TRUE);
 
 	return S_OK;
 }
