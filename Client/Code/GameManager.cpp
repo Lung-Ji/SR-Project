@@ -50,12 +50,12 @@ HRESULT GameManager::Ready_DefaultSetting() {
 }
 HRESULT GameManager::Ready_SceneSetting() {
 
-	//Scene* StartScene = StartScene::Create(GRPDEV);
-	Scene* MapScene = MapScene::Create(GRPDEV);
-	if (MapScene == nullptr)	return E_FAIL;
-	if (FAILED(SceneManager::GetInstance()->Scene_Transition(MapScene))) {
+	Scene* StartScene = StartScene::Create(GRPDEV);
+	//Scene* MapScene = MapScene::Create(GRPDEV);
+	if (StartScene == nullptr)	return E_FAIL;
+	if (FAILED(SceneManager::GetInstance()->Scene_Transition(StartScene))) {
 		MSG_BOX("Cannot Setting LogoScene.");
-		Safe_Release(MapScene);
+		Safe_Release(StartScene);
 		return E_FAIL;
 	}
 	return S_OK;
