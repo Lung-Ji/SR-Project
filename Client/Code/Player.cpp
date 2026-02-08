@@ -33,10 +33,14 @@ HRESULT Player::Ready_GameObject() {
 	Component_Transform->Rotation(ROT_X, 90.f - _cameraAngle);
 	Component_Transform->Set_Pos({ 5.f, 1.f, 5.f });
 
+	SceneManager::GetInstance()->Get_CurrentScene()->Add_GameObjectToScene<Bow>(LAYER_TYPE::LAYER_DYNAMIC_OBJECT, GAMEOBJECT_TYPE::OBJECT_PLAYER, L"Bow");
+	dynamic_cast<Bow*>(SceneManager::GetInstance()->Get_CurrentScene()->Get_GameObject(L"Bow"))->Set_PlayerPos(Component_Transform->Get_Position());
+	//_weaponSlot[0]->Set_PlayerPos(Component_Transform->Get_Position());
 	Debug = false;
 
 	return S_OK;
 }
+
 INT	Player::Update_GameObject(const _float& _DT) {
 	GameObject::Update_GameObject(_DT);
 	RenderManager::GetInstance()->Add_RenderGroup(RENDER_ALPHA, this);
@@ -61,8 +65,6 @@ INT	Player::Update_GameObject(const _float& _DT) {
 	default:
 		break;
 	}
-	
-
 	return 0;
 }
 VOID Player::LateUpdate_GameObject(const _float& _DT) {
@@ -498,7 +500,6 @@ void Player::IDLE_STATE(const _float& _DT)
 	}
 	///////////////////////////////////////////////////////////////////////////////////////////////
 }
-
 void Player::DASH_STATE(const _float& _DT)
 {
 	_vec3		upDir, rightDir;
@@ -604,7 +605,6 @@ void Player::DASH_STATE(const _float& _DT)
 	}
 		
 }
-
 void Player::ATTACK_STATE(const _float& _DT)
 {
 }
@@ -621,9 +621,6 @@ void Player::Idle_Final_Input(const _float& _DT)
 void Player::SetGrahpic()
 {
 	TCHAR FileName[128] = L"";
-
-	_vec3 size = { 0.44f, 1.f, 1.f };
-	size *= 1.2f;
 
 	switch (_eState)
 	{

@@ -112,6 +112,9 @@
     <Filter Include="03. GameObject\06. Effect\04. UIEffect">
       <UniqueIdentifier>{3d0f4b54-c5a7-4a58-8a72-32c6f6dc846f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. GameObject\01. Player\00. Weapon">
+      <UniqueIdentifier>{e6e37be2-21d9-4bae-9501-44337c752b3c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\GameManager.h">
@@ -240,6 +243,9 @@
     <ClInclude Include="..\Header\Monster_State.h">
       <Filter>03. GameObject\02. Monster</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\Bow.h">
+      <Filter>03. GameObject\01. Player\00. Weapon</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\GameManager.cpp">
@@ -349,6 +355,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\MonsterEffect.cpp">
       <Filter>03. GameObject\06. Effect\02. MonsterEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Bow.cpp">
+      <Filter>03. GameObject\01. Player\00. Weapon</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

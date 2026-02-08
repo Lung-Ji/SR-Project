@@ -1,5 +1,6 @@
 #pragma once
 #include "GameObject.h"
+#include "Bow.h"
 
 enum class pState
 {
@@ -104,13 +105,11 @@ private:
 	Collider*		Component_Collider;
 public:
 	static Player* Create(LPDIRECT3DDEVICE9 _GRPDEV);
+	float	Get_Speed() { return _speed; }
 private:
 	virtual VOID Free();
 
 private:
-
-	
-
 	D3DXVECTOR3			MousePicker_NonTarget(HWND _hWnd, Buffer* _TerrainBuffer, Transform* _TerrainTransform);
 	D3DXVECTOR3			RayOnTerrain();
 	D3DXVECTOR3			SetOnTerrain();
@@ -141,4 +140,8 @@ private:
 
 	float			_g;
 	float			_slideTime;
+
+	GameObject*			_inventory[8];
+	Bow*				_weaponSlot[4];
+	GameObject*			_artifactSlot[4];
 };
