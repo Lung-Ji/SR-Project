@@ -19,7 +19,8 @@ VOID SpriteObject::Render_Sprite() {
 	Sprite->Begin(D3DXSPRITE_ALPHABLEND);
 
 	for (auto& SPR : TextureList) {
-		Sprite->Draw(SPR.TEXTURE, NULL, NULL, &SPR.POS, D3DCOLOR_ARGB(SPR.OPACITY, 255, 255, 255));
+		if(SPR.VISIBLE == TRUE)
+			Sprite->Draw(SPR.TEXTURE, NULL, NULL, &SPR.POS, D3DCOLOR_ARGB(SPR.OPACITY, 255, 255, 255));
 	}
 
 	Sprite->End();
