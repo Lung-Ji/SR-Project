@@ -110,15 +110,28 @@ void CXZTile::Tile_Animation(const FLOAT& _DT)
 }
 void CXZTile::Tile_Destory(const FLOAT& _DT)
 {
-	if (m_bStopFrame)
+	_vec3 Pos;
+	m_pTransform->Get_Info(INFO_POS, &Pos);
+	Transform* pTransform = Crash_Player();
+	TileDestoryEffect* pEffect = nullptr;
+		m_bStopFrame = true;
+
+	if (m_bStopFrame && pTransform != nullptr)
 	{
 		// 애니메이션 터트린후 프레임 ++
 		// 현재 이미지 개수보다 크지 않을때 까지 이펙트 터트리고 카운트
+		
+		if (m_fFrame < 3)
+		{
+			EffectManager::GetInstance()->Append_Effect(EFFECT_OWNER::ENVIROMENT, TileDestoryEffect::Create(GRPDEV, OBJECT_DESTORY::STONE, 8, Pos));
+			
+		}
+			
 		if (!(m_fFrame >= m_pTileInfo->Get_TileTextureNumber() - 1))
 		{
 			++m_fFrame;
 			//이펙트;
-		}
+		}else m_bStopFrame = false;
 	}
 }
 void CXZTile::Tile_Potal(const FLOAT& _DT)

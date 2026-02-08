@@ -46,6 +46,7 @@
 #include "CXZTile.h"
 #include "MainMenuButton.h"
 #include "MainMenu.h"
+#include "TileDestoryEffect.h"
 //////////////////////////////////////////// Scene List
 
 #include "StartScene.h"

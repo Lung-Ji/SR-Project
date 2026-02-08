@@ -225,6 +225,9 @@
     <ClInclude Include="..\Header\Monster_State.h">
       <Filter>03. GameObject\02. Monster</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\TileDestoryEffect.h">
+      <Filter>03. GameObject\05. Tile</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\GameManager.cpp">
@@ -331,6 +334,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\Monster_State.cpp">
       <Filter>03. GameObject\02. Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\TileDestoryEffect.cpp">
+      <Filter>03. GameObject\05. Tile</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

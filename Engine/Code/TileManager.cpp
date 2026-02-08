@@ -9,7 +9,7 @@ TileManager::~TileManager()
 	Free();
 }
 
-HRESULT TileManager::Add_Tile(GameObject* pObject, _vec3 vPos, TILE_STAGE eStage, TILEMODE_CHANGE eMode, TILE_SIDE eSid)
+HRESULT TileManager::Add_Tile(GameObject* pObject, _vec3 vPos, TILE_STAGE eStage, TILEMODE_CHANGE eMode, TILE_SIDE eSid, _vec3 PivotHeight)
 {
 	
 	if (pObject == nullptr)
@@ -23,7 +23,7 @@ HRESULT TileManager::Add_Tile(GameObject* pObject, _vec3 vPos, TILE_STAGE eStage
 	if ( eSid != TILE_SIDE::TILE_OTHER)
 	{
 		_float fHeight(0.f);
-		fHeight = (pTransform->Get_Scale()->y) * 0.5f;
+		fHeight = (pTransform->Get_Scale()->y) * 0.5f + PivotHeight.y;
 		
 		pTransform->Set_Pos(vPos.x, fHeight, vPos.z);
 	}
@@ -49,10 +49,10 @@ void TileManager::Delete_Tile(_vec3 vPos, _vec3 Origin, _vec3 vDir)
 
 				memcpy(&InverseWorld, dynamic_cast<Transform*>((*iter)->Get_Component(Engine::COMPONENT_TYPE::COMPONENT_TRANSFORM))->Get_World(), sizeof(_matrix));
 
-				vTileLocalPos[0] = { -1.f, 1.f, -1.f }; //좌하단
-				vTileLocalPos[1] = { 1.f, 1.f, -1.f };  //우하단
-				vTileLocalPos[2] = { -1.f, 1.f,  1.f }; //좌상단
-				vTileLocalPos[3] = { 1.f, 1.f,  1.f };  //우상단
+				vTileLocalPos[0] = { -1.f, 0.f, -1.f }; //좌하단
+				vTileLocalPos[1] = { 1.f,  0.f, -1.f };  //우하단
+				vTileLocalPos[2] = { -1.f, 0.f,  1.f }; //좌상단
+				vTileLocalPos[3] = { 1.f,  0.f,  1.f };  //우상단
 
 				for (int i = 0; i < 4; ++i)
 					D3DXVec3TransformCoord(&vTileLocalPos[i], &vTileLocalPos[i], &InverseWorld);

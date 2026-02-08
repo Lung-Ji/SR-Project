@@ -200,6 +200,7 @@
     <ClInclude Include="..\Header\StartScene.h" />
     <ClInclude Include="..\Header\Terrain.h" />
     <ClInclude Include="..\Header\Tile.h" />
+    <ClInclude Include="..\Header\TileDestoryEffect.h" />
     <ClInclude Include="..\Header\UITest.h" />
     <ClInclude Include="..\Header\VillageScene.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
@@ -272,6 +273,7 @@
     <ClCompile Include="..\Code\StartScene.cpp" />
     <ClCompile Include="..\Code\Terrain.cpp" />
     <ClCompile Include="..\Code\Tile.cpp" />
+    <ClCompile Include="..\Code\TileDestoryEffect.cpp" />
     <ClCompile Include="..\Code\UITest.cpp" />
     <ClCompile Include="..\Code\VillageScene.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
