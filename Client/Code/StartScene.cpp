@@ -34,7 +34,7 @@ VOID StartScene::Render_Scene() {
 	//if (nullptr == GOBJ)					return E_FAIL;
 	//if (FAILED(LYR->Add_GameObject(GOBJ)))	return E_FAIL;
 	
-	return S_OK;
+	//return S_OK;
 
 }
 HRESULT StartScene::Ready_Enviroment_Layer() {
@@ -43,8 +43,9 @@ HRESULT StartScene::Ready_Enviroment_Layer() {
 }
 HRESULT StartScene::Ready_GameLogic_Layer() {
 	Add_GameObjectToScene<CameraObject>		(LAYER_TYPE::LAYER_DYNAMIC_OBJECT, GAMEOBJECT_TYPE::OBJECT_CAMERA , L"Camera"		);
-	Add_GameObjectToScene<Player>			(LAYER_TYPE::LAYER_DYNAMIC_OBJECT, GAMEOBJECT_TYPE::OBJECT_PLAYER , L"Player"		);
-	Add_GameObjectToScene<Monster1>			(LAYER_TYPE::LAYER_DYNAMIC_OBJECT, GAMEOBJECT_TYPE::OBJECT_MONSTER, L"Monster1"		);
+	Add_GameObjectToScene<Player>			(LAYER_TYPE::LAYER_DYNAMIC_OBJECT, GAMEOBJECT_TYPE::OBJECT_MONSTER, L"Player"		);
+	Add_GameObjectToScene<Bat>				(LAYER_TYPE::LAYER_DYNAMIC_OBJECT, GAMEOBJECT_TYPE::OBJECT_MONSTER, L"Bat");
+	Add_GameObjectToScene<Docheol>			(LAYER_TYPE::LAYER_DYNAMIC_OBJECT, GAMEOBJECT_TYPE::OBJECT_MONSTER, L"Docheol");
 	return S_OK;
 }
 HRESULT StartScene::Ready_UserInterface_Layer() {

@@ -1,18 +1,17 @@
-
 #include "../Include/PCH.h"
 
-Monster1::Monster1(LPDIRECT3DDEVICE9 _GRPDEV) : GameObject(_GRPDEV) {}
-Monster1::Monster1(const GameObject& _RHS) : GameObject(_RHS) {}
-Monster1::~Monster1() {}
+Bat::Bat(LPDIRECT3DDEVICE9 _GRPDEV) : GameObject(_GRPDEV) {}
+Bat::Bat(const GameObject& _RHS) : GameObject(_RHS) {}
+Bat::~Bat() {}
 
-HRESULT Monster1::Ready_GameObject() {
+HRESULT Bat::Ready_GameObject() {
 	if (FAILED(Component_Initialize())) return E_FAIL;
 
 	Component_Transform->Get_Info(INFO_LOOK, &vDir);
 
 	pTarget = nullptr;
 	pTargetPos = nullptr;
-	CurrState = MON1_IDLE;
+	CurrState = BAT_IDLE;
 	PrevState = CurrState;
 
 	Timer1 = 0.f;
@@ -23,34 +22,34 @@ HRESULT Monster1::Ready_GameObject() {
 
 	return S_OK;
 }
-INT	Monster1::Update_GameObject(const _float& _DT)
+INT	Bat::Update_GameObject(const _float& _DT)
 {
-	// <Ã‡ÃƒÂ·Â¹Ã€ÃŒÂ¾Ã® Â¾Ã·ÂµÂ¥Ã€ÃŒÃ†Â® Â½ÃƒÃÂ¡>
+	// <ÇÃ·¹ÀÌ¾î ¾÷µ¥ÀÌÆ® ½ÃÁ¡>
 	GameObject::Update_GameObject(_DT);
-	
+
 	_frameTick += _DT;
 
 	Set_Target(L"Player");
 
 	if (pTarget == nullptr)
 	{
-		Change_State(MON1_IDLE);
+		Change_State(BAT_IDLE);
 	}
 
 	switch (CurrState)
 	{
-	case MON1_IDLE:
+	case BAT_IDLE:
 		State_Idle();
 		break;
-	case MON1_TRACKING:
+	case BAT_TRACKING:
 		State_Tracking(_DT);
 		break;
-	case MON1_ATTACKING:
+	case BAT_ATTACKING:
 		State_Attacking(_DT);
 		break;
-	case MON1_Hit:
+	case BAT_Hit:
 		break;
-	case MON1_DEAD:
+	case BAT_DEAD:
 		break;
 	default:
 		break;
@@ -69,21 +68,19 @@ INT	Monster1::Update_GameObject(const _float& _DT)
 	RenderManager::GetInstance()->Add_RenderGroup(RENDER_ALPHA, this);
 	return 0;
 }
-VOID Monster1::LateUpdate_GameObject(const _float& _DT) {
+VOID Bat::LateUpdate_GameObject(const _float& _DT) {
 	GameObject::LateUpdate_GameObject(_DT);
+	RenderManager::Make_BillBoard(Component_Transform, GRPDEV);
 }
-VOID Monster1::Render_GameObject() {
+VOID Bat::Render_GameObject() {
 	GRPDEV->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
 	GRPDEV->SetTransform(D3DTS_WORLD, Component_Transform->Get_World());
 
-	//Component_Texture->Set_Texture(L"Monster1.png");
 	TCHAR FileName[128] = L"";
-	//strcat_s(FileName, sizeof(FileName), L"L");
 	wsprintfW(FileName, L"Bat_LF_0%d.png", _frame);
 
-	Component_Texture->Set_Texture(FileName);
-
+	GRPDEV->SetTexture(0, ResourceManager::GetInstance()->Find_Texture(FileName));
 	if (_frameTick > 0.1f)
 	{
 		if (++_frame > 6)
@@ -95,42 +92,37 @@ VOID Monster1::Render_GameObject() {
 
 	GRPDEV->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
-HRESULT Monster1::Component_Initialize() {
+HRESULT Bat::Component_Initialize() {
 
 	Component_Buffer = ADD_COMPONENT_RECTTEX;
 	Component_Transform = ADD_COMPONENT_TRANSFORM;
 
 	Component_Transform->Set_Pos(10.f, 1.f, 10.f);
 	Component_Transform->Set_Rotation(0.f, 0.f, 0.f);
-	Component_Transform->Set_Scale(1.f, 1.f, 1.f);
-
-	Component_Texture = ADD_COMPONENT_TEXTURE;
-	Component_Texture->Import_TextureFromFolder(L"../../Resource/Monster/Bat");
+	Component_Transform->Set_Scale(0.5f, 0.5f, 0.2f);
 
 	Component_Collider = ADD_COMPONENT_COLLIDER;
 	Component_Collider->Set_CenterPos(Component_Transform);
 
-	_vec3 vColliderScale = *Component_Transform->Get_Scale();
-	vColliderScale *= 0.3f;
-	Component_Collider->Set_Scale(vColliderScale.x, 1.f, vColliderScale.z);
+	Component_Collider->Set_Scale(0.2f, 0.2f, 0.2f);
 
 	return S_OK;
 }
-Monster1* Monster1::Create(LPDIRECT3DDEVICE9 _GRPDEV) {
-	Monster1* MST = new Monster1(_GRPDEV);
+Bat* Bat::Create(LPDIRECT3DDEVICE9 _GRPDEV) {
+	Bat* MST = new Bat(_GRPDEV);
 	if (FAILED(MST->Ready_GameObject())) {
-		MSG_BOX("Cannot Create Monster1.");
+		MSG_BOX("Cannot Create Bat.");
 		Safe_Release(MST);
 		return nullptr;
 	}
 	return MST;
 }
-VOID Monster1::Free() {
+VOID Bat::Free() {
 
 	GameObject::Free();
 }
 
-VOID Monster1::Set_Target(const TCHAR* _TAG)
+VOID Bat::Set_Target(const TCHAR* _TAG)
 {
 	pTarget = SceneManager::GetInstance()->Get_GameObject(_TAG);
 	if (pTarget != nullptr)
@@ -139,7 +131,7 @@ VOID Monster1::Set_Target(const TCHAR* _TAG)
 	}
 }
 
-VOID Monster1::Change_State(MONSTER1_STATE eState)
+VOID Bat::Change_State(BAT_STATE eState)
 {
 	PrevState = CurrState;
 	CurrState = eState;
@@ -148,7 +140,7 @@ VOID Monster1::Change_State(MONSTER1_STATE eState)
 	Timer2 = 0.f;
 }
 
-VOID Monster1::State_Idle()
+VOID Bat::State_Idle()
 {
 	Speed = 0.f;
 	Timer2 = 0.f;
@@ -158,19 +150,19 @@ VOID Monster1::State_Idle()
 	{
 		vDir = *POS(pTarget) - *MYPOS;
 		vDir.y = 0;
-		if (D3DXVec3Length(&vDir) < TRACKINGDIS)
+		if (D3DXVec3Length(&vDir) < BATTRACKINGDIS)
 		{
-			Change_State(MON1_TRACKING);
+			Change_State(BAT_TRACKING);
 		}
 	}
 }
 
-VOID Monster1::State_Tracking(const _float& _DT)
+VOID Bat::State_Tracking(const _float& _DT)
 {
 	Speed = Default_Speed;
 	vDir = *POS(pTarget) - *MYPOS;
 	vDir.y = 0;
-	if (D3DXVec3Length(&vDir) < TRACKINGDIS)
+	if (D3DXVec3Length(&vDir) < BATTRACKINGDIS)
 	{
 		Timer1 += _DT;
 		Timer2 = 0.f;
@@ -180,37 +172,25 @@ VOID Monster1::State_Tracking(const _float& _DT)
 		Timer2 += _DT;
 	}
 
-	_vec3	vLook;
-	Component_Transform->Get_Info(INFO_LOOK, &vLook);
-
-	D3DXVec3Normalize(&vLook, &vLook);
-	D3DXVec3Normalize(&vDir, &vDir);
-
-	_float fRadian = 0.f;
-	fRadian = acosf(D3DXVec3Dot(&vLook, &vDir));
-	FLOAT fAngle = D3DXToDegree(fRadian);
-	Component_Transform->Rotation(ROT_Y, fRadian);
-	//Component_Transform->Set_Rotation(0.f, fAngle, 0.f);
-
-	if (Timer1 >= TRACKINGMAX)
+	if (Timer1 >= BATTRACKINGMAX)
 	{
-		Change_State(MON1_ATTACKING);
+		Change_State(BAT_ATTACKING);
 	}
 
-	if (Timer2 >= TRACKINGMIN)
+	if (Timer2 >= BATTRACKINGMIN)
 	{
-		Change_State(MON1_IDLE);
+		Change_State(BAT_IDLE);
 	}
 }
 
-VOID Monster1::State_Attacking(const _float& _DT)
+VOID Bat::State_Attacking(const _float& _DT)
 {
 	Timer1 += _DT;
-	if (Timer1 < ATTACKREADY)
+	if (Timer1 < BATATTACKREADY)
 	{
 		Speed = 0;
 	}
-	else if (Timer1 < ATTACKEND)
+	else if (Timer1 < BATATTACKEND)
 	{
 		Speed = Default_Speed * 5;
 		Timer2 += _DT;
@@ -235,6 +215,6 @@ VOID Monster1::State_Attacking(const _float& _DT)
 	}
 	else
 	{
-		Change_State(MON1_IDLE);
+		Change_State(BAT_IDLE);
 	}
 }
