@@ -35,10 +35,14 @@
 #include "MonsterEffect.h"
 #include "NPC.h"
 
-#include "Monster_State.h"
+//#include "Monster_State.h"
 //#include "Monster.h"
-#include "Monster1.h"
-#include "BossMonster.h"
+//#include "Monster1.h"
+//#include "BossMonster.h"
+
+#include "MonsterTest.h"
+#include "Bat.h"
+
 #include "Bullet_Standard.h"
 
 #include "Player.h"
