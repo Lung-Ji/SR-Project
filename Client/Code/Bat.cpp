@@ -73,7 +73,7 @@ INT	Bat::Update_GameObject(const _float& _DT)
 }
 VOID Bat::LateUpdate_GameObject(const _float& _DT) {
 	GameObject::LateUpdate_GameObject(_DT);
-	RenderManager::Make_BillBoard(Component_Transform, GRPDEV);
+	//RenderManager::Make_BillBoard(Component_Transform, GRPDEV);
 }
 VOID Bat::Render_GameObject() {
 	GRPDEV->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
