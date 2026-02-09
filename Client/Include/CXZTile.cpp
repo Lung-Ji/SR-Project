@@ -1,9 +1,9 @@
 #include "CXZTile.h"
 #include "../Include/PCH.h"
 
-CXZTile::CXZTile(LPDIRECT3DDEVICE9 _GRPDEV) :m_CubeBuffer(nullptr), m_pCollider(nullptr), GameObject(_GRPDEV), m_fTime(0), m_fFrame(1), m_bStopFrame(false), m_pBuffer(nullptr), m_pTransform(nullptr), m_pTileInfo(nullptr) {}
+CXZTile::CXZTile(LPDIRECT3DDEVICE9 _GRPDEV) :m_CubeBuffer(nullptr), m_pCollider(nullptr), GameObject(_GRPDEV), m_fTime(0), m_fFrame(0), m_bStopFrame(false), m_pBuffer(nullptr), m_pTransform(nullptr), m_pTileInfo(nullptr) {}
 CXZTile::CXZTile(const GameObject& _RHS) : GameObject(_RHS) {}
-CXZTile::~CXZTile() { Free(); }
+CXZTile::~CXZTile() {  }
 
 HRESULT CXZTile::Ready_GameObject(TILE_SIDE eid, TILE_STATE eState) {
 
@@ -87,7 +87,8 @@ void CXZTile::Tile_Animation(const FLOAT& _DT)
 {
 	//플레이어와 충돌 했고, 플레이어가 충돌한 상태에서 이동 했을때 true
 	Transform* pTransform = Crash_Player();
-	if (pTransform != nullptr)
+	Player* pPlayer = dynamic_cast<Player*>(SceneManager::GetInstance()->Get_CurrentScene()->Get_GameObject(L"Player"));
+	if (pTransform != nullptr && pPlayer->Get_Speed() != 0)
 		m_bStopFrame = true;
 
 	if (m_bStopFrame)
@@ -100,7 +101,7 @@ void CXZTile::Tile_Animation(const FLOAT& _DT)
 
 			if (m_fFrame >= (_float)m_pTileInfo->Get_TileTextureNumber() - 1.f)
 			{
-				m_fFrame = 1.f;
+				m_fFrame = 0;
 				m_bStopFrame = false;
 			}
 		}
@@ -110,8 +111,12 @@ void CXZTile::Tile_Animation(const FLOAT& _DT)
 }
 void CXZTile::Tile_Destory(const FLOAT& _DT)
 {
-	_vec3 Pos;
-	m_pTransform->Get_Info(INFO_POS, &Pos);
+	_vec3 Pos, Scale, Rot;
+	if (m_fFrame == m_pTileInfo->Get_TileTextureNumber() - 1)
+		return;
+	m_pTransform->Get_Info(INFO_POS, &Pos);	
+	Scale = *m_pTransform->Get_Scale();
+	Rot   = *m_pTransform->Get_Rotation();
 	Transform* pTransform = Crash_Player();
 	TileDestoryEffect* pEffect = nullptr;
 		m_bStopFrame = true;
@@ -120,18 +125,19 @@ void CXZTile::Tile_Destory(const FLOAT& _DT)
 	{
 		// 애니메이션 터트린후 프레임 ++
 		// 현재 이미지 개수보다 크지 않을때 까지 이펙트 터트리고 카운트
-		
-		if (m_fFrame < 3)
-		{
-			EffectManager::GetInstance()->Append_Effect(EFFECT_OWNER::ENVIROMENT, TileDestoryEffect::Create(GRPDEV, OBJECT_DESTORY::STONE, 8, Pos));
-			
-		}
+			EffectManager::GetInstance()->Append_Effect(EFFECT_OWNER::ENVIROMENT, TileDestoryEffect::Create(GRPDEV, OBJECT_DESTORY::STONE, 8, Pos,Scale,Rot));
 			
 		if (!(m_fFrame >= m_pTileInfo->Get_TileTextureNumber() - 1))
 		{
 			++m_fFrame;
 			//이펙트;
-		}else m_bStopFrame = false;
+		}
+		else
+		{
+
+			m_bStopFrame = false;
+		}
+			
 	}
 }
 void CXZTile::Tile_Potal(const FLOAT& _DT)

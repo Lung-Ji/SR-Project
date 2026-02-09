@@ -38,7 +38,7 @@ public:
         m_eTileMode = eMode;
         m_iTileNumber = iTileNumber;
         m_NextPos = vNext;
-        for (int i = 0; i < iCnt; ++i)
+        for (int i = 1; i < iCnt +1; ++i)
         {
             TCHAR   Name[128] = L"";
             wsprintf(Name, m_pTileName.c_str(), i);
@@ -58,7 +58,16 @@ public:
     TILE_STAGE             Get_TileStage()               { return m_eTileStage; }
     _vec3                  Get_NextPos()                 { return m_NextPos; }
     _bool                  Set_PotalOpen()               { return m_bPortal; }
-    void                   Set_TextureID(IDirect3DBaseTexture9* pTexture) { m_pTexture = pTexture; }
+    void                   Set_TextureID(IDirect3DBaseTexture9* pTexture) { 
+        
+        auto iter = pTexture;
+        
+        if (iter != nullptr)
+        {
+            iter->AddRef();
+            m_pTexture = iter;
+        }
+    }
     
     IDirect3DBaseTexture9* Get_Texture()                    { return m_pTexture; }
 private:
