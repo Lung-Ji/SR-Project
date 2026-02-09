@@ -258,9 +258,6 @@
     <ClInclude Include="..\Header\Monster1.h">
       <Filter>03. GameObject\02. Monster\00. BaseMonster</Filter>
     </ClInclude>
-    <ClInclude Include="BossMonster.h">
-      <Filter>03. GameObject\02. Monster\99. TrashBin</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\Docheol.h">
       <Filter>03. GameObject\02. Monster\01. Boss\01. Docheol</Filter>
     </ClInclude>
@@ -391,9 +388,6 @@
     </ClCompile>
     <ClCompile Include="..\Code\Monster1.cpp">
       <Filter>03. GameObject\02. Monster\00. BaseMonster</Filter>
-    </ClCompile>
-    <ClCompile Include="BossMonster.cpp">
-      <Filter>03. GameObject\02. Monster\99. TrashBin</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Docheol.cpp">
       <Filter>03. GameObject\02. Monster\01. Boss\01. Docheol</Filter>
