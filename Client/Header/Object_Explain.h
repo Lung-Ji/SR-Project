@@ -1,12 +1,12 @@
 #pragma once
-#include "GameObject.h"
-#include "PlayerEquipMent.h"
+#include"GameObject.h"
 
-class PlayerInven :  public GameObject
+class Object_Explain : public GameObject
 {
-	explicit PlayerInven(LPDIRECT3DDEVICE9 _GRPDEV);
-	explicit PlayerInven(CONST GameObject& _RHS);
-	virtual ~PlayerInven();
+private:
+	explicit Object_Explain(LPDIRECT3DDEVICE9 _GRPDEV);
+	explicit Object_Explain(CONST GameObject& _RHS);
+	virtual ~Object_Explain();
 
 public:
 	virtual	HRESULT		Ready_GameObject();
@@ -16,12 +16,14 @@ public:
 
 public:
 	HRESULT Component_Initialize();
-	static	PlayerInven* Create(LPDIRECT3DDEVICE9 _GRPDEV);
-	HRESULT Sprite_Initialize();
+	static	Object_Explain* Create(LPDIRECT3DDEVICE9 _GRPDEV);
 
 private:
 	SpriteObject* Component_Sprite;
-		
+	Texture* Component_Texture;
+
 private:
 	virtual	VOID		Free();
+
 };
+

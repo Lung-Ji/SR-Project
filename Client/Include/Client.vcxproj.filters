@@ -61,9 +61,6 @@
     <Filter Include="05. IMGUI\00. EditorManager\01. MainEditor">
       <UniqueIdentifier>{8cf53df0-31fa-4206-aadb-5844248c3097}</UniqueIdentifier>
     </Filter>
-    <Filter Include="04. UI\01. Sprite">
-      <UniqueIdentifier>{c5ddb37a-c839-4e15-9417-7076814467ab}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03. GameObject\02. Monster\00. BaseMonster">
       <UniqueIdentifier>{d89099c6-b41c-429d-9f19-ec84a84cb870}</UniqueIdentifier>
     </Filter>
@@ -72,9 +69,6 @@
     </Filter>
     <Filter Include="03. GameObject\02. Monster\02. Monster1">
       <UniqueIdentifier>{6d746460-77e9-4f41-ba5d-78fa66467052}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="04. UI\01. Sprite\MainMenu">
-      <UniqueIdentifier>{5aecb6cf-f877-4f39-8fe8-44da2610ab28}</UniqueIdentifier>
     </Filter>
     <Filter Include="02. Scene\99. UITest">
       <UniqueIdentifier>{3d87992a-1f5e-4047-b98a-ef2dc5d8e336}</UniqueIdentifier>
@@ -124,7 +118,13 @@
     <Filter Include="03. GameObject\06. Effect\03. EnvEffect">
       <UniqueIdentifier>{67951d9e-7d40-478f-8302-55c93ba9b870}</UniqueIdentifier>
     </Filter>
-    <Filter Include="04. UI\01. Sprite\MainMenu\08. Inventory">
+    <Filter Include="04. UI\01. MainUI">
+      <UniqueIdentifier>{c5ddb37a-c839-4e15-9417-7076814467ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. UI\01. MainUI\MainMenuUI">
+      <UniqueIdentifier>{5aecb6cf-f877-4f39-8fe8-44da2610ab28}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. UI\01. MainUI\InventoryUI">
       <UniqueIdentifier>{9a0e251d-3851-4318-b454-5525a5729ca9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -214,19 +214,19 @@
       <Filter>03. GameObject\05. Tile</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\MainMenuButton.h">
-      <Filter>04. UI\01. Sprite\MainMenu</Filter>
+      <Filter>04. UI\01. MainUI\MainMenuUI</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\MainUI.h">
-      <Filter>04. UI\01. Sprite\MainMenu</Filter>
+      <Filter>04. UI\01. MainUI\MainMenuUI</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\MainMenu.h">
-      <Filter>04. UI\01. Sprite\MainMenu</Filter>
+      <Filter>04. UI\01. MainUI\MainMenuUI</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\UITest.h">
       <Filter>02. Scene\99. UITest</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\MainMenuLogo.h">
-      <Filter>04. UI\01. Sprite\MainMenu</Filter>
+      <Filter>04. UI\01. MainUI\MainMenuUI</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\DebugScene.h">
       <Filter>02. Scene\99. DebugScene</Filter>
@@ -277,7 +277,13 @@
       <Filter>03. GameObject\05. Tile</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\PlayerInven.h">
-      <Filter>04. UI\01. Sprite\MainMenu</Filter>
+      <Filter>04. UI\01. MainUI\InventoryUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\PlayerEquipMent.h">
+      <Filter>04. UI\01. MainUI\InventoryUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Object_Explain.h">
+      <Filter>04. UI\01. MainUI\InventoryUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -348,19 +354,19 @@
       <Filter>03. GameObject\05. Tile</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\MainMenuButton.cpp">
-      <Filter>04. UI\01. Sprite\MainMenu</Filter>
+      <Filter>04. UI\01. MainUI\MainMenuUI</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\MainUI.cpp">
-      <Filter>04. UI\01. Sprite\MainMenu</Filter>
+      <Filter>04. UI\01. MainUI\MainMenuUI</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\MainMenu.cpp">
-      <Filter>04. UI\01. Sprite\MainMenu</Filter>
+      <Filter>04. UI\01. MainUI\MainMenuUI</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\UITest.cpp">
       <Filter>02. Scene\99. UITest</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\MainMenuLogo.cpp">
-      <Filter>04. UI\01. Sprite\MainMenu</Filter>
+      <Filter>04. UI\01. MainUI\MainMenuUI</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\DebugScene.cpp">
       <Filter>02. Scene\99. DebugScene</Filter>
@@ -414,7 +420,13 @@
       <Filter>03. GameObject\05. Tile</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\PlayerInven.cpp">
-      <Filter>04. UI\01. Sprite\MainMenu</Filter>
+      <Filter>04. UI\01. MainUI\InventoryUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\PlayerEquipMent.cpp">
+      <Filter>04. UI\01. MainUI\InventoryUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Object_Explain.cpp">
+      <Filter>04. UI\01. MainUI\InventoryUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

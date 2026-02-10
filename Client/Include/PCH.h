@@ -35,7 +35,7 @@
 #include "MonsterEffect.h"
 #include "UIEffect.h"
 #include "NPC.h"
-
+#include "Object_Explain.h"
 //#include "Monster_State.h"
 //#include "Monster1.h"
 //#include "BossMonster.h"
