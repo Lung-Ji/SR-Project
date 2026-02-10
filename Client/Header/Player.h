@@ -118,6 +118,7 @@ private:
 	void			DASH_STATE(const _float& _DT);
 	void			ATTACK_STATE(const _float& _DT);
 	void			Idle_Final_Input(const _float& _DT);
+
 	void			SetGrahpic();
 	void			Anim(TCHAR FileName[128], float delay, int maxIdx, bool reverse = false);
 	void			Set_Effect(const _float& _DT);
@@ -143,7 +144,7 @@ private:
 	float			_slideTime;
 
 	_vec3			_pulsepos;
-	float			_pulseDelay;
+	float			_attackDelay;
 
 	GameObject*			_inventory[8];
 	Bow*				_weaponSlot[4];

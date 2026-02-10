@@ -18,6 +18,8 @@ HRESULT Bow::Ready_GameObject()
 	_cameraAngle = acosf(D3DXVec3Dot(D3DXVec3Normalize(&_cameraDir, &_cameraDir), D3DXVec3Normalize(&planeDir, &planeDir)));
 	_cameraAngle = _cameraAngle / D3DX_PI * 180.f;
 
+	_alphaRatio = 0.f;
+
 	Component_Transform->Set_Scale({ 1.f, 1.f, 1.f });
 	_type = BowType::IceBow;
 
@@ -28,6 +30,23 @@ INT Bow::Update_GameObject(const _float& _DT)
 {
 	GameObject::Update_GameObject(_DT);
 	RenderManager::GetInstance()->Add_RenderGroup(RENDER_ALPHA, this);
+
+	float alphaSpeed = 2.f;
+
+	bool mouseLB = KeyManager::GetInstance()->Get_MouseState(DIM_LB) & 0x80;
+	if (mouseLB) {
+		if (_alphaRatio < 1.f)
+			_alphaRatio += _DT * alphaSpeed;
+		if (_alphaRatio > 1.f)
+			_alphaRatio = 1.f;
+	}
+	else
+	{
+		if (_alphaRatio > 0.f)
+			_alphaRatio -= _DT * alphaSpeed;
+		if (_alphaRatio < 0.f)
+			_alphaRatio = 0.f;
+	}
 
 	POINT MousePoint{ 0, 0 };
 	GetCursorPos(&MousePoint);
@@ -97,6 +116,10 @@ VOID Bow::Render_GameObject()
 
 	GRPDEV->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 
+	// ÃÊ±âÈ­
+	GRPDEV->SetRenderState(D3DRS_TEXTUREFACTOR, 0xFFFFFFFF);
+	GRPDEV->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+	GRPDEV->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 	return VOID();
 }
 
@@ -126,7 +149,26 @@ void Bow::SetGrahpic()
 		break;
 	}
 
+	DWORD tfactor = D3DCOLOR_ARGB(
+		(BYTE)(_alphaRatio * 255.f),
+		255, 255, 255
+	);
+
+	GRPDEV->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+	GRPDEV->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+	GRPDEV->SetRenderState(D3DRS_TEXTUREFACTOR, tfactor);
+
 	Component_Texture->Set_Texture(FileName);
+	
+	// COLOR = Texture * TFACTOR
+	GRPDEV->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE);
+	GRPDEV->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+	GRPDEV->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_TFACTOR);
+
+	// ALPHA = TextureAlpha * TFACTORAlpha
+	GRPDEV->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
+	GRPDEV->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
+	GRPDEV->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_TFACTOR);
 }
 
 Bow* Bow::Create(LPDIRECT3DDEVICE9 _GRPDEV)

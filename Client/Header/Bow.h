@@ -39,9 +39,11 @@ private:
 	virtual VOID Free();
 private:
 	_vec3* _playerPos;
-	float _motionDelay;
-	BowType _type;
 	_float _cameraAngle;
 	_vec3 _cameraDir;
+private:
+	BowType _type;
+	float _motionDelay;
+	float _alphaRatio;
 };
 

@@ -276,7 +276,9 @@
     <ClInclude Include="..\Header\TileDestoryEffect.h">
       <Filter>03. GameObject\05. Tile</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\Arrow.h" />
+    <ClInclude Include="..\Header\Arrow.h">
+      <Filter>03. GameObject\01. Player\01. Arrow</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\GameManager.cpp">
@@ -411,7 +413,9 @@
     <ClCompile Include="..\Code\TileDestoryEffect.cpp">
       <Filter>03. GameObject\05. Tile</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\Arrow.cpp" />
+    <ClCompile Include="..\Code\Arrow.cpp">
+      <Filter>03. GameObject\01. Player\01. Arrow</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="small.ico">

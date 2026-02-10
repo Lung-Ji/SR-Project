@@ -38,7 +38,6 @@ protected:
 	ULONG						IndexSize;
 	D3DFORMAT					IndexFormat;
 
-
 	_vec3*						pVBufferPos; //버퍼 인덱스 담는 용도
 public:
 	static		Buffer* Create(LPDIRECT3DDEVICE9 _GRPDEV, BUFFER_TYPE _TYPE);

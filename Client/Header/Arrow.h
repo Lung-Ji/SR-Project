@@ -2,7 +2,8 @@
 #include "GameObject.h"
 
 enum class ArrowType {
-	IceArrow,
+	IceArrow_LV1,
+	IceArrow_LV2,
 
 	End
 };
@@ -35,5 +36,8 @@ public:
 	static Arrow* Create(LPDIRECT3DDEVICE9 _GRPDEV);
 private:
 	virtual VOID Free();
+
+private:
+	ArrowType _type;
 };
 
