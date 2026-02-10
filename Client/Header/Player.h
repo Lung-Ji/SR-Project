@@ -145,6 +145,7 @@ private:
 
 	_vec3			_pulsepos;
 	float			_attackDelay;
+	float			_arrowCount;
 
 	GameObject*			_inventory[8];
 	Bow*				_weaponSlot[4];

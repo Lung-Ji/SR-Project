@@ -16,7 +16,7 @@ private:
 	virtual ~Arrow();
 
 public:
-	virtual			HRESULT		Ready_GameObject();
+	virtual			HRESULT		Ready_GameObject(ArrowType _ARROWTYPE, _vec3* _PlayerPOS);
 	virtual			INT			Update_GameObject(const _float& _DT);
 	virtual			VOID		LateUpdate_GameObject(const _float& _DT);
 	virtual			VOID		Render_GameObject();
@@ -33,11 +33,14 @@ private:
 	ID3DXSprite* g_pSprite = NULL;   // 스프라이트 객체
 
 public:
-	static Arrow* Create(LPDIRECT3DDEVICE9 _GRPDEV);
+	static Arrow* Create(LPDIRECT3DDEVICE9 _GRPDEV, ArrowType _ARROWTYPE, _vec3* _PlayerPOS);
 private:
 	virtual VOID Free();
 
 private:
-	ArrowType _type;
+	ArrowType	_type;
+
+	_vec3* _playerPos;
+	float		_speed;
 };
 

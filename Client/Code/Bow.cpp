@@ -31,7 +31,7 @@ INT Bow::Update_GameObject(const _float& _DT)
 	GameObject::Update_GameObject(_DT);
 	RenderManager::GetInstance()->Add_RenderGroup(RENDER_ALPHA, this);
 
-	float alphaSpeed = 2.f;
+	float alphaSpeed = 2.5f;
 
 	bool mouseLB = KeyManager::GetInstance()->Get_MouseState(DIM_LB) & 0x80;
 	if (mouseLB) {

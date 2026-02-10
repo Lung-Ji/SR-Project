@@ -19,6 +19,7 @@ HRESULT Player::Ready_GameObject() {
 	_slideTime			= 0.f;
 	_g					= 30.f;
 	_frame				= 1;
+	_arrowCount = 0;
 
 	CameraObject* Camera = dynamic_cast<CameraObject*>(SceneManager::GetInstance()->Get_CurrentScene()->
 		Get_GameObject(L"Camera"));
@@ -427,6 +428,19 @@ void Player::ATTACK_STATE(const _float& _DT)
 		_pulsepos = { playerPos->x + offsetX , playerPos->y, playerPos->z - offsetY };
 
 		PLAY_PLAYER_EFFECT(PLAYER_SKILL::ICEARROW_PULSE, &_pulsepos, 0.2f);
+
+		{
+			GameObject* arrow = Arrow::Create(GRPDEV, ArrowType::IceArrow_LV1, &_pulsepos);
+
+			TCHAR arrowTag[128] = L"";
+			wsprintfW(arrowTag, L"PlayerArrow_%d", _arrowCount);
+
+			arrow->Set_ObjectTag(arrowTag);
+			arrow->Set_ObjectType(GAMEOBJECT_TYPE::OBJECT_PLAYER);
+
+			SceneManager::GetInstance()->Get_CurrentScene()->Get_Layer(LAYER_TYPE::LAYER_DYNAMIC_OBJECT)->Add_GameObject(arrow);
+		}
+
 		_attackDelay = 0.f;
 	}
 
