@@ -74,8 +74,11 @@ INT	Bat::Update_GameObject(const _float& _DT)
 }
 VOID Bat::LateUpdate_GameObject(const _float& _DT) {
 	GameObject::LateUpdate_GameObject(_DT);
-
-	RenderManager::Make_BillBoard(Component_Transform, GRPDEV);
+	
+	_matrix World = *Component_Transform->Get_World();
+	_matrix BillBoard = RenderManager::Make_BillBoardMatrix(World, GRPDEV);
+	World = BillBoard * World;
+	Component_Transform->Set_World(&World);
 	if (_frameTick > 0.1f)
 	{
 		_frameTick = 0.f;
@@ -107,6 +110,7 @@ VOID Bat::Render_GameObject() {
 	//TCHAR FileName[128] = L"";
 	//wsprintfW(FileName, L"Bat_LF_0%d.png", _frame);
 	//GRPDEV->SetTexture(0, ResourceManager::GetInstance()->Find_Texture(FileName));
+
 	GRPDEV->SetTexture(0, _vecTexture[_frame]);
 
 	Component_Buffer->Render_Buffer();

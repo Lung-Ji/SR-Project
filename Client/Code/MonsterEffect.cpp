@@ -74,7 +74,10 @@ INT  MonsterEffect::Update_GameObject(CONST FLOAT& _DT) {
 VOID MonsterEffect::LateUpdate_GameObject(CONST FLOAT& _DT) {
 	if (ObjectDead)	return;
 
-	RenderManager::Make_BillBoard(Component_Transform, GRPDEV);
+	_matrix World = *Component_Transform->Get_World();
+	_matrix BillBoard = RenderManager::Make_BillBoardMatrix(World, GRPDEV);
+	World *= BillBoard;
+	Component_Transform->Set_World(&World);
 
 	if (FrameTick > PlayTime / ENDFRAME) {
 		if (TextureIndex++ >= ENDFRAME - 2) {

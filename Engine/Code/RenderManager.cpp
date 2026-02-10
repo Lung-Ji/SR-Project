@@ -93,11 +93,11 @@ VOID	RenderManager::Free() {
 	Clear_RenderGroup();
 }
 
-VOID RenderManager::Make_BillBoard(Transform* Component_Transform, LPDIRECT3DDEVICE9 _GRPDEV, ROTATION eFix)
+_matrix RenderManager::Make_BillBoardMatrix(_matrix Src, LPDIRECT3DDEVICE9 _GRPDEV, ROTATION eFix)
 {
 	_matrix		matBill, matWorld, matView;
 
-	matWorld = *Component_Transform->Get_World();
+	matWorld = Src;
 	_GRPDEV->GetTransform(D3DTS_VIEW, &matView);
 
 	D3DXMatrixIdentity(&matBill);
@@ -140,8 +140,6 @@ VOID RenderManager::Make_BillBoard(Transform* Component_Transform, LPDIRECT3DDEV
 	}
 
 	D3DXMatrixInverse(&matBill, 0, &matBill);
-
-	matWorld = matBill * matWorld;
-
-	Component_Transform->Set_World(&matWorld);
+	
+	return matBill;
 }
