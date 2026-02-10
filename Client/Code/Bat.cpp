@@ -24,6 +24,7 @@ HRESULT Bat::Ready_GameObject() {
 }
 INT	Bat::Update_GameObject(const _float& _DT)
 {
+	_Endframe = Monster::Set_TextureList(L"Spr_Monster_BlueBat", &_vecTexture);
 	// <플레이어 업데이트 시점>
 	GameObject::Update_GameObject(_DT);
 
@@ -73,24 +74,41 @@ INT	Bat::Update_GameObject(const _float& _DT)
 }
 VOID Bat::LateUpdate_GameObject(const _float& _DT) {
 	GameObject::LateUpdate_GameObject(_DT);
+
 	RenderManager::Make_BillBoard(Component_Transform, GRPDEV);
+	if (_frameTick > 0.1f)
+	{
+		_frameTick = 0.f;
+		++_frame %= _Endframe / 2;
+	}
+
+	if(fabsf(vDir.z)>0.1f)
+		if (vDir.z > 0.f)
+			if (_frame < _Endframe / 2)
+				_frame += _Endframe / 2;
+
+	if (vDir.x < -0.1f)
+	{
+		if (Component_Transform->Get_Scale()->x < 0)
+			Component_Transform->Get_Scale()->x *= -1.f;
+	}
+	else if (vDir.x > 0.1f)
+	{
+		if (Component_Transform->Get_Scale()->x > 0)
+			Component_Transform->Get_Scale()->x *= -1.f;
+	}
+
 }
 VOID Bat::Render_GameObject() {
 	GRPDEV->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
 	GRPDEV->SetTransform(D3DTS_WORLD, Component_Transform->Get_World());
 
-	TCHAR FileName[128] = L"";
-	wsprintfW(FileName, L"Bat_LF_0%d.png", _frame);
+	//TCHAR FileName[128] = L"";
+	//wsprintfW(FileName, L"Bat_LF_0%d.png", _frame);
+	//GRPDEV->SetTexture(0, ResourceManager::GetInstance()->Find_Texture(FileName));
+	GRPDEV->SetTexture(0, _vecTexture[_frame]);
 
-	GRPDEV->SetTexture(0, ResourceManager::GetInstance()->Find_Texture(FileName));
-	if (_frameTick > 0.1f)
-	{
-		if (++_frame > 6)
-			_frame = 1;
-
-		_frameTick = 0.f;
-	}
 	Component_Buffer->Render_Buffer();
 
 	GRPDEV->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
@@ -102,7 +120,7 @@ HRESULT Bat::Component_Initialize() {
 
 	Component_Transform->Set_Pos(10.f, 1.f, 10.f);
 	Component_Transform->Set_Rotation(0.f, 0.f, 0.f);
-	Component_Transform->Set_Scale(0.5f, 0.5f, 0.2f);
+	Component_Transform->Set_Scale(2.f, 1.f, 1.f);
 
 	Component_Collider = ADD_COMPONENT_COLLIDER;
 	Component_Collider->Set_CenterPos(Component_Transform);

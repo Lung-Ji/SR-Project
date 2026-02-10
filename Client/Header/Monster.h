@@ -4,6 +4,8 @@
 #define POS(GAMEOBJECT)			static_cast<Transform*>(GAMEOBJECT->Get_Component(COMPONENT_TYPE::COMPONENT_TRANSFORM))->Get_Position()
 #define ROTATION(GAMEOBJECT)	static_cast<Transform*>(GAMEOBJECT->Get_Component(COMPONENT_TYPE::COMPONENT_TRANSFORM))->Get_Rotation()
 #define MYPOS					Component_Transform->Get_Position()
+#define MYSCALE					Component_Transform->Get_Scale()
+#define MYROTATION				Component_Transform->Get_Rotation()
 #pragma endregion
 
 #pragma region MonsterSummon
@@ -22,14 +24,6 @@
 #define BATRUSHSPEED	2.f
 #pragma endregion
 
-typedef struct tagTextureinfo
-{
-	vector<LPDIRECT3DTEXTURE9> vecTexture;
-	_vec2	vImgScale;
-	UINT	MAXWidth;
-	UINT	MAXHeight;
-}TEXTUREINFO;
-
 class Monster
 {
 public:
@@ -42,5 +36,5 @@ public:
 
 	static IDirect3DTexture9* Find_CurrTexture(CONST TCHAR* _FileName, IDirect3DTexture9* pTexture = nullptr);
 
-	static TEXTUREINFO*	Set_Textureinfo(TEXTUREINFO* __Textureinfo, CONST TCHAR* __Filename);
+	static size_t Set_TextureList(CONST TCHAR* __FileName, vector<IDirect3DTexture9*>* __Textures);
 };

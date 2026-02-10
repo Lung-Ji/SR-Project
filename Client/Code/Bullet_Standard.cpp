@@ -39,7 +39,7 @@ VOID Bullet_Standard::Render_GameObject() {
 
 		_frameTick = 0.f;
 	}
-	Component_Buffer->Render_Buffer();
+	//Component_Buffer->Render_Buffer();
 
 	GRPDEV->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
@@ -59,9 +59,7 @@ HRESULT Bullet_Standard::Component_Initialize() {
 	Component_Collider = ADD_COMPONENT_COLLIDER;
 	Component_Collider->Set_CenterPos(Component_Transform);
 
-	_vec3 vColliderScale = *Component_Transform->Get_Scale();
-	vColliderScale *= 0.3f;
-	Component_Collider->Set_Scale(vColliderScale.x, 1.f, vColliderScale.z);
+	Component_Collider->Set_Scale(0.5f, 0.5f, 0.5f);
 
 	return S_OK;
 }

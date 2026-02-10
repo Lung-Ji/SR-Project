@@ -5,6 +5,7 @@
 #define BatIMGY 173.f
 
 enum BAT_STATE { BAT_IDLE, BAT_TRACKING, BAT_ATTACKING, BAT_Hit, BAT_DEAD };
+enum BAT_COLOUR { BLUE };
 
 class Bat : public GameObject
 {
@@ -35,13 +36,14 @@ private:
 	VOID Set_Target(CONST TCHAR* _TAG);
 
 	GameObject* pTarget;
-	_vec3* pTargetPos;
+	_vec3*		pTargetPos;
 	_vec3		vDir;
 
 	BAT_STATE CurrState;
 	BAT_STATE PrevState;
 
 	VOID Change_State(BAT_STATE eState);
+	VOID State_Appear(const _float& _DT);
 	VOID State_Idle();
 	VOID State_Tracking(const _float& _DT);
 	VOID State_Attacking(const _float& _DT);
@@ -53,7 +55,9 @@ private:
 	_float Speed;
 
 
+	vector<IDirect3DTexture9*> _vecTexture;
 	_uint _frame;
+	_uint _Endframe;
 	_float _frameTick;
 
 };

@@ -39,9 +39,9 @@
 #include "Monster.h"
 #include "MonsterTest.h"
 
-#include "MonsterSummon01.h"
+//#include "MonsterSummon01.h"
 //#include "MonsterSummon02.h"
-#include "MonsterSummon03.h"
+//#include "MonsterSummon03.h"
 #include "Bat.h"
 #include "Docheol.h"
 

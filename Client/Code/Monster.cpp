@@ -17,20 +17,20 @@ IDirect3DTexture9* Monster::Find_CurrTexture(const TCHAR* _FileName, IDirect3DTe
 	return pTexture;
 }
 
-TEXTUREINFO* Monster::Set_Textureinfo(TEXTUREINFO* __Textureinfo, const TCHAR* __Filename)
+size_t Monster::Set_TextureList(const TCHAR* __FileName, vector<IDirect3DTexture9*>* __Textures)
 {
-	LPDIRECT3DTEXTURE9 pTexture = ResourceManager::GetInstance()->Find_Texture(__Filename);
 
-	D3DSURFACE_DESC Surface;
-	pTexture->GetLevelDesc(0, &Surface);
+	size_t Frame = __Textures->size();
 
-	if (__Textureinfo->MAXWidth < Surface.Width)
-		__Textureinfo->MAXWidth = Surface.Width;
+	if (Frame > 0) return Frame;
 
-	if (__Textureinfo->MAXHeight < Surface.Height)
-		__Textureinfo->MAXHeight = Surface.Height;
-
-	__Textureinfo->vecTexture.push_back(pTexture);
-	return __Textureinfo;
+	while (++Frame)
+	{
+		IDirect3DTexture9* pTexture = nullptr;
+		TCHAR Filename[256] = L"";
+		swprintf_s(Filename, 256, L"%s_%02d.png", __FileName,  Frame);
+		pTexture = ResourceManager::GetInstance()->Find_Texture(Filename);
+		if (nullptr == pTexture) return --Frame;
+		else __Textures->push_back(pTexture);
+	}
 }
-

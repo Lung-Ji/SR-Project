@@ -127,14 +127,14 @@
     <Filter Include="03. GameObject\02. Monster\02. Monster\01. Bat">
       <UniqueIdentifier>{47a98307-749c-40cc-a1ff-9d9504e380c7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. GameObject\02. Monster\02. Monster\02.">
-      <UniqueIdentifier>{9cb39ed9-d361-4a69-b06c-890759bbd692}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03. GameObject\06. Effect\02. MonsterEffect\99. Abandoned">
       <UniqueIdentifier>{33bbc5b6-90ed-40c6-b7f1-9e66c79c0b77}</UniqueIdentifier>
     </Filter>
     <Filter Include="03. GameObject\06. Effect\02. MonsterEffect\01. MonsterSummon">
       <UniqueIdentifier>{972b69e8-ba8b-4e8f-9b7a-88f61efefedd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\02. Monster\02. Monster\02. Bat%28Blue%29">
+      <UniqueIdentifier>{9cb39ed9-d361-4a69-b06c-890759bbd692}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -246,9 +246,6 @@
     <ClInclude Include="..\Header\PlayerEffect.h">
       <Filter>03. GameObject\06. Effect\01. PlayerEffect</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\Monster_State.h">
-      <Filter>03. GameObject\02. Monster</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\Bow.h">
       <Filter>03. GameObject\01. Player\00. Weapon</Filter>
     </ClInclude>
@@ -283,13 +280,13 @@
       <Filter>03. GameObject\07. ProJectile\02.Fireball</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\MonsterEffect.h">
-      <Filter>03. GameObject\06. Effect\02. MonsterEffect\99. Abandoned</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\MonsterSummon03.h">
       <Filter>03. GameObject\06. Effect\02. MonsterEffect\01. MonsterSummon</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\MonsterSummon01.h">
-      <Filter>03. GameObject\06. Effect\02. MonsterEffect\01. MonsterSummon</Filter>
+      <Filter>03. GameObject\06. Effect\02. MonsterEffect\99. Abandoned</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\MonsterSummon03.h">
+      <Filter>03. GameObject\06. Effect\02. MonsterEffect\99. Abandoned</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -380,14 +377,8 @@
     <ClCompile Include="..\Code\MapScene.cpp">
       <Filter>02. Scene\88. MapScene</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\Monster_State.cpp">
-      <Filter>03. GameObject\02. Monster</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\PlayerEffect.cpp">
       <Filter>03. GameObject\06. Effect\01. PlayerEffect</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\MonsterEffect.cpp">
-      <Filter>03. GameObject\06. Effect\02. MonsterEffect</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Bow.cpp">
       <Filter>03. GameObject\01. Player\00. Weapon</Filter>
@@ -425,11 +416,14 @@
     <ClCompile Include="..\Code\MonsterEffect.cpp">
       <Filter>03. GameObject\06. Effect\02. MonsterEffect\99. Abandoned</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\MonsterSummon03.cpp">
+    <ClCompile Include="..\Code\MonsterEffect.cpp">
       <Filter>03. GameObject\06. Effect\02. MonsterEffect\01. MonsterSummon</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\MonsterSummon01.cpp">
-      <Filter>03. GameObject\06. Effect\02. MonsterEffect\01. MonsterSummon</Filter>
+      <Filter>03. GameObject\06. Effect\02. MonsterEffect\99. Abandoned</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\MonsterSummon03.cpp">
+      <Filter>03. GameObject\06. Effect\02. MonsterEffect\99. Abandoned</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
