@@ -12,12 +12,13 @@ struct ENGINE_DLL FontINFO {
   DWORD QUALITY;
   DWORD PITCHANDFAMILY;
   LPCWSTR FACENAME;
+  _vec2   POS;
+  D3DXCOLOR COLOR;
 
-  FontINFO(CONST TCHAR* _msg, UINT _weight, UINT _width, UINT _mipLevels, BOOL _italic,
-    DWORD _charset, DWORD _outputprecision, DWORD _quality, DWORD _pitchandfamily,
-    DWORD _facename) :MSG(_msg), WEIGHT(_weight), WIDTH(_width), MIPLEVELS(_mipLevels),
-    ITALIC(false), CHARSET(DEFAULT_CHARSET), OUTPUTPRECISION(1), QUALITY(DEFAULT_QUALITY),
-    PITCHANDFAMILY(DEFAULT_PITCH), FACENAME(L"Times New Roman"){}
+  FontINFO(CONST TCHAR* _msg, UINT _weight, UINT _width,_vec2 _pos ) 
+    :MSG(_msg), WEIGHT(_weight), WIDTH(_width), POS(_pos.x,_pos.y),MIPLEVELS(1),
+    COLOR(1.f,1.f,1.f,1.f), ITALIC(false), CHARSET(DEFAULT_CHARSET), OUTPUTPRECISION(1), QUALITY(DEFAULT_QUALITY),
+       PITCHANDFAMILY(DEFAULT_PITCH), FACENAME(L"Times New Roman"){} 
 };
 
 class ENGINE_DLL FontObject : public Component {
@@ -33,9 +34,9 @@ public:
     const _uint& iHeight,
     const _uint& iWeight);
 
-  void Render_Font(const _tchar* pString, 
-                   const _vec2* pPos,
-                   D3DXCOLOR Color);
+  void Render_Font(D3DXCOLOR Color);
+  void Import_Font(CONST TCHAR* _msg, UINT _weight, UINT _width, const _vec2 _pos);
+
 
 public:
   static FontObject* Create(LPDIRECT3DDEVICE9 GRPDEV,
@@ -46,7 +47,7 @@ public:
 
 private:
   virtual void Free();
-  virtual	FontObject* Clone()
+  virtual	FontObject* Clone();
 private:
   LPD3DXFONT		Font;		
   ID3DXSprite* Sprite;
