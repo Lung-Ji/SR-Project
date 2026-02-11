@@ -8,17 +8,42 @@ Player::~Player()													{}
 HRESULT Player::Ready_GameObject() {
 	if (FAILED(Component_Initialize())) return E_FAIL;
 
+	memset(_weaponSlot, 0, sizeof(Bow*) * 4);
+	memset(_artifactSlot, 0, sizeof(GameObject*) * 4);
+	memset(_inventory, 0, sizeof(GameObject*) * 8);
 	_pState				= pState::STATE_IDLE;
 	_eState				= eState::STATE_STANDING;
 	_see				= pSee::SEE_DOWN;
-	_defaultSpeed		= 8.f;
+	_defaultSpeed		= 6.f;
 	_dashStart			= false;
 	_dashTime			= 0.f;
 	_dashG				= 30.f;
 	_speed				= 0.f;
+	///////////////////////// 광윤 추가 ~ 제가 추가한 변수들 초기화
+	_hp					= 5;
+	_dashstock			= 3;
+	_key				= 0;
+	_coin				= 0;
+	_crystal			= 0;
+	_token				= 2;
+	/////////////////////////
 	_slideTime			= 0.f;
 	_g					= 30.f;
 	_frame				= 1;
+	_arrowCount = 0;
+
+	{
+		_pStatus.hp				= 6;
+		_pStatus.Dash_Count = 3;
+		_pStatus.Sado_Count = 2;
+		_pStatus.Key = 1;
+		_pStatus.Money			= 0;
+		_pStatus.UpgradeStone	= 0;
+
+		_pStatus.atk			= 1;
+		_pStatus.critical		= 0.f;
+		_pStatus.maxBowRatio	= 1.f;
+	}
 
 	CameraObject* Camera = dynamic_cast<CameraObject*>(SceneManager::GetInstance()->Get_CurrentScene()->
 		Get_GameObject(L"Camera"));
@@ -31,11 +56,36 @@ HRESULT Player::Ready_GameObject() {
 
 	Component_Transform->Set_Scale({ 2.f, 2.f, 2.f });
 	Component_Transform->Rotation(ROT_X, 90.f - _cameraAngle);
-	Component_Transform->Set_Pos({ 5.f, 1.f, 5.f });
+	Component_Transform->Set_Pos({ 5.f, 0.5f, 5.f });
 
-	SceneManager::GetInstance()->Get_CurrentScene()->Add_GameObjectToScene<Bow>(LAYER_TYPE::LAYER_DYNAMIC_OBJECT, GAMEOBJECT_TYPE::OBJECT_PLAYER, L"Bow");
-	dynamic_cast<Bow*>(SceneManager::GetInstance()->Get_CurrentScene()->Get_GameObject(L"Bow"))->Set_PlayerPos(Component_Transform->Get_Position());
-	//_weaponSlot[0]->Set_PlayerPos(Component_Transform->Get_Position());
+	// 활 생성
+	{
+		SceneManager::GetInstance()->Get_CurrentScene()->Add_GameObjectToScene<Bow>(LAYER_TYPE::LAYER_DYNAMIC_OBJECT, GAMEOBJECT_TYPE::OBJECT_PLAYER, L"FairyBow");
+		dynamic_cast<Bow*>(SceneManager::GetInstance()->Get_CurrentScene()->Get_GameObject(L"FairyBow"))->Set_PlayerPos(Component_Transform->Get_Position());
+		_weaponSlot[0] = dynamic_cast<Bow*>(SceneManager::GetInstance()->Get_CurrentScene()->Get_GameObject(L"FairyBow"));
+		_weaponSlot[0]->Set_Bow_Type(BowType::FairyBow);
+		_weaponSlot[0]->Set_Bow_Equip(true);
+
+		SceneManager::GetInstance()->Get_CurrentScene()->Add_GameObjectToScene<Bow>(LAYER_TYPE::LAYER_DYNAMIC_OBJECT, GAMEOBJECT_TYPE::OBJECT_PLAYER, L"IceBow");
+		dynamic_cast<Bow*>(SceneManager::GetInstance()->Get_CurrentScene()->Get_GameObject(L"IceBow"))->Set_PlayerPos(Component_Transform->Get_Position());
+		_weaponSlot[1] = dynamic_cast<Bow*>(SceneManager::GetInstance()->Get_CurrentScene()->Get_GameObject(L"IceBow"));
+		_weaponSlot[1]->Set_Bow_Type(BowType::IceBow);
+		_weaponSlot[1]->Set_Bow_Equip(false);
+
+		SceneManager::GetInstance()->Get_CurrentScene()->Add_GameObjectToScene<Bow>(LAYER_TYPE::LAYER_DYNAMIC_OBJECT, GAMEOBJECT_TYPE::OBJECT_PLAYER, L"EvilHeadBow");
+		dynamic_cast<Bow*>(SceneManager::GetInstance()->Get_CurrentScene()->Get_GameObject(L"EvilHeadBow"))->Set_PlayerPos(Component_Transform->Get_Position());
+		_weaponSlot[2] = dynamic_cast<Bow*>(SceneManager::GetInstance()->Get_CurrentScene()->Get_GameObject(L"EvilHeadBow"));
+		_weaponSlot[2]->Set_Bow_Type(BowType::EvilHeadBow);
+		_weaponSlot[2]->Set_Bow_Equip(false);
+
+		SceneManager::GetInstance()->Get_CurrentScene()->Add_GameObjectToScene<Bow>(LAYER_TYPE::LAYER_DYNAMIC_OBJECT, GAMEOBJECT_TYPE::OBJECT_PLAYER, L"WindBow");
+		dynamic_cast<Bow*>(SceneManager::GetInstance()->Get_CurrentScene()->Get_GameObject(L"WindBow"))->Set_PlayerPos(Component_Transform->Get_Position());
+		_weaponSlot[3] = dynamic_cast<Bow*>(SceneManager::GetInstance()->Get_CurrentScene()->Get_GameObject(L"WindBow"));
+		_weaponSlot[3]->Set_Bow_Type(BowType::WindBow);
+		_weaponSlot[3]->Set_Bow_Equip(false);
+	}
+
+
 	Debug = false;
 
 	return S_OK;
@@ -49,7 +99,7 @@ INT	Player::Update_GameObject(const _float& _DT) {
 		Set_ObjectDead(TRUE);
 	}
 
-	SetOnTerrain(); 
+	//SetOnTerrain(); - 광윤 디버그
 
 	_frameTick += _DT;
 
@@ -63,6 +113,7 @@ INT	Player::Update_GameObject(const _float& _DT) {
 		DASH_STATE(_DT);
 		break;
 	case pState::STATE_ATTACK:
+		ATTACK_STATE(_DT);
 		break;
 	case pState::STATE_LANDING :
 		break;
@@ -73,6 +124,7 @@ INT	Player::Update_GameObject(const _float& _DT) {
 }
 VOID Player::LateUpdate_GameObject(const _float& _DT) {
 	GameObject::LateUpdate_GameObject(_DT);
+	Set_Effect(_DT);
 }
 VOID Player::Render_GameObject() {
 	GRPDEV->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
@@ -116,314 +168,143 @@ void Player::IDLE_STATE(const _float& _DT)
 		rightDir = { 1.f, 0.f, 0.f };
 		D3DXVec3Normalize(&upDir, &upDir);
 		D3DXVec3Normalize(&rightDir, &rightDir);
-		Component_Transform->Set_Scale({ 2.f, 2.f, 2.f });
 
-		//Component_Transform->Get_Info(INFO_LOOK, &vDir);
 		if (_speed == 0.f)
 		{
 			if (_eState != eState::STATE_STANDING)
 			{
 				_eState = eState::STATE_STANDING;
-				//_frame = 1;
 			}
 		}
 
 		bool mouseLB = KeyManager::GetInstance()->Get_MouseState(DIM_LB) & 0x80;
 
-		if (!mouseLB && _frame > 8)
-			_frame = 1;
+		//if (!mouseLB && _frame > 8)
+		//	_frame = 1;
 
-		if (mouseLB)
-		{
-			POINT point;
-			GetCursorPos(&point);
-			ScreenToClient(hWnd, &point);
-
-			_vec2 playerPos = { WINCX / 2 , WINCY / 2 };
-
-			if (point.x <= playerPos.x && point.y >= playerPos.y)
-				_eState = eState::STATE_ATTACK_LD;
-			else if(point.x > playerPos.x && point.y > playerPos.y)
-				_eState = eState::STATE_ATTACK_RD;
-			else if (point.x < playerPos.x && point.y < playerPos.y)
-				_eState = eState::STATE_ATTACK_LU;
-			else if (point.x >= playerPos.x && point.y <= playerPos.y)
-				_eState = eState::STATE_ATTACK_RU;
-
+		// 장비 스왑
+		if (KEY_DOWN(DIK_1)) {
+			if (_weaponSlot[0] != nullptr) {
+				if (_equipNum != 0) {
+					_weaponSlot[_equipNum]->Set_Bow_Equip(false);
+					_equipNum = 0;
+					_weaponSlot[_equipNum]->Set_Bow_Equip(true);
+				}
+			}
+		}
+		else if (KEY_DOWN(DIK_2)) {
+			if (_weaponSlot[1] != nullptr) {
+				if (_equipNum != 1) {
+					_weaponSlot[_equipNum]->Set_Bow_Equip(false);
+					_equipNum = 1;
+					_weaponSlot[_equipNum]->Set_Bow_Equip(true);
+				}
+			}
+		}
+		else if (KEY_DOWN(DIK_3)) {
+			if (_weaponSlot[2] != nullptr) {
+				if (_equipNum != 2) {
+					_weaponSlot[_equipNum]->Set_Bow_Equip(false);
+					_equipNum = 2;
+					_weaponSlot[_equipNum]->Set_Bow_Equip(true);
+				}
+			}
+		}
+		else if (KEY_DOWN(DIK_4)) {
+			if (_weaponSlot[3] != nullptr) {
+				if (_equipNum != 3) {
+					_weaponSlot[_equipNum]->Set_Bow_Equip(false);
+					_equipNum = 3;
+					_weaponSlot[_equipNum]->Set_Bow_Equip(true);
+				}
+			}
 		}
 
 		if (KEY_HOLD(DIK_W) && KEY_HOLD(DIK_A))
 		{
-			switch (_eState)
-			{
-			case eState::STATE_ATTACK_LU:
-				_eState = eState::STATE_ATTACK_RUN_LU;
-				break;
-			case eState::STATE_ATTACK_RU:
-				_eState = eState::STATE_ATTACK_RUN_BACK_RU;
-				break;
-			case eState::STATE_ATTACK_LD:
-				_eState = eState::STATE_ATTACK_RUN_LD;
-				break;
-			case eState::STATE_ATTACK_RD:
-				_eState = eState::STATE_ATTACK_RUN_BACK_RD;
-				break;
-			case eState::STATE_RUN_LU:
-				break;
-			default:
-				//_frame = 1;
+			if (_eState != eState::STATE_RUN_LU) {
 				_eState = eState::STATE_RUN_LU;
 				_see = pSee::SEE_LU;
-				break;
 			}
-
-			_speed = _defaultSpeed * cos(D3DX_PI * 0.25f);
-
-			if (mouseLB)
-				_speed *= 0.5f;
-			else
-				_eState = eState::STATE_RUN_LU;
-
+			_speed = _defaultSpeed;
+			_speed = _speed * cos(D3DX_PI * 0.25f);
 			Component_Transform->Move_Pos(D3DXVec3Normalize(&upDir, &upDir), _speed, _DT);
 			Component_Transform->Move_Pos(D3DXVec3Normalize(&rightDir, &rightDir), -_speed, _DT);
-
-
 		}
 		else if (KEY_HOLD(DIK_S) && KEY_HOLD(DIK_A))
 		{
-			switch (_eState)
-			{
-			case eState::STATE_ATTACK_LU:
-				_eState = eState::STATE_ATTACK_RUN_LU;
-				break;
-			case eState::STATE_ATTACK_RU:
-				_eState = eState::STATE_ATTACK_RUN_BACK_RU;
-				break;
-			case eState::STATE_ATTACK_LD:
-				_eState = eState::STATE_ATTACK_RUN_LD;
-				break;
-			case eState::STATE_ATTACK_RD:
-				_eState = eState::STATE_ATTACK_RUN_BACK_RD;
-				break;
-			case eState::STATE_RUN_LD:
-				break;
-			default:
-				//_frame = 1;
+			if (_eState != eState::STATE_RUN_LD) {
 				_eState = eState::STATE_RUN_LD;
 				_see = pSee::SEE_LD;
-				break;
 			}
-
-			_speed = _defaultSpeed * cos(D3DX_PI * 0.25f);
-
-			if(mouseLB)
-				_speed *= 0.5f;
-			else
-				_eState = eState::STATE_RUN_LD;
-
+			_speed = _defaultSpeed;
+			_speed = _speed * cos(D3DX_PI * 0.25f);
 			Component_Transform->Move_Pos(D3DXVec3Normalize(&upDir, &upDir), -_speed, _DT);
 			Component_Transform->Move_Pos(D3DXVec3Normalize(&rightDir, &rightDir), -_speed, _DT);
 
 		}
 		else if (KEY_HOLD(DIK_W) && KEY_HOLD(DIK_D))
 		{
-			switch (_eState)
-			{
-			case eState::STATE_ATTACK_LU:
-				_eState = eState::STATE_ATTACK_RUN_BACK_LU;
-				break;
-			case eState::STATE_ATTACK_RU:
-				_eState = eState::STATE_ATTACK_RUN_RU;
-				break;
-			case eState::STATE_ATTACK_LD:
-				_eState = eState::STATE_ATTACK_RUN_BACK_LD;
-				break;
-			case eState::STATE_ATTACK_RD:
-				_eState = eState::STATE_ATTACK_RUN_RD;
-				break;
-			case eState::STATE_RUN_RU:
-				break;
-			default:
-				//_frame = 1;
+			if (_eState != eState::STATE_RUN_RU) {
 				_eState = eState::STATE_RUN_RU;
 				_see = pSee::SEE_RU;
 			}
-
-			_speed = _defaultSpeed * cos(D3DX_PI * 0.25f);
-
-			if (mouseLB)
-				_speed *= 0.5f;
-			else
-				_eState = eState::STATE_RUN_RU;
-
+			_speed = _defaultSpeed;
+			_speed = _speed * cos(D3DX_PI * 0.25f);
 			Component_Transform->Move_Pos(D3DXVec3Normalize(&upDir, &upDir), _speed, _DT);
 			Component_Transform->Move_Pos(D3DXVec3Normalize(&rightDir, &rightDir), _speed, _DT);
 
 		}
 		else if (KEY_HOLD(DIK_S) && KEY_HOLD(DIK_D))
 		{
-			switch (_eState)
-			{
-			case eState::STATE_ATTACK_LU:
-				_eState = eState::STATE_ATTACK_RUN_BACK_LU;
-				break;
-			case eState::STATE_ATTACK_RU:
-				_eState = eState::STATE_ATTACK_RUN_RU;
-				break;
-			case eState::STATE_ATTACK_LD:
-				_eState = eState::STATE_ATTACK_RUN_BACK_LD;
-				break;
-			case eState::STATE_ATTACK_RD:
-				_eState = eState::STATE_ATTACK_RUN_RD;
-				break;
-			case eState::STATE_RUN_RD:
-				break;
-			default:
-				//_frame = 1;
+			if (_eState != eState::STATE_RUN_RD) {
 				_eState = eState::STATE_RUN_RD;
 				_see = pSee::SEE_RD;
 			}
-
-			_speed = _defaultSpeed * cos(D3DX_PI * 0.25f);
-
-			if (mouseLB)
-				_speed *= 0.5f;
-			else
-				_eState = eState::STATE_RUN_RD;
-
+			_speed = _defaultSpeed;
+			_speed = _speed * cos(D3DX_PI * 0.25f);
 			Component_Transform->Move_Pos(D3DXVec3Normalize(&upDir, &upDir), -_speed, _DT);
 			Component_Transform->Move_Pos(D3DXVec3Normalize(&rightDir, &rightDir), _speed, _DT);
 
 		}
 		else if (KEY_HOLD(DIK_W))
 		{
-			switch (_eState)
-			{
-			case eState::STATE_ATTACK_LU:
-				_eState = eState::STATE_ATTACK_RUN_LU;
-				break;
-			case eState::STATE_ATTACK_RU:
-				_eState = eState::STATE_ATTACK_RUN_RU;
-				break;
-			case eState::STATE_ATTACK_LD:
-				_eState = eState::STATE_ATTACK_RUN_BACK_LD;
-				break;
-			case eState::STATE_ATTACK_RD:
-				_eState = eState::STATE_ATTACK_RUN_BACK_RD;
-				break;
-			case eState::STATE_RUN_UP:
-				break;
-			default:
-				//_frame = 1;
+			if (_eState != eState::STATE_RUN_UP) {
 				_eState = eState::STATE_RUN_UP;
 				_see = pSee::SEE_UP;
-				break;
 			}
-
 			_speed = _defaultSpeed;
-			if (mouseLB)
-				_speed *= 0.5f;
-			else
-				_eState = eState::STATE_RUN_UP;
 			Component_Transform->Move_Pos(D3DXVec3Normalize(&upDir, &upDir), _speed, _DT);
-
 		}
 
 		else if (KEY_HOLD(DIK_S))
 		{
-			switch (_eState)
-			{
-			case eState::STATE_ATTACK_LU:
-				_eState = eState::STATE_ATTACK_RUN_BACK_LU;
-				break;
-			case eState::STATE_ATTACK_RU:
-				_eState = eState::STATE_ATTACK_RUN_BACK_RU;
-				break;
-			case eState::STATE_ATTACK_LD:
-				_eState = eState::STATE_ATTACK_RUN_LD;
-				break;
-			case eState::STATE_ATTACK_RD:
-				_eState = eState::STATE_ATTACK_RUN_RD;
-				break;
-			case eState::STATE_RUN_DOWN:
-				break;
-			default:
-				//_frame = 1;
+			if (_eState != eState::STATE_RUN_DOWN) {
 				_eState = eState::STATE_RUN_DOWN;
 				_see = pSee::SEE_DOWN;
 			}
-
 			_speed = _defaultSpeed;
-			if (mouseLB)
-				_speed *= 0.5f;
-			else
-				_eState = eState::STATE_RUN_DOWN;
 			Component_Transform->Move_Pos(D3DXVec3Normalize(&upDir, &upDir), -_speed, _DT);
 		}
 
 		else if (KEY_HOLD(DIK_A))
 		{
-			switch (_eState)
-			{
-			case eState::STATE_ATTACK_LU:
-				_eState = eState::STATE_ATTACK_RUN_LU;
-				break;
-			case eState::STATE_ATTACK_RU:
-				_eState = eState::STATE_ATTACK_RUN_BACK_RU;
-				break;
-			case eState::STATE_ATTACK_LD:
-				_eState = eState::STATE_ATTACK_RUN_LD;
-				break;
-			case eState::STATE_ATTACK_RD:
-				_eState = eState::STATE_ATTACK_RUN_BACK_RD;
-				break;
-			case eState::STATE_RUN_LEFT:
-				break;
-			default:
+			if (_eState != eState::STATE_RUN_LEFT) {
 				_eState = eState::STATE_RUN_LEFT;
 				_see = pSee::SEE_LEFT;
 			}
-
 			_speed = _defaultSpeed;
-			if (mouseLB)
-				_speed *= 0.5f;
-			else
-				_eState = eState::STATE_RUN_LEFT;
 			Component_Transform->Move_Pos(D3DXVec3Normalize(&rightDir, &rightDir), -_speed, _DT);
-
 		}
 		else if (KEY_HOLD(DIK_D))
 		{
-			switch (_eState)
-			{
-			case eState::STATE_ATTACK_LU:
-				_eState = eState::STATE_ATTACK_RUN_BACK_LU;
-				break;
-			case eState::STATE_ATTACK_RU:
-				_eState = eState::STATE_ATTACK_RUN_RU;
-				break;
-			case eState::STATE_ATTACK_LD:
-				_eState = eState::STATE_ATTACK_RUN_BACK_LD;
-				break;
-			case eState::STATE_ATTACK_RD:
-				_eState = eState::STATE_ATTACK_RUN_RD;
-				break;
-			case eState::STATE_RUN_RIGHT:
-				break;
-			default:
-				//_frame = 1;
+			if (_eState != eState::STATE_RUN_RIGHT) {
 				_eState = eState::STATE_RUN_RIGHT;
 				_see = pSee::SEE_RIGHT;
 			}
-
 			_speed = _defaultSpeed;
-			if (mouseLB)
-				_speed *= 0.5f;
-			else
-				_eState = eState::STATE_RUN_RIGHT;
 			Component_Transform->Move_Pos(D3DXVec3Normalize(&rightDir, &rightDir), _speed, _DT);
 		}
-		
 		else
 		{
 			if (_speed > 0.f)
@@ -606,13 +487,273 @@ void Player::DASH_STATE(const _float& _DT)
 }
 void Player::ATTACK_STATE(const _float& _DT)
 {
-}
+	bool mouseLB = KeyManager::GetInstance()->Get_MouseState(DIM_LB) & 0x80;
+	_attackDelay += _DT;
 
-void Player::Idle_Final_Input(const _float& _DT)
-{
+	// 이펙트
+	//if (_attackDelay > 0.6) {
+	//	_vec3* playerPos = Component_Transform->Get_Position();
+	//
+	//	POINT MousePoint{ 0, 0 };
+	//	GetCursorPos(&MousePoint);
+	//	ScreenToClient(hWnd, &MousePoint);
+	//
+	//	_vec2 mousePos = { (float)MousePoint.x, (float)MousePoint.y };
+	//	_vec2 screenCenter = { WINCX * 0.5f, WINCY * 0.5f };
+	//
+	//	_vec2 dir2D = mousePos - screenCenter;
+	//	D3DXVec2Normalize(&dir2D, &dir2D);
+	//
+	//	float angle = atan2f(dir2D.y, dir2D.x);
+	//
+	//	float radius = 1.8f;
+	//
+	//	float offsetX = cosf(angle) * radius;
+	//	float offsetY = sinf(angle) * radius;
+	//
+	//	_pulsepos = { playerPos->x + offsetX , playerPos->y, playerPos->z - offsetY };
+	//
+	//	PLAY_PLAYER_EFFECT(PLAYER_SKILL::ICEARROW_PULSE, &_pulsepos, 0.2f);
+	//
+	//	{
+	//		GameObject* arrow = Arrow::Create(GRPDEV, ArrowType::IceArrow_LV1, &_pulsepos);
+	//
+	//		TCHAR arrowTag[128] = L"";
+	//		wsprintfW(arrowTag, L"PlayerArrow_%d", _arrowCount++);
+	//
+	//		arrow->Set_ObjectTag(arrowTag);
+	//		arrow->Set_ObjectType(GAMEOBJECT_TYPE::OBJECT_PLAYER);
+	//
+	//		SceneManager::GetInstance()->Get_CurrentScene()->Get_Layer(LAYER_TYPE::LAYER_DYNAMIC_OBJECT)->Add_GameObject(arrow);
+	//	}
+	//
+	//	_attackDelay = 0.f;
+	//}
+
+	_vec3		upDir, rightDir;
+	upDir = { 0.f, 0.f, 1.f };
+	rightDir = { 1.f, 0.f, 0.f };
+	D3DXVec3Normalize(&upDir, &upDir);
+	D3DXVec3Normalize(&rightDir, &rightDir);
+
+	POINT point;
+	GetCursorPos(&point);
+	ScreenToClient(hWnd, &point);
+
 	if (MOUSE_RBUTTON) {
 		_pState = pState::STATE_DASH;
 		_dashStart = true;
+		_frame = 1;
+	}
+	else if (!mouseLB) {
+		_pState = pState::STATE_IDLE;
+	}
+
+	_vec2 playerPos = { WINCX / 2 , WINCY / 2 };
+
+	if (point.x <= playerPos.x && point.y >= playerPos.y) {
+		_see = pSee::SEE_LD;
+		_eState = eState::STATE_ATTACK_LD;
+	}
+	else if (point.x > playerPos.x && point.y > playerPos.y) {
+		_see = pSee::SEE_RD;
+		_eState = eState::STATE_ATTACK_RD;
+	}
+	else if (point.x < playerPos.x && point.y < playerPos.y) {
+		_see = pSee::SEE_LU;
+		_eState = eState::STATE_ATTACK_LU;
+	}
+	else if (point.x >= playerPos.x && point.y <= playerPos.y) {
+		_see = pSee::SEE_RU;
+		_eState = eState::STATE_ATTACK_RU;
+	}
+
+	_speed = _defaultSpeed * 0.5;
+	float tempSpeed = _speed;
+	if (KEY_HOLD(DIK_W) && KEY_HOLD(DIK_A))
+	{
+		switch (_eState)
+		{
+		case eState::STATE_ATTACK_LU:
+			_eState = eState::STATE_ATTACK_RUN_LU;
+			break;
+		case eState::STATE_ATTACK_RU:
+			_eState = eState::STATE_ATTACK_RUN_BACK_RU;
+			break;
+		case eState::STATE_ATTACK_LD:
+			_eState = eState::STATE_ATTACK_RUN_LD;
+			break;
+		case eState::STATE_ATTACK_RD:
+			_eState = eState::STATE_ATTACK_RUN_BACK_RD;
+			break;
+		}
+		tempSpeed = _speed * cos(D3DX_PI * 0.25f);
+		Component_Transform->Move_Pos(D3DXVec3Normalize(&upDir, &upDir), tempSpeed, _DT);
+		Component_Transform->Move_Pos(D3DXVec3Normalize(&rightDir, &rightDir), -tempSpeed, _DT);
+	}
+	else if (KEY_HOLD(DIK_S) && KEY_HOLD(DIK_A))
+	{
+		switch (_eState)
+		{
+		case eState::STATE_ATTACK_LU:
+			_eState = eState::STATE_ATTACK_RUN_LU;
+			break;
+		case eState::STATE_ATTACK_RU:
+			_eState = eState::STATE_ATTACK_RUN_BACK_RU;
+			break;
+		case eState::STATE_ATTACK_LD:
+			_eState = eState::STATE_ATTACK_RUN_LD;
+			break;
+		case eState::STATE_ATTACK_RD:
+			_eState = eState::STATE_ATTACK_RUN_BACK_RD;
+			break;
+		}
+		tempSpeed = _speed * cos(D3DX_PI * 0.25f);
+		Component_Transform->Move_Pos(D3DXVec3Normalize(&upDir, &upDir), -tempSpeed, _DT);
+		Component_Transform->Move_Pos(D3DXVec3Normalize(&rightDir, &rightDir), -tempSpeed, _DT);
+
+	}
+	else if (KEY_HOLD(DIK_W) && KEY_HOLD(DIK_D))
+	{
+		switch (_eState)
+		{
+		case eState::STATE_ATTACK_LU:
+			_eState = eState::STATE_ATTACK_RUN_BACK_LU;
+			break;
+		case eState::STATE_ATTACK_RU:
+			_eState = eState::STATE_ATTACK_RUN_RU;
+			break;
+		case eState::STATE_ATTACK_LD:
+			_eState = eState::STATE_ATTACK_RUN_BACK_LD;
+			break;
+		case eState::STATE_ATTACK_RD:
+			_eState = eState::STATE_ATTACK_RUN_RD;
+			break;
+		}
+		tempSpeed = _speed * cos(D3DX_PI * 0.25f);
+		Component_Transform->Move_Pos(D3DXVec3Normalize(&upDir, &upDir), tempSpeed, _DT);
+		Component_Transform->Move_Pos(D3DXVec3Normalize(&rightDir, &rightDir), tempSpeed, _DT);
+
+	}
+	else if (KEY_HOLD(DIK_S) && KEY_HOLD(DIK_D))
+	{
+		switch (_eState)
+		{
+		case eState::STATE_ATTACK_LU:
+			_eState = eState::STATE_ATTACK_RUN_BACK_LU;
+			break;
+		case eState::STATE_ATTACK_RU:
+			_eState = eState::STATE_ATTACK_RUN_RU;
+			break;
+		case eState::STATE_ATTACK_LD:
+			_eState = eState::STATE_ATTACK_RUN_BACK_LD;
+			break;
+		case eState::STATE_ATTACK_RD:
+			_eState = eState::STATE_ATTACK_RUN_RD;
+			break;
+		}
+		tempSpeed = _speed * cos(D3DX_PI * 0.25f);
+		Component_Transform->Move_Pos(D3DXVec3Normalize(&upDir, &upDir), -tempSpeed, _DT);
+		Component_Transform->Move_Pos(D3DXVec3Normalize(&rightDir, &rightDir), tempSpeed, _DT);
+
+	}
+	else if (KEY_HOLD(DIK_W))
+	{
+		switch (_eState)
+		{
+		case eState::STATE_ATTACK_LU:
+			_eState = eState::STATE_ATTACK_RUN_LU;
+			break;
+		case eState::STATE_ATTACK_RU:
+			_eState = eState::STATE_ATTACK_RUN_RU;
+			break;
+		case eState::STATE_ATTACK_LD:
+			_eState = eState::STATE_ATTACK_RUN_BACK_LD;
+			break;
+		case eState::STATE_ATTACK_RD:
+			_eState = eState::STATE_ATTACK_RUN_BACK_RD;
+			break;
+		}
+		Component_Transform->Move_Pos(D3DXVec3Normalize(&upDir, &upDir), _speed, _DT);
+	}
+
+	else if (KEY_HOLD(DIK_S))
+	{
+		switch (_eState)
+		{
+		case eState::STATE_ATTACK_LU:
+			_eState = eState::STATE_ATTACK_RUN_BACK_LU;
+			break;
+		case eState::STATE_ATTACK_RU:
+			_eState = eState::STATE_ATTACK_RUN_BACK_RU;
+			break;
+		case eState::STATE_ATTACK_LD:
+			_eState = eState::STATE_ATTACK_RUN_LD;
+			break;
+		case eState::STATE_ATTACK_RD:
+			_eState = eState::STATE_ATTACK_RUN_RD;
+			break;
+		}
+		Component_Transform->Move_Pos(D3DXVec3Normalize(&upDir, &upDir), -_speed, _DT);
+	}
+
+	else if (KEY_HOLD(DIK_A))
+	{
+		switch (_eState)
+		{
+		case eState::STATE_ATTACK_LU:
+			_eState = eState::STATE_ATTACK_RUN_LU;
+			break;
+		case eState::STATE_ATTACK_RU:
+			_eState = eState::STATE_ATTACK_RUN_BACK_RU;
+			break;
+		case eState::STATE_ATTACK_LD:
+			_eState = eState::STATE_ATTACK_RUN_LD;
+			break;
+		case eState::STATE_ATTACK_RD:
+			_eState = eState::STATE_ATTACK_RUN_BACK_RD;
+			break;
+		}
+		Component_Transform->Move_Pos(D3DXVec3Normalize(&rightDir, &rightDir), -_speed, _DT);
+	}
+	else if (KEY_HOLD(DIK_D))
+	{
+		switch (_eState)
+		{
+		case eState::STATE_ATTACK_LU:
+			_eState = eState::STATE_ATTACK_RUN_BACK_LU;
+			break;
+		case eState::STATE_ATTACK_RU:
+			_eState = eState::STATE_ATTACK_RUN_RU;
+			break;
+		case eState::STATE_ATTACK_LD:
+			_eState = eState::STATE_ATTACK_RUN_BACK_LD;
+			break;
+		case eState::STATE_ATTACK_RD:
+			_eState = eState::STATE_ATTACK_RUN_RD;
+			break;
+		case eState::STATE_RUN_RIGHT:
+			break;
+		default:
+			//_frame = 1;
+			_eState = eState::STATE_RUN_RIGHT;
+			_see = pSee::SEE_RIGHT;
+		}
+		Component_Transform->Move_Pos(D3DXVec3Normalize(&rightDir, &rightDir), _speed, _DT);
+	}
+}
+void Player::Idle_Final_Input(const _float& _DT)
+{
+	bool mouseLB = KeyManager::GetInstance()->Get_MouseState(DIM_LB) & 0x80;
+
+	if (MOUSE_RBUTTON) {
+		_pState = pState::STATE_DASH;
+		_dashStart = true;
+		_frame = 1;
+	}
+	else if (mouseLB) {
+		_pState = pState::STATE_ATTACK;
+		_attackDelay = 2.0f;
 		_frame = 1;
 	}
 }
@@ -890,6 +1031,34 @@ void Player::Anim(TCHAR FileName[128], float delay, int maxIdx, bool reverse)
 	}
 
 }
+void Player::Set_Effect(const _float& _DT)
+{
+	_vec3* playerPos = Component_Transform->Get_Position();
+
+	POINT MousePoint{ 0, 0 };
+	GetCursorPos(&MousePoint);
+	ScreenToClient(hWnd, &MousePoint);
+
+	_vec2 mousePos = { (float)MousePoint.x, (float)MousePoint.y };
+	_vec2 screenCenter = { WINCX * 0.5f, WINCY * 0.5f };
+
+	_vec2 dir2D = mousePos - screenCenter;
+	D3DXVec2Normalize(&dir2D, &dir2D);
+
+	float angle = atan2f(dir2D.y, dir2D.x);
+
+	float radius = 2.3f;
+
+	float offsetX = cosf(angle) * radius;
+	float offsetY = sinf(angle) * radius;
+
+	_pulsepos = { playerPos->x + offsetX , playerPos->y, playerPos->z - offsetY };
+
+	//if (KEY_DOWN(DIK_1)) { PLAY_PLAYER_EFFECT_ONCE(PLAYER_SKILL::SKILL_1, playerPos, 0.5f); }
+	//else if (KEY_DOWN(DIK_2)) { PLAY_PLAYER_EFFECT_ONCE(PLAYER_SKILL::SKILL_2, playerPos, 0.5f); }
+	//else if (KEY_DOWN(DIK_3)) { PLAY_PLAYER_EFFECT_ONCE(PLAYER_SKILL::SKILL_3, playerPos, 0.5f); }
+	//else if (KEY_DOWN(DIK_4)) { PLAY_PLAYER_EFFECT(PLAYER_SKILL::ICEARROW_PULSE, &_pulsepos, 0.2f); }
+}
 D3DXVECTOR3 Player::MousePicker_NonTarget(HWND _hWnd, Buffer* _TerrainBuffer, Transform* _TerrainTransform) {
 
 	POINT MousePoint {0, 0};
@@ -999,6 +1168,11 @@ D3DXVECTOR3 Player::SetOnTerrain() {
 	if (TerrainBuffer == nullptr) return D3DXVECTOR3(0.f, 0.f, 0.f);
 
 	return D3DXVECTOR3(Position->x, 1.f, Position->z);
+}
+void Player::Destroy_Weapon()
+{
+	_weaponSlot[_equipNum]->Set_Destroy();
+	_weaponSlot[_equipNum] = nullptr;
 }
 Player* Player::Create(LPDIRECT3DDEVICE9 _GRPDEV) {
 	Player* PLAYER = new Player(_GRPDEV);

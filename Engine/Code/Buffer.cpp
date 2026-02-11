@@ -217,16 +217,16 @@ HRESULT Buffer::Ready_TileRIGHT_Buffer()
 
 
 	Vertex[0].vPosition = { 1.f, 1.f, -1.f };
-	Vertex[0].vTexUV = { 0,0,0 };
+	Vertex[0].vTexUV = { 0,0 };
 
 	Vertex[1].vPosition = { 1.f, 1.f, 1.f };
-	Vertex[1].vTexUV = { 1,0,0 };
+	Vertex[1].vTexUV = { 1,0 };
 
 	Vertex[2].vPosition = { 1.f, -1.f, 1.f };
-	Vertex[2].vTexUV = { 1,1,0 };
+	Vertex[2].vTexUV = { 1,1 };
 
 	Vertex[3].vPosition = { 1.f, -1.f, -1.f };
-	Vertex[3].vTexUV = { 0,1,0 };
+	Vertex[3].vTexUV = { 0,1 };
 	VertexBuffer->Unlock();
 
 	INDEX32* Index = nullptr;
@@ -262,16 +262,17 @@ HRESULT Buffer::Ready_TileFRONT_Buffer()
 
 
 	Vertex[0].vPosition = { -1.f, 1.f, 0.f };
-	Vertex[0].vTexUV = { 0,0,0 };
-
+	Vertex[0].dwColor = D3DXCOLOR(1.f, 1.f, 1.f,1.f);
+	Vertex[0].vTexUV = { 0,0 };
 	Vertex[1].vPosition = { 1.f, 1.f, 0.f };
-	Vertex[1].vTexUV = { 1,0,0 };
-
+	Vertex[1].dwColor = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
+	Vertex[1].vTexUV = { 1,0 };
 	Vertex[2].vPosition = { 1.f, -1.f, 0.f };
-	Vertex[2].vTexUV = { 1,1,0 };
-
+	Vertex[2].dwColor = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
+	Vertex[2].vTexUV = { 1,1 };
 	Vertex[3].vPosition = { -1.f, -1.f, 0.f };
-	Vertex[3].vTexUV = { 0,1,0 };
+	Vertex[3].dwColor = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
+	Vertex[3].vTexUV = { 0,1 };
 	VertexBuffer->Unlock();
 
 	INDEX32* Index = nullptr;
@@ -348,16 +349,16 @@ HRESULT Buffer::Ready_TileLEFT_Buffer()
 	VertexBuffer->Lock(0, 0, (void**)&Vertex, 0);
 
 	Vertex[0].vPosition = { -1.f, 0.f, 1.f };
-	Vertex[0].vTexUV = { 0,0,0 };
+	Vertex[0].vTexUV = { 0,0 };
 
 	Vertex[1].vPosition = { 1.f, 0.f, 1.f };
-	Vertex[1].vTexUV = { 1,0,0 };
+	Vertex[1].vTexUV = { 1,0 };
 
 	Vertex[2].vPosition = { 1.f, 0.f, -1.f };
-	Vertex[2].vTexUV = { 1,1,0 };
+	Vertex[2].vTexUV = { 1,1 };
 
 	Vertex[3].vPosition = { -1.f, 0.f, -1.f };
-	Vertex[3].vTexUV = { 0,1,0 };
+	Vertex[3].vTexUV = { 0,1 };
 	VertexBuffer->Unlock();
 
 	INDEX32* Index = nullptr;
@@ -392,16 +393,20 @@ HRESULT Buffer::Ready_Tile_Buffer()
 
 
 	Vertex[0].vPosition = { -1.f, 0.f, 1.f };
-	Vertex[0].vTexUV = {0,0,0};
+	Vertex[0].dwColor = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
+	Vertex[0].vTexUV = {0,0};
 
 	Vertex[1].vPosition = { 1.f, 0.f, 1.f };
-	Vertex[1].vTexUV = {1,0,0};
+	Vertex[1].dwColor = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
+	Vertex[1].vTexUV = {1,0};
 
 	Vertex[2].vPosition = { 1.f, 0.f, -1.f };
-	Vertex[2].vTexUV = { 1,1,0 };
+	Vertex[2].dwColor = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
+	Vertex[2].vTexUV = { 1,1 };
 
 	Vertex[3].vPosition = { -1.f, 0.f, -1.f };
-	Vertex[3].vTexUV = { 0,1,0 };
+	Vertex[3].dwColor = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
+	Vertex[3].vTexUV = { 0,1};
 	VertexBuffer->Unlock();
 
 	INDEX32* Index = nullptr;
@@ -439,28 +444,28 @@ HRESULT Buffer::Ready_Cube_Buffer()
 	VertexBuffer->Lock(0, 0, (void**)&pVertex, 0);
 
 	pVertex[0].vPosition = { -1.f, 1.f, -1.f };
-	pVertex[0].vTexUV = pVertex[0].vPosition;
+	//pVertex[0].vTexUV = pVertex[0].vPosition;
 
 	pVertex[1].vPosition = { 1.f, 1.f, -1.f };
-	pVertex[1].vTexUV = pVertex[1].vPosition;
+	//pVertex[1].vTexUV = pVertex[1].vPosition;
 
 	pVertex[2].vPosition = { 1.f, -1.f, -1.f };
-	pVertex[2].vTexUV = pVertex[2].vPosition;
+	//pVertex[2].vTexUV = pVertex[2].vPosition;
 
 	pVertex[3].vPosition = { -1.f, -1.f, -1.f };
-	pVertex[3].vTexUV = pVertex[3].vPosition;
+	//pVertex[3].vTexUV = pVertex[3].vPosition;
 
 	pVertex[4].vPosition = { -1.f, 1.f, 1.f };
-	pVertex[4].vTexUV = pVertex[4].vPosition;
+	//pVertex[4].vTexUV = pVertex[4].vPosition;
 
 	pVertex[5].vPosition = { 1.f, 1.f, 1.f };
-	pVertex[5].vTexUV = pVertex[5].vPosition;
+	//pVertex[5].vTexUV = pVertex[5].vPosition;
 
 	pVertex[6].vPosition = { 1.f, -1.f, 1.f };
-	pVertex[6].vTexUV = pVertex[6].vPosition;
+	//pVertex[6].vTexUV = pVertex[6].vPosition;
 
 	pVertex[7].vPosition = { -1.f, -1.f, 1.f };
-	pVertex[7].vTexUV = pVertex[7].vPosition;
+	//pVertex[7].vTexUV = pVertex[7].vPosition;
 
 	VertexBuffer->Unlock();
 

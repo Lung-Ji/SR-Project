@@ -18,14 +18,13 @@ public:
 	virtual BOOL		OnCollisionExit(GameObject* _Other);
 
 public:
-	HRESULT						Ready_Effect(MONSTER_SKILL _SKILLTYPE, _vec3* _MonsterPOS, BOOL _Repeatable, FLOAT _PlayTime);
-	HRESULT						Make_TextureList(wstring _FileName);
-	static	MonsterEffect*		Create(LPDIRECT3DDEVICE9 _GRPDEV, MONSTER_SKILL _SKILLTYPE, _vec3* _PlayerPOS, BOOL _Repeatable, FLOAT _PlayTime);
+	HRESULT						Ready_Effect(CONST TCHAR* _Filename, _vec3 vPos, BOOL _Repeatable = false, FLOAT _PlayTime = 1.f);
+	HRESULT						Make_TextureList(CONST TCHAR* _Filename);
+	static	MonsterEffect*		Create(LPDIRECT3DDEVICE9 _GRPDEV, CONST TCHAR* _Filename, _vec3 vPos, BOOL _Repeatable, FLOAT _PlayTime);
 private:
 	HRESULT				Component_Initialize();
 	virtual	VOID		Free();
 private:
-	MONSTER_SKILL	SKILL_TYPE;
 	INT				ENDFRAME;
 	vector<IDirect3DBaseTexture9*>	TextureList;
 
