@@ -107,33 +107,3 @@ VOID RenderManager::Render_TILE(LPDIRECT3DDEVICE9& _GRPDEV)
 VOID	RenderManager::Free() {
 	Clear_RenderGroup();
 }
-
-VOID RenderManager::Make_BillBoard(Transform* Component_Transform, LPDIRECT3DDEVICE9 _GRPDEV)
-{
-	_matrix		matBill, matWorld, matView;
-
-	matWorld = *Component_Transform->Get_World();
-	_GRPDEV->GetTransform(D3DTS_VIEW, &matView);
-
-	D3DXMatrixIdentity(&matBill);
-
-	//XÃà
-	matBill._11 = matView._11;
-	matBill._12 = matView._12;
-	matBill._13 = matView._13;
-	//YÃà
-	matBill._21 = matView._21;
-	matBill._22 = matView._22;
-	matBill._23 = matView._23;
-	//ZÃà
-	matBill._31 = matView._31;
-	matBill._32 = matView._32;
-	matBill._33 = matView._33;
-
-	D3DXMatrixInverse(&matBill, 0, &matBill);
-
-	// ÁÖÀÇ ÇÒ °Í
-	matWorld = matBill * matWorld;
-
-	Component_Transform->Set_World(&matWorld);
-}
