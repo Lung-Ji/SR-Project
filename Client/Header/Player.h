@@ -11,7 +11,6 @@ enum class pState
 
 	End
 };
-
 enum class eState
 {
 	STATE_STANDING,
@@ -58,7 +57,6 @@ enum class eState
 
 	End
 };
-
 enum class pSee
 {
 	SEE_UP,
@@ -72,7 +70,6 @@ enum class pSee
 
 	End
 };
-
 enum class mousePos
 {
 	MOUSE_LT,
@@ -82,6 +79,18 @@ enum class mousePos
 
 	End
 };
+typedef struct playerStatus {
+	_uint	hp;
+	_uint	Dash_Count;
+	_uint	Sado_Count;
+	_uint	Key;
+	_uint	Money;
+	_uint	UpgradeStone;
+
+	_uint	atk;
+	_float	critical;
+	float	maxBowRatio;
+}PSTATUS;
 
 class Player : public GameObject {
 private:
@@ -104,9 +113,13 @@ private:
 	StateMachine*	Component_FSM;
 	Collider*		Component_Collider;
 public:
+	PSTATUS*		Get_Status()		{ return &_pStatus; }								// í”Œë ˆì´ì–´ ìŠ¤í…Œì´í„°ìŠ¤
+	BowType			Get_Weapon_Type()	{ return _weaponSlot[_equipNum]->Get_Bow_Type(); }	// í˜„ì¬ ì¥ì°©í•œ í™œ íƒ€ì…
+	BowStat*		Get_CurBow_Stat()	{ return _weaponSlot[_equipNum]->Get_Bow_Stat(); }	// í˜„ì¬ ì¥ì°©í•œ í™œ ìŠ¤í…Ÿ
+
 	static Player* Create(LPDIRECT3DDEVICE9 _GRPDEV);
 	float	Get_Speed()				{ return _speed;}
-	////////////////////// ±¤À± Ãß°¡
+	////////////////////// ê´‘ìœ¤ ì¶”ê°€
 	void	Set_Speed(INT _value)	{ _speed = _value; }
 
 	int		Get_HP() { return _hp; }
@@ -127,7 +140,6 @@ public:
 	int		Get_Token() { return _token; }
 	void	Set_Token(INT _value) { _token = _value; }
 	//////////////////////
-
 private:
 	virtual VOID Free();
 
@@ -136,19 +148,22 @@ private:
 	D3DXVECTOR3			RayOnTerrain();
 	D3DXVECTOR3			SetOnTerrain();
 
+	void			Destroy_Weapon();
+
 	void			IDLE_STATE(const _float& _DT);
 	void			DASH_STATE(const _float& _DT);
 	void			ATTACK_STATE(const _float& _DT);
 	void			Idle_Final_Input(const _float& _DT);
+
 	void			SetGrahpic();
 	void			Anim(TCHAR FileName[128], float delay, int maxIdx, bool reverse = false);
-	
-
+	void			Set_Effect(const _float& _DT);
 
 private:
 	bool			Debug;
 	float			_cameraAngle;
 
+	PSTATUS			_pStatus;
 	pState			_pState;
 	eState			_eState;
 	pSee			_see;
@@ -161,18 +176,24 @@ private:
 	float			_dashTime;
 	float			_dashG;
 	float			_speed;
-	////////////////////// ±¤À± Ãß°¡
-	int				_hp;			// ÇÃ·¹ÀÌ¾î HP
-	int				_dashstock;		// ÇÃ·¹ÀÌ¾î MP(´«¹°¸ğ¾ç)
-	int				_key;			// ÇÃ·¹ÀÌ¾î key
-	int				_coin;			// ÇÃ·¹ÀÌ¾î coin
-	int				_crystal;		// ÇÃ·¹ÀÌ¾î crystal
-	int				_token;			// ÇÃ·¹ÀÌ¾î ½ºÅ³ È½¼ö(´ÙÀÌ¾Æ¸óµå ¸ğ¾ç)
+	////////////////////// ê´‘ìœ¤ ì¶”ê°€
+	int				_hp;			// í”Œë ˆì´ì–´ HP
+	int				_dashstock;		// í”Œë ˆì´ì–´ MP(ëˆˆë¬¼ëª¨ì–‘)
+	int				_key;			// í”Œë ˆì´ì–´ key
+	int				_coin;			// í”Œë ˆì´ì–´ coin
+	int				_crystal;		// í”Œë ˆì´ì–´ crystal
+	int				_token;			// í”Œë ˆì´ì–´ ìŠ¤í‚¬ íšŸìˆ˜(ë‹¤ì´ì•„ëª¬ë“œ ëª¨ì–‘)
 	/////////////////////
 	float			_g;
 	float			_slideTime;
 
-	GameObject*			_inventory[8];
-	Bow*				_weaponSlot[4];
-	GameObject*			_artifactSlot[4];
+	_vec3			_pulsepos;
+	float			_attackDelay;
+	int				_arrowCount;
+
+	Bow*			_weaponSlot[4];
+	GameObject*		_artifactSlot[4];
+	GameObject*		_inventory[8];
+	int				_equipNum;
+
 };

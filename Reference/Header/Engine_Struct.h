@@ -17,11 +17,11 @@ namespace Engine
 	{
 		_vec3		vPosition;
 		_vec3		vNormal;
+		_ulong		dwColor;
 		_vec2		vTexUV;
-
 	}VTXTEX;
 
-	const _ulong	FVF_TEX = D3DFVF_XYZ | D3DFVF_NORMAL | D3DFVF_TEX1;
+	const _ulong	FVF_TEX = D3DFVF_XYZ | D3DFVF_NORMAL | D3DFVF_DIFFUSE |D3DFVF_TEX1;
 
 	typedef struct tagVertexCubeTexture
 	{
