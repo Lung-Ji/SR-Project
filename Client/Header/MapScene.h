@@ -1,9 +1,6 @@
 #pragma once
 #include "Scene.h"
 
-class MapScene : public Scene
-{
-
 class MapScene : public Scene {
 protected:
 	explicit MapScene(LPDIRECT3DDEVICE9 _GRPDEV);
@@ -24,6 +21,5 @@ public:
 	static	MapScene* Create(LPDIRECT3DDEVICE9 _GRPDEV);
 private:
 	virtual void Free();
-in
 };
 

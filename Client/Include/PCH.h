@@ -31,13 +31,21 @@
 #include "Camera.h"
 #include "Terrain.h"
 #include "MainUI.h"
-#include "Effect.h"
+#include "PlayerEffect.h"
+#include "MonsterEffect.h"
+#include "UIEffect.h"
 #include "NPC.h"
-//
-#include "Monster_State.h"
-//#include "Monster.h"
-#include "Monster1.h"
-#include "BossMonster.h"
+
+//#include "Monster_State.h"
+//#include "Monster1.h"
+//#include "BossMonster.h"
+
+#include "Monster.h"
+#include "MonsterTest.h"
+
+#include "Bat.h"
+#include "Docheol.h"
+
 #include "Bullet_Standard.h"
 
 #include "Player.h"
@@ -46,18 +54,22 @@
 #include "CXZTile.h"
 #include "MainMenuButton.h"
 #include "MainMenu.h"
+#include "Bow.h"
+#include "TileDestoryEffect.h"
 //////////////////////////////////////////// Scene List
 
 #include "StartScene.h"
+#include "DebugScene.h"
 #include "VillageScene.h"
 #include "DungeonScene.h"
 #include "UITest.h"
-
+#include "MapScene.h"
 //////////////////////////////////////////// Manager
 #include "GUIManager.h"
 #include "ResourceManager.h"
 #include "CollisionManager.h"
 #include "EffectManager.h"
+#include "UIManager.h"
 #include "KeyManager.h"
 #include "SoundManager.h"
 #include "RenderManager.h"
@@ -66,6 +78,7 @@
 #include "TimeManager.h"
 #include "GameManager.h"
 #include "TileManager.h"
+#include "UIManager.h"
 //////////////////////////////////////////// Global Variable
 
 extern HWND			hWnd;

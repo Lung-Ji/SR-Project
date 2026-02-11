@@ -1,13 +1,6 @@
 #pragma once
 #include "GameObject.h"
 
-#pragma region Macros
-#define POS(GAMEOBJECT)			static_cast<Transform*>(GAMEOBJECT->Get_Component(COMPONENT_TYPE::COMPONENT_TRANSFORM))->Get_Position()
-#define ROTATION(GAMEOBJECT)	static_cast<Transform*>(GAMEOBJECT->Get_Component(COMPONENT_TYPE::COMPONENT_TRANSFORM))->Get_Rotation()
-#define MYPOS					Component_Transform->Get_Position()
-
-#pragma endregion
-
 #define TRACKINGDIS 10.f
 #define TRACKINGMAX 3.f
 #define TRACKINGMIN 2.f
@@ -34,11 +27,10 @@ private:
 	HRESULT			Component_Initialize();
 
 private:
-	Buffer* Component_Buffer;
-	Transform* Component_Transform;
-	Texture* Component_Texture;
-	StateMachine* Component_FSM;
-	Collider* Component_Collider;
+	Buffer*		Component_Buffer;
+	Transform*	Component_Transform;
+	Collider*	Component_Collider;
+	Texture*	Component_Texture;
 
 public:
 	static Monster1* Create(LPDIRECT3DDEVICE9 _GRPDEV);
