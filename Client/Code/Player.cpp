@@ -19,6 +19,14 @@ HRESULT Player::Ready_GameObject() {
 	_dashTime			= 0.f;
 	_dashG				= 30.f;
 	_speed				= 0.f;
+	///////////////////////// 광윤 추가 ~ 제가 추가한 변수들 초기화
+	_hp					= 5;
+	_dashstock			= 3;
+	_key				= 0;
+	_coin				= 0;
+	_crystal			= 0;
+	_token				= 2;
+	/////////////////////////
 	_slideTime			= 0.f;
 	_g					= 30.f;
 	_frame				= 1;
@@ -77,6 +85,7 @@ HRESULT Player::Ready_GameObject() {
 		_weaponSlot[3]->Set_Bow_Equip(false);
 	}
 
+
 	Debug = false;
 
 	return S_OK;
@@ -90,7 +99,7 @@ INT	Player::Update_GameObject(const _float& _DT) {
 		Set_ObjectDead(TRUE);
 	}
 
-	SetOnTerrain(); 
+	//SetOnTerrain(); - 광윤 디버그
 
 	_frameTick += _DT;
 
@@ -748,7 +757,6 @@ void Player::Idle_Final_Input(const _float& _DT)
 		_attackDelay = 2.0f;
 		_frame = 1;
 	}
-
 }
 
 void Player::SetGrahpic()

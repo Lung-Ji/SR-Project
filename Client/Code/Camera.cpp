@@ -29,8 +29,8 @@ HRESULT CameraObject::Ready_GameObject() {
 }
 INT	CameraObject::Update_GameObject(const _float& _DT) {
 
-	if (KEY_DOWN(DIK_F2)) {	//	∏∂øÏΩ∫ ƒøº≠ ∞Ì¡§ ø©∫Œ TRUE = ∞Ì¡§, FALSE = ∞Ì¡§ «ÿ¡¶
-		MouseCheck ? MouseCheck = FALSE : MouseCheck = TRUE;
+	if (KEY_DOWN(DIK_F2)) {	//	ÎßàÏö∞Ïä§ Ïª§ÏÑú Í≥†Ï†ï Ïó¨Î∂Ä TRUE = Í≥†Ï†ï, FALSE = Í≥†Ï†ï Ìï¥Ï†ú
+		//MouseCheck ? MouseCheck = FALSE : MouseCheck = TRUE;
 		Camera_Move ? Camera_Move = FALSE : Camera_Move = TRUE;
 	}
 
@@ -111,7 +111,7 @@ VOID CameraObject::Camera_Transform_Control(CONST FLOAT& _DT) {
 			_vec3 Length = *D3DXVec3Normalize(&UpVector, &UpVector) * _DT * CameraSpeed;
 			EyeVec -= Length; AtVec -= Length;
 		}
-		if (KEY_DOWN(DIK_F1)) {		//	GUI ªÛ≈¬ πŸ º˚±Ë ø©∫Œ TRUE = Visible, FALSE = Hide
+		if (KEY_DOWN(DIK_F1)) {		//	GUI ÏÉÅÌÉú Î∞î Ïà®ÍπÄ Ïó¨Î∂Ä TRUE = Visible, FALSE = Hide
 			Camera_Show ? Camera_Show = FALSE : Camera_Show = TRUE;
 		}
 	}

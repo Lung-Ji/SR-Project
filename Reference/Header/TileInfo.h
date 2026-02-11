@@ -12,7 +12,6 @@ private:
     virtual ~TileInfo();
 
 public:
-
     virtual HRESULT		        Ready_Component();
     virtual INT			        Update_Component(CONST FLOAT& _DT);
     virtual VOID		        LateUpdate_Component(CONST FLOAT& _DT);
@@ -29,16 +28,17 @@ public:
         m_iTileNumber = iTileNumber;
         m_NextPos = vNext;
     }
-    void            Set_TileAnimaiton(const _tchar* pName, _int iCnt, Engine::TILE_SIDE eId, TILE_STATE eState, TILEMODE_CHANGE eMode, _int iTileNumber = 0, _vec3 vNext = {})
+    void            Set_TileAnimaiton(const _tchar* pName, _int iCnt, Engine::TILE_SIDE eId, TILE_STATE eState, TILEMODE_CHANGE eMode, _int iTileNumber = 0, _vec3 vNext = {}, _bool bAni = false)
     {
         m_iTextureCount = iCnt;
-        m_pTileName = pName;
-        m_eTileSide = eId;
-        m_eTileState = eState;
-        m_eTileMode = eMode;
-        m_iTileNumber = iTileNumber;
-        m_NextPos = vNext;
-        for (int i = 0; i < iCnt; ++i)
+        m_pTileName     = pName;
+        m_eTileSide     = eId;
+        m_eTileState    = eState;
+        m_eTileMode     = eMode;
+        m_iTileNumber   = iTileNumber;
+        m_NextPos       = vNext;
+        m_bOnlyAnimation = bAni;
+        for (int i = 1; i < iCnt +1; ++i)
         {
             TCHAR   Name[128] = L"";
             wsprintf(Name, m_pTileName.c_str(), i);
@@ -57,8 +57,23 @@ public:
     const _tchar*          Get_AnimationName(_uint iCnt) { return m_vecAnimationName[iCnt].c_str(); }
     TILE_STAGE             Get_TileStage()               { return m_eTileStage; }
     _vec3                  Get_NextPos()                 { return m_NextPos; }
-    _bool                  Set_PotalOpen()               { return m_bPortal; }
-    void                   Set_TextureID(IDirect3DBaseTexture9* pTexture) { m_pTexture = pTexture; }
+    _bool                  Get_PotalOpen()               { return m_bPortal; }
+    _bool                  Get_OnlyAnimation()           { return m_bOnlyAnimation; }
+    UvXY                   Get_Uv()                      { return m_Uv; }
+
+    void                   Set_OnlyAnimation(_bool bAni)           { m_bOnlyAnimation = bAni; }
+    void                   Set_PotalOpen()               { m_bPortal = true; }
+    void                   Set_Uv(UvXY uv)               { m_Uv = uv; }
+    void                   Set_TextureID(IDirect3DBaseTexture9* pTexture) { 
+        
+        auto iter = pTexture;
+        
+        if (iter != nullptr)
+        {
+            iter->AddRef();
+            m_pTexture = iter;
+        }
+    }
     
     IDirect3DBaseTexture9* Get_Texture()                    { return m_pTexture; }
 private:
@@ -73,9 +88,11 @@ private:
     vector<wstring>  m_vecAnimationName;
 private:
     _bool                  m_bPortal;
+    _bool                  m_bOnlyAnimation;
     _vec3                  m_NextPos;
     _int                   m_iTileNumber;
     _int                   m_iTextureCount;
+    UvXY                   m_Uv;
 public:
     static          TileInfo* Create(LPDIRECT3DDEVICE9 pGraphicDev);
     virtual		    Component* Clone();

@@ -113,14 +113,33 @@ private:
 	StateMachine*	Component_FSM;
 	Collider*		Component_Collider;
 public:
-	static Player*	Create(LPDIRECT3DDEVICE9 _GRPDEV);
+	PSTATUS*		Get_Status()		{ return &_pStatus; }								// í”Œë ˆì´ì–´ ìŠ¤í…Œì´í„°ìŠ¤
+	BowType			Get_Weapon_Type()	{ return _weaponSlot[_equipNum]->Get_Bow_Type(); }	// í˜„ì¬ ì¥ì°©í•œ í™œ íƒ€ì…
+	BowStat*		Get_CurBow_Stat()	{ return _weaponSlot[_equipNum]->Get_Bow_Stat(); }	// í˜„ì¬ ì¥ì°©í•œ í™œ ìŠ¤í…Ÿ
 
-// UI¿ë Get/SetÇÔ¼ö
-public:
-	float			Get_Speed()			{ return _speed; }
-	PSTATUS*		Get_Status()		{ return &_pStatus; }								// ÇÃ·¹ÀÌ¾î ½ºÅ×ÀÌÅÍ½º
-	BowType			Get_Weapon_Type()	{ return _weaponSlot[_equipNum]->Get_Bow_Type(); }	// ÇöÀç ÀåÂøÇÑ È° Å¸ÀÔ
-	BowStat*		Get_CurBow_Stat()	{ return _weaponSlot[_equipNum]->Get_Bow_Stat(); }	// ÇöÀç ÀåÂøÇÑ È° ½ºÅİ
+	static Player* Create(LPDIRECT3DDEVICE9 _GRPDEV);
+	float	Get_Speed()				{ return _speed;}
+	////////////////////// ê´‘ìœ¤ ì¶”ê°€
+	void	Set_Speed(INT _value)	{ _speed = _value; }
+
+	int		Get_HP() { return _hp; }
+	void	Set_HP(INT _value) { _hp = _value; }
+
+	int		Get_Key() { return _key; }
+	void	Set_Key(INT _value) { _key = _value; }
+
+	int		Get_Coin() { return _coin; }
+	void	Set_Coin(INT _value) { _coin = _value; }
+
+	int		Get_Crystal() { return _crystal; }
+	void	Set_Crystal(INT _value) { _crystal = _value; }
+	
+	int		Get_DashStock() { return _dashstock; }
+	void	Set_DashStock(INT _value) { _dashstock = _value; }
+	
+	int		Get_Token() { return _token; }
+	void	Set_Token(INT _value) { _token = _value; }
+	//////////////////////
 private:
 	virtual VOID Free();
 
@@ -157,7 +176,14 @@ private:
 	float			_dashTime;
 	float			_dashG;
 	float			_speed;
-
+	////////////////////// ê´‘ìœ¤ ì¶”ê°€
+	int				_hp;			// í”Œë ˆì´ì–´ HP
+	int				_dashstock;		// í”Œë ˆì´ì–´ MP(ëˆˆë¬¼ëª¨ì–‘)
+	int				_key;			// í”Œë ˆì´ì–´ key
+	int				_coin;			// í”Œë ˆì´ì–´ coin
+	int				_crystal;		// í”Œë ˆì´ì–´ crystal
+	int				_token;			// í”Œë ˆì´ì–´ ìŠ¤í‚¬ íšŸìˆ˜(ë‹¤ì´ì•„ëª¬ë“œ ëª¨ì–‘)
+	/////////////////////
 	float			_g;
 	float			_slideTime;
 
