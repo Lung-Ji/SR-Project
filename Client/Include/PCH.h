@@ -31,6 +31,8 @@
 #include "Camera.h"
 #include "Terrain.h"
 #include "MainUI.h"
+#include "Inventory.h"
+#include "NPCTalk.h"
 #include "PlayerEffect.h"
 #include "UIEffect.h"
 #include "NPC.h"
@@ -56,6 +58,7 @@
 #include "MainMenuButton.h"
 #include "MainMenu.h"
 #include "Bow.h"
+#include "Arrow.h"
 #include "TileDestoryEffect.h"
 //////////////////////////////////////////// Scene List
 
@@ -66,6 +69,7 @@
 #include "UITest.h"
 #include "MapScene.h"
 //////////////////////////////////////////// Manager
+#include "FontManager.h"
 #include "GUIManager.h"
 #include "ResourceManager.h"
 #include "CollisionManager.h"
@@ -79,7 +83,6 @@
 #include "TimeManager.h"
 #include "GameManager.h"
 #include "TileManager.h"
-#include "UIManager.h"
 //////////////////////////////////////////// Global Variable
 
 extern HWND			hWnd;
