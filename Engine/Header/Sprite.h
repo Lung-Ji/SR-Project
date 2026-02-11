@@ -17,16 +17,22 @@ struct ENGINE_DLL SpriteINFO {
 	D3DXVECTOR2	Get_Pos() { return { POS.x, POS.y }; }
 	VOID	Move_Pos(FLOAT _TX, FLOAT _TY, FLOAT _Speed) {
 		if (POS.x > _TX) {
-
+			POS.x -= _Speed;
 		}
 	}
 
 	VOID	Set_Scale(FLOAT _X, FLOAT _Y)	{ WIDTH = _X, HEIGHT = _Y; }
 
 	VOID	Set_Opacity(FLOAT _V) { OPACITY = _V; }
-	VOID	Decrease_Opacity(FLOAT _V) { if (OPACITY > 0)	OPACITY -= _V; }
-	VOID	QuickDecrease_Opacity(FLOAT _V) { 
-		while (OPACITY > 0.f) { OPACITY -= _V; }
+	VOID	Decrease_Opacity(FLOAT _V) { 
+		if (OPACITY > 0)	
+			OPACITY -= _V;
+	}
+	VOID	Increase_Opacity(FLOAT _V) { 
+		if (OPACITY <= 254)	
+			OPACITY += _V; 
+		if (OPACITY > 254)
+			OPACITY = 255;
 	}
 
 	VOID	Set_Visible(BOOL  _B) { VISIBLE = _B; }
@@ -45,6 +51,7 @@ public:
 	VOID		Render_Sprite();
 
 	HRESULT		Import_Sprite(CONST TCHAR* _PATH, CONST TCHAR* _KEY, FLOAT _POSX, FLOAT _POSY, UINT _WIDTH, UINT _HEIGHT, BOOL _VIS, INT _OPACITY = 255);
+	HRESULT		Import_SpriteEX(wstring _RootPath, CONST TCHAR* _PATH, CONST TCHAR* _KEY, FLOAT _POSX, FLOAT _POSY, UINT _WIDTH, UINT _HEIGHT, BOOL _VIS, INT _OPACITY = 255);
 
 	vector<SpriteINFO>* Get_TextureList() { return &TextureList; }
 	SpriteINFO*			Get_Texture(wstring _KEY);

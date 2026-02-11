@@ -1,6 +1,5 @@
 #pragma once
 #include "GameObject.h"
-#include "FontManager.h"
 
 class MainUI : public GameObject {
 private:
@@ -14,6 +13,14 @@ public:
 	virtual VOID		LateUpdate_GameObject(CONST FLOAT& _DT);
 	virtual VOID		Render_GameObject();
 
+public:		// Trigger Function
+	VOID			Player_LostHP();
+	VOID			Player_KeyModify(INT _VALUE);
+	VOID			Player_MoneyModify(INT _VALUE);
+	VOID			Player_CrystalModify(INT _VALUE);
+	VOID			Player_UseSkill();
+	VOID			Player_GetItem(wstring Item);
+
 public:
 	HRESULT Component_Initialize();
 	HRESULT Sprite_Initialize();
@@ -22,8 +29,9 @@ public:
 	static	MainUI*		Create(LPDIRECT3DDEVICE9 _GRPDEV);
 
 private:
-	SpriteObject*				Component_Sprite;
-	vector<SpriteINFO>*			TextureList;
+	SpriteObject*		Component_Sprite;
+	vector<SpriteINFO>*	TextureList;
+
 private:
 	virtual	VOID		Free();
 };

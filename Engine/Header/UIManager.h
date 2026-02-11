@@ -7,7 +7,7 @@ BEGIN(Engine)
 
 // UI 오브젝트들의 enum값을 설정, 각각의 분류에 따라 구분 가능케 함.
 enum UIType {
-	Inventory,
+	Inven,
 	Object,
 	Settings
 };
