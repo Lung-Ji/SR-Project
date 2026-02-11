@@ -19,6 +19,9 @@ HRESULT Player::Ready_GameObject() {
 	///////////////////////// 광윤 추가 ~ 제가 추가한 변수들 초기화
 	_hp					= 5;
 	_dashstock			= 3;
+	_key				= 0;
+	_coin				= 0;
+	_crystal			= 0;
 	_token				= 2;
 	/////////////////////////
 	_slideTime			= 0.f;

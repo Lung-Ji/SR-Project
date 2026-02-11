@@ -66,14 +66,15 @@ VOID RenderManager::Render_UI(LPDIRECT3DDEVICE9& _GRPDEV)	{
 			if (_OBJ->Get_ObjectTag() == L"MainUI") {
 				_OBJ->Render_GameObject();
 				EffectManager::GetInstance()->Render_EffectManager(_GRPDEV);
+				FontManager::GetInstance()->Render_FontManager();
 			}
 			else {
 				_OBJ->Render_GameObject();
-
+				FontManager::GetInstance()->Render_FontManager();
 			}
 		}
 	}
-	FontManager::GetInstance()->Render_FontManager();
+	
 }
 VOID RenderManager::Render_TILE(LPDIRECT3DDEVICE9& _GRPDEV)
 {

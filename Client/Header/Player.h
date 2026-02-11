@@ -105,9 +105,10 @@ private:
 	Collider*		Component_Collider;
 public:
 	static Player* Create(LPDIRECT3DDEVICE9 _GRPDEV);
-	float	Get_Speed()			{ return _speed;}
-
+	float	Get_Speed()				{ return _speed;}
 	////////////////////// ±¤À± Ãß°¡
+	void	Set_Speed(INT _value)	{ _speed = _value; }
+
 	int		Get_HP() { return _hp; }
 	void	Set_HP(INT _value) { _hp = _value; }
 

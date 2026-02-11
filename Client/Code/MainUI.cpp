@@ -1,6 +1,5 @@
 #include "../Include/PCH.h"
 #include "MainUI.h"
-#include "FontManager.h"
 
 MainUI::MainUI(LPDIRECT3DDEVICE9 _GRPDEV)	: GameObject(_GRPDEV)	{}
 MainUI::MainUI(CONST GameObject& _RHS)		: GameObject(_RHS)		{}
@@ -10,7 +9,7 @@ HRESULT	MainUI::Ready_GameObject() {
 	if (FAILED(Component_Initialize()))		return E_FAIL;
 	if (FAILED(Sprite_Initialize()))		return E_FAIL;
 	if (FAILED(Effect_Initialize()))		return E_FAIL;
-	if (FAILED(Text_Initialize()))		return E_FAIL;
+	if (FAILED(Text_Initialize()))			return E_FAIL;
 
 	PlayerObject = dynamic_cast<Player*>(SceneManager::GetInstance()->Get_GameObject(L"Player"));
 
@@ -18,15 +17,18 @@ HRESULT	MainUI::Ready_GameObject() {
 	Speech_Text = L"";
 	Timer01 = 0.f; Timer02 = 0.f; Timer03 = 0.f;
 
+	MainUIOpacity = 0.f;
+
 	Current_KeyCount		= 0;
 	Current_CoinCount		= 0;
 	Current_CrystalCount	= 0;
+
 	return S_OK;
 }
 INT		MainUI::Update_GameObject(CONST FLOAT& _DT) {
 	GameObject::Update_GameObject(_DT);
 	RenderManager::GetInstance()->Add_RenderGroup(RENDER_UI, this);
-	if (KEY_DOWN(DIK_LCONTROL)) {  
+	if (KEY_DOWN(DIK_LCONTROL)) {
 		Player_LostHP();
 		Player_UseSkill();
 	}
@@ -44,7 +46,7 @@ INT		MainUI::Update_GameObject(CONST FLOAT& _DT) {
 		Player_CrystalModify();
 		Timer02 = 0.f;
 	}
-	PopUp_ItemInfo(L"Relic_Item2", _DT);
+	PopUp_ItemInfo(L"Relic_Item3", _DT);
 	return 0;
 }
 VOID	MainUI::LateUpdate_GameObject(CONST FLOAT& _DT) {
@@ -104,6 +106,24 @@ VOID MainUI::Player_UseSkill() {
 		UIKey_HP = L"Token" + to_wstring(PlayerToken);
 		Component_Sprite->Get_Texture(UIKey_HP)->Set_Visible(FALSE);
 	}
+}
+VOID MainUI::PopUp_Interaction_Notice(wstring _Text, BOOL _Vis) {
+	SpriteINFO* KeyBoard = Component_Sprite->Get_Texture(L"KEY_E");
+	SpriteINFO* InterBG = Component_Sprite->Get_Texture(L"Interaction_BG");
+	FontObject* FO = FontManager::GetInstance()->Find_FontObject(L"Interaction_Text");
+	FO->Text = _Text;
+
+	if (_Vis) {
+		KeyBoard->Set_Visible(TRUE);
+		InterBG->Set_Visible(TRUE);
+		FO->Set_Color(200, 255, 255, 255);
+	} 
+	else {
+		KeyBoard->Set_Visible(FALSE);
+		InterBG->Set_Visible(FALSE);
+		FO->Set_Color(0, 255, 255, 255);
+	}
+	
 }
 VOID MainUI::PopUp_ItemInfo(wstring ItemTag, FLOAT _DT) {
 	if (KEY_DOWN(DIK_B)) { ItemInfo = TRUE; }
@@ -249,6 +269,14 @@ VOID MainUI::PopUp_Speech_Bubble(wstring _Text, FLOAT _DT) {
 	}
 }
 
+VOID MainUI::All_UI_FadeOUT() {
+
+}
+
+VOID MainUI::All_UI_FadeIN() {
+
+}
+
 HRESULT MainUI::Component_Initialize() {
 	Component_Sprite = ADD_COMPONENT_SPRITE;
 	TextureList = Component_Sprite->Get_TextureList();
@@ -339,7 +367,7 @@ HRESULT MainUI::Text_Initialize() {
 	FontManager::GetInstance()->Add_FontSprite(GRPDEV, L"∞", { 1220.f, 687.f }, 16, L"ArrowCountText",		L"08서울한강체 L", D3DCOLOR_ARGB(200, 255, 255, 255));
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////// INTERACTION ////////////////////////////////////////////////////
-	FontManager::GetInstance()->Add_FontSprite(GRPDEV, L"구매 - 유물 열쇠", { 810.f, 601.f }, 14, L"Interaction_Text", L"08서울한강체 M", D3DCOLOR_ARGB(200, 255, 255, 255), 400);
+	FontManager::GetInstance()->Add_FontSprite(GRPDEV, L"", { 810.f, 600.f }, 16, L"Interaction_Text", L"08서울한강체 M", D3DCOLOR_ARGB(200, 255, 255, 255), 400);
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// ////////////////////////////////////////////// GETITEM ///////////////////////////////////////////////////////
 	FontManager::GetInstance()->Add_FontSprite(GRPDEV, L"", { 1430.f, 330.f }, 20, L"ItemInfo", L"08서울한강체 L", D3DCOLOR_ARGB(200, 255, 255, 255));
@@ -351,10 +379,7 @@ HRESULT MainUI::Text_Initialize() {
 	
 	return S_OK;
 }
-HRESULT MainUI::itemInfo_Initialize() {
 
-	return S_OK;
-}
 MainUI* MainUI::Create(LPDIRECT3DDEVICE9 _GRPDEV) {
 	MainUI* MUI = new MainUI(_GRPDEV);
 	if (FAILED(MUI->Ready_GameObject())) {

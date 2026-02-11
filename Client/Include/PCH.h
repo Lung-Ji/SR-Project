@@ -32,6 +32,7 @@
 #include "Terrain.h"
 #include "MainUI.h"
 #include "Inventory.h"
+#include "NPCTalk.h"
 #include "PlayerEffect.h"
 #include "MonsterEffect.h"
 #include "UIEffect.h"

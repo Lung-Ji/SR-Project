@@ -20,17 +20,20 @@ public:		// Trigger Function
 	VOID			Player_MoneyModify();
 	VOID			Player_CrystalModify();
 	VOID			Player_UseSkill();
+	VOID			PopUp_Interaction_Notice(wstring _Text, BOOL _Vis);
 	VOID			PopUp_ItemInfo(wstring ItemTag, FLOAT _DT);
 	VOID			PopUp_Speech_Bubble(wstring _Text, FLOAT _DT);
 
 	VOID			Speech_PopUp(wstring _Text) { Speech_Text = _Text; Speech_Bubble = TRUE; }
+
+	VOID			All_UI_FadeOUT();
+	VOID			All_UI_FadeIN();
 
 public:
 	HRESULT Component_Initialize();
 	HRESULT Sprite_Initialize();
 	HRESULT Effect_Initialize();
 	HRESULT	Text_Initialize();
-	HRESULT itemInfo_Initialize();
 
 	static	MainUI*		Create(LPDIRECT3DDEVICE9 _GRPDEV);
 
@@ -51,6 +54,8 @@ private:
 	Player* PlayerObject;
 
 	FLOAT	Timer01, Timer02, Timer03;
+
+	FLOAT	MainUIOpacity;
 
 private:
 	virtual	VOID		Free();
