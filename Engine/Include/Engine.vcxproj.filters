@@ -82,9 +82,6 @@
     <Filter Include="11. FontManager">
       <UniqueIdentifier>{45e3c7f3-03b5-4afb-a8f9-8cf66c4cb361}</UniqueIdentifier>
     </Filter>
-    <Filter Include="99. Component\08. Inventory">
-      <UniqueIdentifier>{00160b99-b568-463c-bbe9-d080c41ddff5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="99. Component\03. Texture">
       <UniqueIdentifier>{f901d2b8-ed83-41d1-b248-ff0820f8b24a}</UniqueIdentifier>
     </Filter>
@@ -180,10 +177,6 @@
     <ClInclude Include="..\Header\FontManager.h">
       <Filter>11. FontManager</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\UISprite.h" />
-    <ClInclude Include="..\Inventory.h">
-      <Filter>99. Component\08. Inventory</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\Font.h">
       <Filter>99. Component\07. Font</Filter>
     </ClInclude>
@@ -263,10 +256,6 @@
     </ClCompile>
     <ClCompile Include="..\Code\FontManager.cpp">
       <Filter>11. FontManager</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\UISprite.cpp" />
-    <ClCompile Include="..\Code\Inventory.cpp">
-      <Filter>99. Component\08. Inventory</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Font.cpp">
       <Filter>99. Component\07. Font</Filter>

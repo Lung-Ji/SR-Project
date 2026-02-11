@@ -25,23 +25,11 @@
     <Filter Include="04. UI">
       <UniqueIdentifier>{be3997a7-88ce-4e9a-ac9f-d6cbd5ecf290}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. Scene\01. StartScene">
-      <UniqueIdentifier>{cf46baff-be85-4afa-b63b-eb461dffd27c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. Scene\03. Dungeon">
-      <UniqueIdentifier>{03b4ef92-5c7d-4db3-a93d-5822de3e36ef}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. Scene\02. Village">
-      <UniqueIdentifier>{35455ad3-3905-4227-a948-f28e17a00410}</UniqueIdentifier>
-    </Filter>
     <Filter Include="00. DefaultWindow\Default">
       <UniqueIdentifier>{2f2671c9-f32b-4a40-9573-755bf2c87746}</UniqueIdentifier>
     </Filter>
     <Filter Include="00. DefaultWindow\Assets">
       <UniqueIdentifier>{648cd6d8-45fe-48a3-a79b-38dcb0f1b432}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. Scene\00. LoadThread">
-      <UniqueIdentifier>{996a4848-c684-41a6-b6c0-08b66384e6ed}</UniqueIdentifier>
     </Filter>
     <Filter Include="03. GameObject\04. Terrain">
       <UniqueIdentifier>{a0a97f9e-3e66-4576-971e-17a85d10cb35}</UniqueIdentifier>
@@ -67,23 +55,11 @@
     <Filter Include="03. GameObject\02. Monster\01. Boss">
       <UniqueIdentifier>{9a7b2918-49d6-4c1f-a5b1-a218d111c477}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. GameObject\02. Monster\02. Monster1">
-      <UniqueIdentifier>{6d746460-77e9-4f41-ba5d-78fa66467052}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="04. UI\01. Sprite\MainMenu">
-      <UniqueIdentifier>{5aecb6cf-f877-4f39-8fe8-44da2610ab28}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. Scene\99. UITest">
-      <UniqueIdentifier>{3d87992a-1f5e-4047-b98a-ef2dc5d8e336}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03. GameObject\06. Effect">
       <UniqueIdentifier>{ac5a840f-6ffe-4f26-9c83-a1aa4ca23c92}</UniqueIdentifier>
     </Filter>
     <Filter Include="02. Scene\99. DebugScene">
       <UniqueIdentifier>{463a72e6-4ff4-4d4b-8a1f-42b0355fbd5e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. Scene\88. MapScene">
-      <UniqueIdentifier>{76ac9252-3a58-4a11-91e2-f721f733b660}</UniqueIdentifier>
     </Filter>
     <Filter Include="03. GameObject\99. Camera">
       <UniqueIdentifier>{4e81e72d-aaba-4f6f-aadb-fd7b0e176224}</UniqueIdentifier>
@@ -157,11 +133,17 @@
     <Filter Include="04. UI\02. MainUI">
       <UniqueIdentifier>{6dda267f-0b5a-42fe-86aa-cfd14ceff1a0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="04. UI\03. Inventory">
-      <UniqueIdentifier>{0342db50-c41a-444b-be99-85b8ffe4f75f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="04. UI\04. NPCTalk">
       <UniqueIdentifier>{d4b94dac-8b9e-4ebb-ae55-e178ec4c4624}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Scene\01. MainScene">
+      <UniqueIdentifier>{cf46baff-be85-4afa-b63b-eb461dffd27c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Scene\99. MapScene">
+      <UniqueIdentifier>{76ac9252-3a58-4a11-91e2-f721f733b660}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. UI\03. 병합예정">
+      <UniqueIdentifier>{0342db50-c41a-444b-be99-85b8ffe4f75f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -184,7 +166,7 @@
       <Filter>00. DefaultWindow\Default</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\StartScene.h">
-      <Filter>02. Scene\01. StartScene</Filter>
+      <Filter>02. Scene\01. MainScene</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\Camera.h">
       <Filter>03. GameObject\99. Camera</Filter>
@@ -200,15 +182,6 @@
     </ClInclude>
     <ClInclude Include="..\Header\NPC.h">
       <Filter>03. GameObject\03. NPC</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\VillageScene.h">
-      <Filter>02. Scene\02. Village</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\DungeonScene.h">
-      <Filter>02. Scene\03. Dungeon</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\LoadThread.h">
-      <Filter>02. Scene\00. LoadThread</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\Terrain.h">
       <Filter>03. GameObject\04. Terrain</Filter>
@@ -258,9 +231,6 @@
     <ClInclude Include="..\Header\MainMenu.h">
       <Filter>04. UI\01. MainUI\MainMenuUI</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\UITest.h">
-      <Filter>02. Scene\99. UITest</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\MainMenuLogo.h">
       <Filter>04. UI\01. MainUI\MainMenuUI</Filter>
     </ClInclude>
@@ -268,7 +238,7 @@
       <Filter>02. Scene\99. DebugScene</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\MapScene.h">
-      <Filter>02. Scene\88. MapScene</Filter>
+      <Filter>02. Scene\99. MapScene</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\PlayerEffect.h">
       <Filter>03. GameObject\06. Effect\01. PlayerEffect</Filter>
@@ -331,7 +301,7 @@
       <Filter>04. UI\02. MainUI</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\Inventory.h">
-      <Filter>04. UI\03. Inventory</Filter>
+      <Filter>04. UI\03. 병합예정</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\NPCTalk.h">
       <Filter>04. UI\04. NPCTalk</Filter>
@@ -348,7 +318,7 @@
       <Filter>00. DefaultWindow</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\StartScene.cpp">
-      <Filter>02. Scene\01. StartScene</Filter>
+      <Filter>02. Scene\01. MainScene</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Camera.cpp">
       <Filter>03. GameObject\99. Camera</Filter>
@@ -358,15 +328,6 @@
     </ClCompile>
     <ClCompile Include="..\Code\NPC.cpp">
       <Filter>03. GameObject\03. NPC</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\VillageScene.cpp">
-      <Filter>02. Scene\02. Village</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\DungeonScene.cpp">
-      <Filter>02. Scene\03. Dungeon</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\LoadThread.cpp">
-      <Filter>02. Scene\00. LoadThread</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Terrain.cpp">
       <Filter>03. GameObject\04. Terrain</Filter>
@@ -413,9 +374,6 @@
     <ClCompile Include="..\Code\MainMenu.cpp">
       <Filter>04. UI\01. MainUI\MainMenuUI</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\UITest.cpp">
-      <Filter>02. Scene\99. UITest</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\MainMenuLogo.cpp">
       <Filter>04. UI\01. MainUI\MainMenuUI</Filter>
     </ClCompile>
@@ -423,7 +381,7 @@
       <Filter>02. Scene\99. DebugScene</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\MapScene.cpp">
-      <Filter>02. Scene\88. MapScene</Filter>
+      <Filter>02. Scene\99. MapScene</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\PlayerEffect.cpp">
       <Filter>03. GameObject\06. Effect\01. PlayerEffect</Filter>
@@ -451,9 +409,6 @@
     </ClCompile>
     <ClCompile Include="..\Code\TileDestoryEffect.cpp">
       <Filter>03. GameObject\05. Tile</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\PlayerInven.cpp">
-      <Filter>04. UI\InventoryUI</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Object_Explain.cpp">
       <Filter>04. UI\InventoryUI</Filter>
@@ -489,10 +444,13 @@
       <Filter>04. UI\02. MainUI</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Inventory.cpp">
-      <Filter>04. UI\03. Inventory</Filter>
+      <Filter>04. UI\03. 병합예정</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\NPCTalk.cpp">
       <Filter>04. UI\04. NPCTalk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\PlayerInven.cpp">
+      <Filter>04. UI\InventoryUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

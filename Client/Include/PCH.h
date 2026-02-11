@@ -69,9 +69,6 @@
 
 #include "StartScene.h"
 #include "DebugScene.h"
-#include "VillageScene.h"
-#include "DungeonScene.h"
-#include "UITest.h"
 #include "MapScene.h"
 //////////////////////////////////////////// Manager
 #include "FontManager.h"

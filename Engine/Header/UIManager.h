@@ -9,7 +9,7 @@ BEGIN(Engine)
 enum UIType {
 	LOGO,
 	STATUS,
-	Inventory,
+	Inven,
 	Object,
 	Settings
 };

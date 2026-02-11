@@ -26,7 +26,7 @@ VOID	PlayerInven::LateUpdate_GameObject(CONST FLOAT& _DT) {
 
 }
 VOID	PlayerInven::Render_GameObject() {	
-		UIManager::GetInstance()->Render_UI(GRPDEV, Inventory);
+		UIManager::GetInstance()->Render_UI(GRPDEV, Inven);
 		UIManager::GetInstance()->Render_UI(GRPDEV, Object);
 		//Component_Font->Render_Component();
 }	
@@ -39,32 +39,32 @@ HRESULT PlayerInven::Sprite_Initialize() {
 	
 		///////////////////////////////////////////////// BACKGROUND //////////////////////////////////////////////////////
 		//Component_Sprite->Import_Sprite(L"../../UI/MainUI/WeaponBG_ArrowCount.png", L"INVEN_BACKGROUND", -45.f, -125.f, 1380.f, 1000.f, TRUE);
-		UIManager::GetInstance()->Import_UISprite(GRPDEV, Inventory, L"../../UI/MainUI/WeaponBG_ArrowCount.png",
+		UIManager::GetInstance()->Import_UISprite(GRPDEV, Inven, L"../../UI/MainUI/WeaponBG_ArrowCount.png",
 			1380.f, 1000.f, -45.f, -125.f, TRUE,155);
 		////////////////////////////////////////////// CUR_EQUIP_ARROW //////////////////////////////////////////////////////
-		UIManager::GetInstance()->Import_UISprite(GRPDEV,Inventory, L"../../UI/MainUI/WeaponBG_Arrow.png",100.f, 100.f,410.f, 250.f,TRUE, 255);
-		UIManager::GetInstance()->Import_UISprite(GRPDEV,Inventory, L"../../UI/MainUI/WeaponBG_Arrow.png",100.f, 100.f,510.f, 200.f,TRUE, 255);
-		UIManager::GetInstance()->Import_UISprite(GRPDEV,Inventory, L"../../UI/MainUI/WeaponBG_Arrow.png",100.f, 100.f,610.f, 200.f,TRUE, 255);
-		UIManager::GetInstance()->Import_UISprite(GRPDEV,Inventory, L"../../UI/MainUI/WeaponBG_Arrow.png",100.f, 100.f,710.f, 250.f,TRUE, 255);
+		UIManager::GetInstance()->Import_UISprite(GRPDEV,Inven, L"../../UI/MainUI/WeaponBG_Arrow.png",100.f, 100.f,410.f, 250.f,TRUE, 255);
+		UIManager::GetInstance()->Import_UISprite(GRPDEV,Inven, L"../../UI/MainUI/WeaponBG_Arrow.png",100.f, 100.f,510.f, 200.f,TRUE, 255);
+		UIManager::GetInstance()->Import_UISprite(GRPDEV,Inven, L"../../UI/MainUI/WeaponBG_Arrow.png",100.f, 100.f,610.f, 200.f,TRUE, 255);
+		UIManager::GetInstance()->Import_UISprite(GRPDEV,Inven, L"../../UI/MainUI/WeaponBG_Arrow.png",100.f, 100.f,710.f, 250.f,TRUE, 255);
 
-		UIManager::GetInstance()->Import_UISprite(GRPDEV, Inventory, L"../../UI/Inventory_UI/Weapon.png", 80.f, 90.f, 523.f, 200.f, TRUE, 255);
-		UIManager::GetInstance()->Import_UISprite(GRPDEV, Inventory, L"../../UI/Inventory_UI/Weapon.png", 80.f, 90.f, 623.f, 200.f, TRUE, 255);
-		UIManager::GetInstance()->Import_UISprite(GRPDEV, Inventory, L"../../UI/Inventory_UI/Weapon.png", 80.f, 90.f, 723.f, 250.f, TRUE, 255);
+		UIManager::GetInstance()->Import_UISprite(GRPDEV, Inven, L"../../UI/Inventory_UI/Weapon.png", 80.f, 90.f, 523.f, 200.f, TRUE, 255);
+		UIManager::GetInstance()->Import_UISprite(GRPDEV, Inven, L"../../UI/Inventory_UI/Weapon.png", 80.f, 90.f, 623.f, 200.f, TRUE, 255);
+		UIManager::GetInstance()->Import_UISprite(GRPDEV, Inven, L"../../UI/Inventory_UI/Weapon.png", 80.f, 90.f, 723.f, 250.f, TRUE, 255);
 
 		//Component_Sprite->Import_Sprite(L"../../UI/MainUI/WeaponBG_Arrow.png", L"EQUIP_SPRITE2", 510.f, 200.f, 100.f, 100.f, TRUE);
 		//Component_Sprite->Import_Sprite(L"../../UI/MainUI/WeaponBG_Arrow.png", L"EQUIP_SPRITE3", 610.f, 200.f, 100.f, 100.f, TRUE);
 		//Component_Sprite->Import_Sprite(L"../../UI/MainUI/WeaponBG_Arrow.png", L"EQUIP_SPRITE4", 710.f, 250.f, 100.f, 100.f, TRUE);
 		//Component_Sprite->Import_Sprite(L"../../UI/MainUI/WeaponBG_Arrow.png", L"EQUIP_SPRITE1", 410.f, 250.f, 100.f, 100.f, TRUE);
 		///////////////////////////////////////////// CUR_EQUIP_EQUIPMENT/////////////////////////////////////////////////////
-		UIManager::GetInstance()->Import_UISprite(GRPDEV, Inventory, L"../../UI/MainUI/WeaponBG_Arrow.png", 100.f, 100.f, 410.f, 350.f, TRUE, 255);
-		UIManager::GetInstance()->Import_UISprite(GRPDEV, Inventory, L"../../UI/MainUI/WeaponBG_Arrow.png", 100.f, 100.f, 510.f, 400.f, TRUE, 255);
-		UIManager::GetInstance()->Import_UISprite(GRPDEV, Inventory, L"../../UI/MainUI/WeaponBG_Arrow.png", 100.f, 100.f, 610.f, 400.f, TRUE, 255);
-		UIManager::GetInstance()->Import_UISprite(GRPDEV, Inventory, L"../../UI/MainUI/WeaponBG_Arrow.png", 100.f, 100.f, 710.f, 350.f, TRUE, 255);
+		UIManager::GetInstance()->Import_UISprite(GRPDEV, Inven, L"../../UI/MainUI/WeaponBG_Arrow.png", 100.f, 100.f, 410.f, 350.f, TRUE, 255);
+		UIManager::GetInstance()->Import_UISprite(GRPDEV, Inven, L"../../UI/MainUI/WeaponBG_Arrow.png", 100.f, 100.f, 510.f, 400.f, TRUE, 255);
+		UIManager::GetInstance()->Import_UISprite(GRPDEV, Inven, L"../../UI/MainUI/WeaponBG_Arrow.png", 100.f, 100.f, 610.f, 400.f, TRUE, 255);
+		UIManager::GetInstance()->Import_UISprite(GRPDEV, Inven, L"../../UI/MainUI/WeaponBG_Arrow.png", 100.f, 100.f, 710.f, 350.f, TRUE, 255);
 
-		UIManager::GetInstance()->Import_UISprite(GRPDEV, Inventory, L"../../UI/Inventory_UI/EquipMent.png", 80.f, 90.f, 423.f, 350.f, TRUE, 255);
-		UIManager::GetInstance()->Import_UISprite(GRPDEV, Inventory, L"../../UI/Inventory_UI/EquipMent.png", 80.f, 90.f, 523.f, 400.f, TRUE, 255);
-		UIManager::GetInstance()->Import_UISprite(GRPDEV, Inventory, L"../../UI/Inventory_UI/EquipMent.png", 80.f, 90.f, 623.f, 400.f, TRUE, 255);
-		UIManager::GetInstance()->Import_UISprite(GRPDEV, Inventory, L"../../UI/Inventory_UI/EquipMent.png", 80.f, 90.f, 723.f, 350.f, TRUE, 255);
+		UIManager::GetInstance()->Import_UISprite(GRPDEV, Inven, L"../../UI/Inventory_UI/EquipMent.png", 80.f, 90.f, 423.f, 350.f, TRUE, 255);
+		UIManager::GetInstance()->Import_UISprite(GRPDEV, Inven, L"../../UI/Inventory_UI/EquipMent.png", 80.f, 90.f, 523.f, 400.f, TRUE, 255);
+		UIManager::GetInstance()->Import_UISprite(GRPDEV, Inven, L"../../UI/Inventory_UI/EquipMent.png", 80.f, 90.f, 623.f, 400.f, TRUE, 255);
+		UIManager::GetInstance()->Import_UISprite(GRPDEV, Inven, L"../../UI/Inventory_UI/EquipMent.png", 80.f, 90.f, 723.f, 350.f, TRUE, 255);
 
 				
 		//Component_Sprite->Import_Sprite(L"../../UI/MainUI/WeaponBG_Arrow.png", L"EQUIP_EQUIPMENT_SPRITE1", 410.f, 350.f, 100.f, 100.f, TRUE);
@@ -74,11 +74,11 @@ HRESULT PlayerInven::Sprite_Initialize() {
 		///////////////////////////////////////////////EXAMPLE_WEARPON/////////////////////////////////////////////////////////////
 		//Component_Sprite->Import_Sprite(L"../../UI/Weapon_UI/Spr_Weapon_No006_LongBowThumbnail.png", L"ARROW_INVEN1", 420.f, 265.f, 85.f, 85.f, TRUE);
 		////////////////////////////////////////////INVENTORY_ITEM_BACKGROUND//////////////////////////////////////////////////////////////
-		UIManager::GetInstance()->Import_UISprite(GRPDEV, Inventory, L"../../UI/Inventory_UI/Spr_Ui_Inventory_Background.png", 450.f, 300.f, 820.f, 200.f, TRUE, 200);
+		UIManager::GetInstance()->Import_UISprite(GRPDEV, Inven, L"../../UI/Inventory_UI/Spr_Ui_Inventory_Background.png", 450.f, 300.f, 820.f, 200.f, TRUE, 200);
 
 		//Component_Sprite->Import_Sprite(L"../../UI/Inventory_UI/Spr_Ui_Inventory_Background.png", L"INVENTORY_BACKGROUND", 900.f, 300.f, 450.f, 300.f, TRUE);
 		/////////////////////////////////////////////INVENTORY_ITEM////////////////////////////////////////////////////////////////////////
-		UIManager::GetInstance()->Import_UISprite(GRPDEV, Inventory, L"../../UI/Weapon_UI/Spr_Weapon_No006_LongBowThumbnail.png",
+		UIManager::GetInstance()->Import_UISprite(GRPDEV, Inven, L"../../UI/Weapon_UI/Spr_Weapon_No006_LongBowThumbnail.png",
 		85.f, 85.f, 420.f, 265.f, TRUE, 255);
 
 		UIManager::GetInstance()->Import_UISprite(GRPDEV, Object, L"../../UI/Inventory_UI/EquipMent_Status_Window.png",

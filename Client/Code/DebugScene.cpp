@@ -1,4 +1,4 @@
-#include "../Include/pch.h"
+#include "../Include/PCH.h"
 #include "DebugScene.h"
 
 DebugScene::DebugScene(LPDIRECT3DDEVICE9 _GRPDEV) : Scene(_GRPDEV) {}

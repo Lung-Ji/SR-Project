@@ -1,6 +1,5 @@
 #include "../Include/PCH.h"
 #include "Augments.h"
-#include "UIManager.h"
 
 Augments::Augments(LPDIRECT3DDEVICE9 _GRPDEV) : GameObject(_GRPDEV) {}
 Augments::Augments(CONST GameObject& _RHS) : GameObject(_RHS) {}
