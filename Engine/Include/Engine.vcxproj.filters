@@ -184,7 +184,12 @@
     <ClInclude Include="..\Inventory.h">
       <Filter>99. Component\08. Inventory</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\Font.h" />
+    <ClInclude Include="..\Header\Font.h">
+      <Filter>99. Component\07. Font</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\NoCloneBuffer.h">
+      <Filter>99. Component\01. Buffer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\GraphicDevice.cpp">
@@ -263,6 +268,11 @@
     <ClCompile Include="..\Code\Inventory.cpp">
       <Filter>99. Component\08. Inventory</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\Font.cpp" />
+    <ClCompile Include="..\Code\Font.cpp">
+      <Filter>99. Component\07. Font</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\NoCloneBuffer.cpp">
+      <Filter>99. Component\01. Buffer</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

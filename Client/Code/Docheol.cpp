@@ -1,5 +1,4 @@
 #include "../Include/PCH.h"
-#include "Docheol.h"
 
 Docheol::Docheol(LPDIRECT3DDEVICE9 _GRPDEV) : GameObject(_GRPDEV), m_pTarget(nullptr) {}
 Docheol::Docheol(const GameObject& _RHS)	: GameObject(_RHS), m_pTarget(nullptr)	{}
@@ -15,8 +14,8 @@ INT	Docheol::Update_GameObject(const _float& _DT)
 
 	if (m_pTarget == nullptr)
 	{
-		//Monster::Set_Target(L"Player", m_pTarget);
-	} // 오류나서 주석 처리했습니다 고쳐주세요~ 
+		Monster::Set_Target(L"Player", m_pTarget);
+	}
 
 	_frameTick += _DT;
 	switch (m_eCurrStatus)
@@ -34,11 +33,10 @@ INT	Docheol::Update_GameObject(const _float& _DT)
 }
 VOID Docheol::LateUpdate_GameObject(const _float& _DT) {
 	GameObject::LateUpdate_GameObject(_DT);
-	RenderManager::Make_BillBoard(Component_Transform, GRPDEV);
+	Monster::BillBoard(Component_Transform, GRPDEV);
 }
 VOID Docheol::Render_GameObject() {
 	GRPDEV->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-
 	GRPDEV->SetTransform(D3DTS_WORLD, Component_Transform->Get_World());
 	if (_frameTick > 0.1f)
 	{
@@ -69,17 +67,21 @@ HRESULT Docheol::Component_Initialize() {
 
 	Component_Transform->Set_Rotation(0.f, 0.f, 0.f);
 	Component_Transform->Set_Scale(2.f, 2.f, 2.f);
+	//좌우반전
+	//Component_Transform->Set_Scale(-2.f, 2.f, 2.f);
+
 	Component_Transform->Set_Pos(0.f, Component_Transform->Get_Scale()->y / 2.f, 0.f);
 
 	Component_Collider = ADD_COMPONENT_COLLIDER;
 	Component_Collider->Set_CenterPos(Component_Transform);
 	Component_Collider->Set_Scale(1.f, 1.f, 1.f);
 
+	ADD_COMPONENT_FSM
+
 	Change_Status(DOCHEOL_IDLE);
 
 	return S_OK;
 }
-
 VOID Docheol::Change_Status(DOCHEOL_STATUS eState)
 {
 	m_ePrevStatus = m_eCurrStatus;

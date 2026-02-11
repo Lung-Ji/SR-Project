@@ -34,7 +34,7 @@
 #define ADD_COMPONENT_SPRITE			dynamic_cast<SpriteObject*>(Add_Component(COMPONENT_TYPE::COMPONENT_SPRITE));	// 텍스쳐 저장 컴포넌트 추가
 #define ADD_COMPONENT_COLLIDER			dynamic_cast<Collider*>(Add_Component(COMPONENT_TYPE::COMPONENT_COLLIDER));	// 텍스쳐 저장 컴포넌트 추가
 #define ADD_COMPONENT_FSM				dynamic_cast<StateMachine*>(Add_Component(COMPONENT_TYPE::COMPONENT_FSM));	// FSM 컴포넌트
-#define ADD_COMPONENT_TILE				dynamic_cast<Buffer*>(Add_Component(COMPONENT_TYPE::COMPONENT_TILE));		// 타일
+#define ADD_COMPONENT_TILE	    		dynamic_cast<Buffer*>(Add_Component(COMPONENT_TYPE::COMPONENT_TILE));		// 타일
 #define ADD_COMPONENT_CUBE				dynamic_cast<Buffer*>(Add_Component(COMPONENT_TYPE::COMPONENT_CUBE));		// 큐브
 #define ADD_COMPONENT_TILEFRONT			dynamic_cast<Buffer*>(Add_Component(COMPONENT_TYPE::COMPONENT_TILEFRONT));   // 타일 옆면
 #define ADD_COMPONENT_TILELEFT			dynamic_cast<Buffer*>(Add_Component(COMPONENT_TYPE::COMPONENT_TILELEFT));
@@ -47,8 +47,8 @@
 /////////////////////////////////// EFFECT /////////////////////////////////////////				
 #define PLAY_PLAYER_EFFECT(SKILL_TYPE, POSITION, PLAYTIME)		EffectManager::GetInstance()->Append_Effect(EFFECT_OWNER::PLAYER,	\
 	PlayerEffect::Create(GRPDEV, SKILL_TYPE, POSITION, TRUE, PLAYTIME));						// 플레이어 : 이펙트 반복 실행
-#define PLAY_PLAYER_EFFECT_ONCE(SKILL_TYPE, POSITION, PLAYTIME)	EffectManager::GetInstance()->Append_Effect(EFFECT_OWNER::PLAYER,	\
-	PlayerEffect::Create(GRPDEV, SKILL_TYPE, POSITION, FALSE, PLAYTIME));					// 플레이어 : 이펙트 최초 한번 실행
+#define PLAY_PLAYER_EFFECT_ONCE(SKILL_TYPE, POSITION, PLAYTIME, SIZE)	EffectManager::GetInstance()->Append_Effect(EFFECT_OWNER::PLAYER,	\
+	PlayerEffect::Create(GRPDEV, SKILL_TYPE, POSITION, FALSE, PLAYTIME, SIZE));					// 플레이어 : 이펙트 최초 한번 실행
 
 #define PLAY_MONSTER_EFFECT(SKILL_TYPE, POSITION, PLAYTIME)		EffectManager::GetInstance()->Append_Effect(EFFECT_OWNER::MONSTER,	\
 	MonsterEffect::Create(GRPDEV, SKILL_TYPE, POSITION, TRUE, PLAYTIME));					// 몬스터 : 이펙트 반복 실행
@@ -62,3 +62,4 @@
 
 #define REPLAY_UI_EFFECT(_TAG)		UIEffect::Replay_Effect(_TAG);
 ////////////////////////////////////////////////////////////////////////////////////
+

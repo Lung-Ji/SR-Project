@@ -13,7 +13,7 @@ HRESULT	StartScene::Ready_Scene() {
 	if (FAILED( Ready_UserInterface_Layer()	))		return E_FAIL;
 
 	KeyManager::GetInstance()->Ready_KeyManager(hInst, hWnd);
-	CollisionManager::GetInstance()->Get_AllObjectOfScene();
+	//CollisionManager::GetInstance()->Get_AllObjectOfScene();
 
 	return S_OK;
 }
@@ -42,9 +42,12 @@ HRESULT StartScene::Ready_Enviroment_Layer() {
 HRESULT StartScene::Ready_GameLogic_Layer() {
 	Add_GameObjectToScene<CameraObject>		(LAYER_TYPE::LAYER_DYNAMIC_OBJECT, GAMEOBJECT_TYPE::OBJECT_CAMERA , L"Camera"		);
 	Add_GameObjectToScene<Player>			(LAYER_TYPE::LAYER_DYNAMIC_OBJECT, GAMEOBJECT_TYPE::OBJECT_PLAYER, L"Player"		);
-	//Add_GameObjectToScene<Monster1>			(LAYER_TYPE::LAYER_DYNAMIC_OBJECT, GAMEOBJECT_TYPE::OBJECT_MONSTER, L"Monster1"		);
 	Add_GameObjectToScene<Bat>				(LAYER_TYPE::LAYER_DYNAMIC_OBJECT, GAMEOBJECT_TYPE::OBJECT_MONSTER, L"Bat");
+	Add_GameObjectToScene<ScorpoinEvilSoul>	(LAYER_TYPE::LAYER_DYNAMIC_OBJECT, GAMEOBJECT_TYPE::OBJECT_MONSTER, L"ScorpoinEvilSoul");
+
 	Add_GameObjectToScene<Docheol>			(LAYER_TYPE::LAYER_DYNAMIC_OBJECT, GAMEOBJECT_TYPE::OBJECT_MONSTER, L"Docheol");
+	//Add_GameObjectToScene<Fireball>			(LAYER_TYPE::LAYER_DYNAMIC_OBJECT, GAMEOBJECT_TYPE::OBJECT_MONSTER, L"Fireball");
+	Add_GameObjectToScene<NPC>				(LAYER_TYPE::LAYER_DYNAMIC_OBJECT, GAMEOBJECT_TYPE::OBJECT_NPC, L"NPC_Tif"		);
 	return S_OK;
 }
 HRESULT StartScene::Ready_UserInterface_Layer() {
@@ -53,6 +56,7 @@ HRESULT StartScene::Ready_UserInterface_Layer() {
 	Add_GameObjectToScene<MainUI>			(LAYER_TYPE::LAYER_USER_INTERFACE, GAMEOBJECT_TYPE::OBJECT_UI	  , L"MainUI"		);
 	Add_GameObjectToScene<PlayerInven>(LAYER_TYPE::LAYER_USER_INTERFACE, GAMEOBJECT_TYPE::OBJECT_UI, L"PlayerInven");
 	Add_GameObjectToScene<Augments>(LAYER_TYPE::LAYER_USER_INTERFACE, GAMEOBJECT_TYPE::OBJECT_UI, L"Augments");
+	Add_GameObjectToScene<NPCTalk>			(LAYER_TYPE::LAYER_USER_INTERFACE, GAMEOBJECT_TYPE::OBJECT_UI	  , L"NPCTalk"		);
 	return S_OK;
 }
 StartScene* StartScene::Create(LPDIRECT3DDEVICE9 _GRPDEV) {

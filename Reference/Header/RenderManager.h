@@ -18,7 +18,7 @@ public:
 
 	GameObject* Get_Camera() { return RenderGroup[RENDERID::RENDER_UI].front(); }
 
-private:
+public:
 	VOID		Render_Priority(LPDIRECT3DDEVICE9& _GRPDEV);
 	VOID		Render_NonAlpha(LPDIRECT3DDEVICE9& _GRPDEV);
 	VOID		Render_Alpha(LPDIRECT3DDEVICE9& _GRPDEV);
@@ -30,8 +30,8 @@ private:
 private:
 	virtual VOID	Free();
 
+
 public:
-	static VOID Make_BillBoard(Transform* Component_Transform, LPDIRECT3DDEVICE9 _GRPDEV);
 };
 
 END

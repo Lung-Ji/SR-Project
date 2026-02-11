@@ -20,14 +20,13 @@ VOID	MainMenu::LateUpdate_GameObject(CONST FLOAT& _DT) {
 
 }
 VOID	MainMenu::Render_GameObject() {
-
 	UIManager::GetInstance()->Render_UI(GRPDEV, Inventory);
 }
 HRESULT MainMenu::Component_Initialize(){
 	//UIManager::GetInstance()->Import_UISprite(GRPDEV, Inventory, L"../../Resource/MainMenu/Spr_Tilte_Illustration.png", 1280, 720,0,0,TRUE, 255);
 	//Component_Sprite = ADD_COMPONENT_SPRITE;
 	//Component_Sprite->Import_Sprite(L"../../Resource/Extra/Example/Spr_Tilte_logo.png", L"Title", 100, 100, 400, 250, 100, TRUE);
-	// È­¸é ¾Æ¿¹ °¡¸®°ÔµÇ¾î¼­ ÀÏ´Ü ÁÖ¼®Ã³¸® Çß½À´Ï´Ù~ ³Ü!
+	// í™”ë©´ ì•„ì˜ˆ ê°€ë¦¬ê²Œë˜ì–´ì„œ ì¼ë‹¨ ì£¼ì„ì²˜ë¦¬ í–ˆìŠµë‹ˆë‹¤~ ë„µ!
 	return S_OK;
 }
 MainMenu* MainMenu::Create(LPDIRECT3DDEVICE9 _GRPDEV) {

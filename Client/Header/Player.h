@@ -11,7 +11,6 @@ enum class pState
 
 	End
 };
-
 enum class eState
 {
 	STATE_STANDING,
@@ -58,7 +57,6 @@ enum class eState
 
 	End
 };
-
 enum class pSee
 {
 	SEE_UP,
@@ -72,7 +70,6 @@ enum class pSee
 
 	End
 };
-
 enum class mousePos
 {
 	MOUSE_LT,
@@ -82,6 +79,18 @@ enum class mousePos
 
 	End
 };
+typedef struct playerStatus {
+	_uint	hp;
+	_uint	Dash_Count;
+	_uint	Sado_Count;
+	_uint	Key;
+	_uint	Money;
+	_uint	UpgradeStone;
+
+	_uint	atk;
+	_float	critical;
+	float	maxBowRatio;
+}PSTATUS;
 
 class Player : public GameObject {
 private:
@@ -104,8 +113,33 @@ private:
 	StateMachine*	Component_FSM;
 	Collider*		Component_Collider;
 public:
+	PSTATUS*		Get_Status()		{ return &_pStatus; }								// 플레이어 스테이터스
+	BowType			Get_Weapon_Type()	{ return _weaponSlot[_equipNum]->Get_Bow_Type(); }	// 현재 장착한 활 타입
+	BowStat*		Get_CurBow_Stat()	{ return _weaponSlot[_equipNum]->Get_Bow_Stat(); }	// 현재 장착한 활 스텟
+
 	static Player* Create(LPDIRECT3DDEVICE9 _GRPDEV);
-	float	Get_Speed() { return _speed; }
+	float	Get_Speed()				{ return _speed;}
+	////////////////////// 광윤 추가
+	void	Set_Speed(INT _value)	{ _speed = _value; }
+
+	int		Get_HP() { return _hp; }
+	void	Set_HP(INT _value) { _hp = _value; }
+
+	int		Get_Key() { return _key; }
+	void	Set_Key(INT _value) { _key = _value; }
+
+	int		Get_Coin() { return _coin; }
+	void	Set_Coin(INT _value) { _coin = _value; }
+
+	int		Get_Crystal() { return _crystal; }
+	void	Set_Crystal(INT _value) { _crystal = _value; }
+	
+	int		Get_DashStock() { return _dashstock; }
+	void	Set_DashStock(INT _value) { _dashstock = _value; }
+	
+	int		Get_Token() { return _token; }
+	void	Set_Token(INT _value) { _token = _value; }
+	//////////////////////
 private:
 	virtual VOID Free();
 
@@ -114,17 +148,22 @@ private:
 	D3DXVECTOR3			RayOnTerrain();
 	D3DXVECTOR3			SetOnTerrain();
 
+	void			Destroy_Weapon();
+
 	void			IDLE_STATE(const _float& _DT);
 	void			DASH_STATE(const _float& _DT);
 	void			ATTACK_STATE(const _float& _DT);
 	void			Idle_Final_Input(const _float& _DT);
+
 	void			SetGrahpic();
 	void			Anim(TCHAR FileName[128], float delay, int maxIdx, bool reverse = false);
+	void			Set_Effect(const _float& _DT);
 
 private:
 	bool			Debug;
 	float			_cameraAngle;
 
+	PSTATUS			_pStatus;
 	pState			_pState;
 	eState			_eState;
 	pSee			_see;
@@ -137,11 +176,24 @@ private:
 	float			_dashTime;
 	float			_dashG;
 	float			_speed;
-
+	////////////////////// 광윤 추가
+	int				_hp;			// 플레이어 HP
+	int				_dashstock;		// 플레이어 MP(눈물모양)
+	int				_key;			// 플레이어 key
+	int				_coin;			// 플레이어 coin
+	int				_crystal;		// 플레이어 crystal
+	int				_token;			// 플레이어 스킬 횟수(다이아몬드 모양)
+	/////////////////////
 	float			_g;
 	float			_slideTime;
 
-	GameObject*			_inventory[8];
-	Bow*				_weaponSlot[4];
-	GameObject*			_artifactSlot[4];
+	_vec3			_pulsepos;
+	float			_attackDelay;
+	int				_arrowCount;
+
+	Bow*			_weaponSlot[4];
+	GameObject*		_artifactSlot[4];
+	GameObject*		_inventory[8];
+	int				_equipNum;
+
 };

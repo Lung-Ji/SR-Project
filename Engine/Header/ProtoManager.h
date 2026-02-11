@@ -8,6 +8,7 @@
 #include "Collider.h"
 #include "StateMachine.h"
 #include "TileInfo.h"
+#include "NoCloneBuffer.h"
 BEGIN(Engine)
 class ENGINE_DLL ProtoManager : public Base {
 	DECLARE_SINGLETON(ProtoManager)

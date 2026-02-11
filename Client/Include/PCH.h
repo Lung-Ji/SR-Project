@@ -31,8 +31,9 @@
 #include "Camera.h"
 #include "Terrain.h"
 #include "MainUI.h"
+#include "Inventory.h"
+#include "NPCTalk.h"
 #include "PlayerEffect.h"
-#include "MonsterEffect.h"
 #include "UIEffect.h"
 #include "NPC.h"
 #include "Object_Explain.h"
@@ -43,10 +44,15 @@
 #include "Monster.h"
 #include "MonsterTest.h"
 
+//#include "MonsterSummon01.h"
+//#include "MonsterSummon02.h"
+//#include "MonsterSummon03.h"
 #include "Bat.h"
+#include "ScorpionEvilSoul.h"
 #include "Docheol.h"
 
 #include "Bullet_Standard.h"
+#include "Fireball.h"
 
 #include "Player.h"
 #include "Tile.h"
@@ -55,6 +61,7 @@
 #include "MainMenuButton.h"
 #include "MainMenu.h"
 #include "Bow.h"
+#include "Arrow.h"
 #include "TileDestoryEffect.h"
 #include "PlayerInven.h"
 #include "Augments.h"
@@ -67,6 +74,7 @@
 #include "UITest.h"
 #include "MapScene.h"
 //////////////////////////////////////////// Manager
+#include "FontManager.h"
 #include "GUIManager.h"
 #include "ResourceManager.h"
 #include "CollisionManager.h"
@@ -80,7 +88,6 @@
 #include "TimeManager.h"
 #include "GameManager.h"
 #include "TileManager.h"
-#include "UIManager.h"
 //////////////////////////////////////////// Global Variable
 
 extern HWND			hWnd;

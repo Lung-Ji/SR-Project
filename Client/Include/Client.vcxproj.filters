@@ -70,6 +70,9 @@
     <Filter Include="03. GameObject\02. Monster\02. Monster1">
       <UniqueIdentifier>{6d746460-77e9-4f41-ba5d-78fa66467052}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04. UI\01. Sprite\MainMenu">
+      <UniqueIdentifier>{5aecb6cf-f877-4f39-8fe8-44da2610ab28}</UniqueIdentifier>
+    </Filter>
     <Filter Include="02. Scene\99. UITest">
       <UniqueIdentifier>{3d87992a-1f5e-4047-b98a-ef2dc5d8e336}</UniqueIdentifier>
     </Filter>
@@ -103,14 +106,8 @@
     <Filter Include="03. GameObject\02. Monster\99. MonsterTest">
       <UniqueIdentifier>{4e415e69-9a81-4ad9-95cf-47daa628d3d4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. GameObject\02. Monster\99. TrashBin">
-      <UniqueIdentifier>{8009587a-36a0-44e0-99f4-c5a054d85024}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03. GameObject\02. Monster\01. Boss\01. Docheol">
       <UniqueIdentifier>{85fcb151-c452-4026-b6ae-991bcb23747e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. GameObject\02. Monster\02. Monster1\01. Bat">
-      <UniqueIdentifier>{47a98307-749c-40cc-a1ff-9d9504e380c7}</UniqueIdentifier>
     </Filter>
     <Filter Include="03. GameObject\07. ProJectile">
       <UniqueIdentifier>{439bbeef-a25b-49de-a227-87dae46c6b96}</UniqueIdentifier>
@@ -129,6 +126,42 @@
     </Filter>
     <Filter Include="04. UI\AugmentUI">
       <UniqueIdentifier>{cdda3270-297f-43a4-a689-5010dc732961}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\07. ProJectile\01.Bullet_Standard">
+      <UniqueIdentifier>{6d5c5c90-b9d5-4949-9253-46ad779bac99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\07. ProJectile\02.Fireball">
+      <UniqueIdentifier>{c7992570-6ab8-411d-8753-47961ca71a80}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\02. Monster\02. Monster">
+      <UniqueIdentifier>{6d746460-77e9-4f41-ba5d-78fa66467052}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\02. Monster\02. Monster\01. Bat">
+      <UniqueIdentifier>{47a98307-749c-40cc-a1ff-9d9504e380c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\06. Effect\02. MonsterEffect\99. Abandoned">
+      <UniqueIdentifier>{33bbc5b6-90ed-40c6-b7f1-9e66c79c0b77}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\06. Effect\02. MonsterEffect\01. MonsterSummon">
+      <UniqueIdentifier>{972b69e8-ba8b-4e8f-9b7a-88f61efefedd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\02. Monster\02. Monster\02. ScorpionEvilSoul">
+      <UniqueIdentifier>{9cb39ed9-d361-4a69-b06c-890759bbd692}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\06. Effect\02. MonsterEffect\01. MonsterSummon\00. MonsterEffect">
+      <UniqueIdentifier>{fc51ebe6-2fb3-4524-897b-a5e5fa378c26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\01. Player\01. Arrow">
+      <UniqueIdentifier>{876f658b-2647-4f66-9e4e-b05122adf8d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. UI\02. MainUI">
+      <UniqueIdentifier>{6dda267f-0b5a-42fe-86aa-cfd14ceff1a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. UI\03. Inventory">
+      <UniqueIdentifier>{0342db50-c41a-444b-be99-85b8ffe4f75f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. UI\04. NPCTalk">
+      <UniqueIdentifier>{d4b94dac-8b9e-4ebb-ae55-e178ec4c4624}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -237,17 +270,8 @@
     <ClInclude Include="..\Header\MapScene.h">
       <Filter>02. Scene\88. MapScene</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\Bullet_Standard.h">
-      <Filter>03. GameObject\07. ProJectile</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\PlayerEffect.h">
       <Filter>03. GameObject\06. Effect\01. PlayerEffect</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\MonsterEffect.h">
-      <Filter>03. GameObject\06. Effect\02. MonsterEffect</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\Monster_State.h">
-      <Filter>03. GameObject\02. Monster</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\Bow.h">
       <Filter>03. GameObject\01. Player\00. Weapon</Filter>
@@ -258,20 +282,14 @@
     <ClInclude Include="..\Header\UIEffect.h">
       <Filter>03. GameObject\06. Effect\04. UIEffect</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\Monster_State.h">
-      <Filter>03. GameObject\02. Monster\99. TrashBin</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\Monster1.h">
       <Filter>03. GameObject\02. Monster\00. BaseMonster</Filter>
-    </ClInclude>
-    <ClInclude Include="BossMonster.h">
-      <Filter>03. GameObject\02. Monster\99. TrashBin</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\Docheol.h">
       <Filter>03. GameObject\02. Monster\01. Boss\01. Docheol</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\Bat.h">
-      <Filter>03. GameObject\02. Monster\02. Monster1\01. Bat</Filter>
+      <Filter>03. GameObject\02. Monster\02. Monster\01. Bat</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\Monster.h">
       <Filter>03. GameObject\02. Monster\00. BaseMonster</Filter>
@@ -287,6 +305,36 @@
     </ClInclude>
     <ClInclude Include="..\Header\Augments.h">
       <Filter>04. UI\AugmentUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Bullet_Standard.h">
+      <Filter>03. GameObject\07. ProJectile\01.Bullet_Standard</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Fireball.h">
+      <Filter>03. GameObject\07. ProJectile\02.Fireball</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\MonsterSummon01.h">
+      <Filter>03. GameObject\06. Effect\02. MonsterEffect\99. Abandoned</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\MonsterSummon03.h">
+      <Filter>03. GameObject\06. Effect\02. MonsterEffect\99. Abandoned</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\ScorpionEvilSoul.h">
+      <Filter>03. GameObject\02. Monster\02. Monster\02. ScorpionEvilSoul</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\MonsterEffect.h">
+      <Filter>03. GameObject\06. Effect\02. MonsterEffect\01. MonsterSummon\00. MonsterEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Arrow.h">
+      <Filter>03. GameObject\01. Player\01. Arrow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\MainUI.h">
+      <Filter>04. UI\02. MainUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Inventory.h">
+      <Filter>04. UI\03. Inventory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\NPCTalk.h">
+      <Filter>04. UI\04. NPCTalk</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -377,20 +425,8 @@
     <ClCompile Include="..\Code\MapScene.cpp">
       <Filter>02. Scene\88. MapScene</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\Bullet_Standard.cpp">
-      <Filter>03. GameObject\07. ProJectile</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\Monster_State.cpp">
-      <Filter>03. GameObject\02. Monster</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\MonsterEffect.cpp">
-      <Filter>03. GameObject\06. Effect\02. MonsterEffect</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\PlayerEffect.cpp">
       <Filter>03. GameObject\06. Effect\01. PlayerEffect</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\MonsterEffect.cpp">
-      <Filter>03. GameObject\06. Effect\02. MonsterEffect</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Bow.cpp">
       <Filter>03. GameObject\01. Player\00. Weapon</Filter>
@@ -401,20 +437,14 @@
     <ClCompile Include="..\Code\UIEffect.cpp">
       <Filter>03. GameObject\06. Effect\04. UIEffect</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\Monster_State.cpp">
-      <Filter>03. GameObject\02. Monster\99. TrashBin</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\Monster1.cpp">
       <Filter>03. GameObject\02. Monster\00. BaseMonster</Filter>
-    </ClCompile>
-    <ClCompile Include="BossMonster.cpp">
-      <Filter>03. GameObject\02. Monster\99. TrashBin</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Docheol.cpp">
       <Filter>03. GameObject\02. Monster\01. Boss\01. Docheol</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Bat.cpp">
-      <Filter>03. GameObject\02. Monster\02. Monster1\01. Bat</Filter>
+      <Filter>03. GameObject\02. Monster\02. Monster\01. Bat</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Monster.cpp">
       <Filter>03. GameObject\02. Monster\00. BaseMonster</Filter>
@@ -430,6 +460,39 @@
     </ClCompile>
     <ClCompile Include="..\Code\Augments.cpp">
       <Filter>04. UI\AugmentUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Bullet_Standard.cpp">
+      <Filter>03. GameObject\07. ProJectile\01.Bullet_Standard</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Fireball.cpp">
+      <Filter>03. GameObject\07. ProJectile\02.Fireball</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\MonsterEffect.cpp">
+      <Filter>03. GameObject\06. Effect\02. MonsterEffect\01. MonsterSummon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\MonsterSummon01.cpp">
+      <Filter>03. GameObject\06. Effect\02. MonsterEffect\99. Abandoned</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\MonsterSummon03.cpp">
+      <Filter>03. GameObject\06. Effect\02. MonsterEffect\99. Abandoned</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\ScorpionEvilSoul.cpp">
+      <Filter>03. GameObject\02. Monster\02. Monster\02. ScorpionEvilSoul</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\MonsterEffect.cpp">
+      <Filter>03. GameObject\06. Effect\02. MonsterEffect\01. MonsterSummon\00. MonsterEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Arrow.cpp">
+      <Filter>03. GameObject\01. Player\01. Arrow</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\MainUI.cpp">
+      <Filter>04. UI\02. MainUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Inventory.cpp">
+      <Filter>04. UI\03. Inventory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\NPCTalk.cpp">
+      <Filter>04. UI\04. NPCTalk</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
