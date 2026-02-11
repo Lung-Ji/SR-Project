@@ -8,7 +8,7 @@ CameraObject::~CameraObject() {}
 HRESULT CameraObject::Ready_GameObject() {
 	if (FAILED(Component_Initialize())) return E_FAIL;
 
-	DefaultEyeVec = { 0.f,10.f,0.f };	DefaultAtVec = { 0.f,8.f,1.f };
+	DefaultEyeVec = { 0.f,10.f * 1.35f,0.f };	DefaultAtVec = { 0.f,8.f*1.35f,1.f *1.35f};
 	EyeVec = DefaultEyeVec;			AtVec = DefaultAtVec;				UpVec = { 0.f,1.f,0.f };
 	FOVValue = D3DXToRadian(60.f);		AspectValue = (_float)WINCX / WINCY;	NearValue = 0.1f; FarValue = 1000.f;
 
@@ -30,7 +30,7 @@ HRESULT CameraObject::Ready_GameObject() {
 INT	CameraObject::Update_GameObject(const _float& _DT) {
 
 	if (KEY_DOWN(DIK_F2)) {	//	마우스 커서 고정 여부 TRUE = 고정, FALSE = 고정 해제
-		MouseCheck ? MouseCheck = FALSE : MouseCheck = TRUE;
+		//MouseCheck ? MouseCheck = FALSE : MouseCheck = TRUE;
 		Camera_Move ? Camera_Move = FALSE : Camera_Move = TRUE;
 	}
 

@@ -3,13 +3,13 @@
 #include "Component.h"
 
 IMPLEMENT_SINGLETON(TileManager)
-TileManager::TileManager() : m_eMode(TILEMODE_CHANGE::MODE_END){}
+TileManager::TileManager() : m_eMode(TILEMODE_CHANGE::MODE_END), m_bCheck(false){}
 TileManager::~TileManager()
 {
 	Free();
 }
 
-HRESULT TileManager::Add_Tile(GameObject* pObject, _vec3 vPos, TILE_STAGE eStage, TILEMODE_CHANGE eMode, TILE_SIDE eSid, _vec3 PivotHeight)
+HRESULT TileManager::Add_Tile(GameObject* pObject, _vec3 vPos, TILE_STAGE eStage, TILEMODE_CHANGE eMode, TILE_SIDE eSid, _vec3 PivotHeight, _bool bAni)
 {
 	
 	if (pObject == nullptr)
@@ -17,9 +17,10 @@ HRESULT TileManager::Add_Tile(GameObject* pObject, _vec3 vPos, TILE_STAGE eStage
 		return E_FAIL;
 	}
 	//Tile에서 전달받은 위치에 큐브를 생성
-	Component* pComponent = pObject->Get_Component(COMPONENT_TYPE::COMPONENT_TRANSFORM);
-	Transform* pTransform = dynamic_cast<Transform*>(pComponent);
-
+	Transform* pTransform = dynamic_cast<Transform*>(pObject->Get_Component(COMPONENT_TYPE::COMPONENT_TRANSFORM));
+	TileInfo* pInfo = dynamic_cast<TileInfo*>(pObject->Get_Component(COMPONENT_TYPE::COMPONENT_TILEINFO));
+	
+	pInfo->Set_OnlyAnimation(bAni);
 	if ( eSid != TILE_SIDE::TILE_OTHER)
 	{
 		_float fHeight(0.f);
@@ -33,9 +34,12 @@ HRESULT TileManager::Add_Tile(GameObject* pObject, _vec3 vPos, TILE_STAGE eStage
 
 	return S_OK;
 }
-_bool TileManager::Choice_Tile(_int* eState, _int* eMode, _int* iTileNumber,_vec3 Origin, _vec3 vDir, _vec3* returnPos)
+_bool TileManager::Choice_Tile(_int* eState, _int* eMode, _int* iTileNumber,_vec3 Origin, _vec3 vDir, _vec3* returnPos, _vec3* returnScale, _vec3* returnRot)
 {
-	_float fu, fv, ft;
+	_float fu, fv, ft(-1);
+	_float ftCheck = 129.f;
+	_int iState = (0), iMode(0), iTileN(0);
+	_vec3 vPos, vScale, vRot;
 	for (size_t i = 0; i < TILE_STAGE::STAGE_END; ++i)
 	{
 		for (size_t j = 0; j < TILEMODE_CHANGE::MODE_END; ++j)
@@ -48,10 +52,10 @@ _bool TileManager::Choice_Tile(_int* eState, _int* eMode, _int* iTileNumber,_vec
 				memcpy(&InverseWorld, dynamic_cast<Transform*>
 			((m_vecTileBuffer[i][j][k])->Get_Component(Engine::COMPONENT_TYPE::COMPONENT_TRANSFORM))->Get_World(), sizeof(_matrix));
 
-				vTileLocalPos[0] = { -1.f, 0.f, -1.f }; //좌하단
-				vTileLocalPos[1] = { 1.f,  0.f, -1.f };  //우하단
-				vTileLocalPos[2] = { -1.f, 0.f,  1.f }; //좌상단
-				vTileLocalPos[3] = { 1.f,  0.f,  1.f };  //우상단
+				vTileLocalPos[0] = { -1.f,  1.f, -1.f }; //좌하단
+				vTileLocalPos[1] = {  1.f,  1.f, -1.f };  //우하단
+				vTileLocalPos[2] = { -1.f,  1.f,  1.f }; //좌상단
+				vTileLocalPos[3] = {  1.f,  1.f,  1.f };  //우상단
 
 				for (int i = 0; i < 4; ++i)
 					D3DXVec3TransformCoord(&vTileLocalPos[i], &vTileLocalPos[i], &InverseWorld);
@@ -59,31 +63,55 @@ _bool TileManager::Choice_Tile(_int* eState, _int* eMode, _int* iTileNumber,_vec
 				if (D3DXIntersectTri(&vTileLocalPos[0], &vTileLocalPos[1], &vTileLocalPos[2], &Origin, &vDir, &fu, &fv, &ft) ||
 					D3DXIntersectTri(&vTileLocalPos[2], &vTileLocalPos[1], &vTileLocalPos[3], &Origin, &vDir, &fu, &fv, &ft))
 				{
-
-					dynamic_cast<Transform*>
-						((m_vecTileBuffer[i][j][k])->Get_Component(Engine::COMPONENT_TYPE::COMPONENT_TRANSFORM))->Get_Info(INFO_POS, returnPos);
-					*eState= i;
-					*eMode = j;
-					*iTileNumber = k;
-					return true;
+					m_bCheck = true;
+				
 				}
+				if (m_bCheck && ftCheck > ft)
+				{
+					iState = i;
+					iMode  = j;
+					iTileN = k;
+					dynamic_cast<Transform*>
+						((m_vecTileBuffer[i][j][k])->Get_Component(Engine::COMPONENT_TYPE::COMPONENT_TRANSFORM))->Get_Info(INFO_POS,&vPos);
+				
+					vScale = *dynamic_cast<Transform*>
+						((m_vecTileBuffer[i][j][k])->Get_Component(Engine::COMPONENT_TYPE::COMPONENT_TRANSFORM))->Get_Scale();
+					vRot = *dynamic_cast<Transform*>
+						((m_vecTileBuffer[i][j][k])->Get_Component(Engine::COMPONENT_TYPE::COMPONENT_TRANSFORM))->Get_Rotation();
+					ftCheck = ft;
+				}
+
+				
 
 			}
 		}
 	}
+	if (m_bCheck)
+	{
+		*returnPos	 = vPos;
+		*returnRot	 = vRot;
+		*eState		 = iState;
+		*eMode	     = iMode;
+		*iTileNumber = iTileN;
+		*returnScale = vScale;
+		m_bCheck = false;
+		return true;
+	}
+		
 	return false;
 }
-void TileManager::Set_Tile(_vec3 vPos, _int eStage, _int eMode, _int TileNumber)
+void TileManager::Set_Tile(_vec3 vPos, _vec3 returnPos, _vec3 returnRot, _int eStage, _int eMode, _int TileNumber)
 {
 	Component* pComponent = m_vecTileBuffer[eStage][eMode][TileNumber]->Get_Component(COMPONENT_TYPE::COMPONENT_TRANSFORM);
 	Transform* pTransform = dynamic_cast<Transform*>(pComponent);
 	_vec3 Pos;
 	pTransform->Set_Pos(vPos.x, vPos.y, vPos.z);
+	pTransform->Set_Scale(returnPos.x, returnPos.y, returnPos.z);
+	pTransform->Set_Rotation(returnRot.x, returnRot.y, returnRot.z);
 }
 void TileManager::Move_Tile(_vec3 vPos, _vec3 Origin, _vec3 vDir)
 {
 	_float fu, fv, ft;
-	//윗면 기준으로 광선쏴서 삭제
 	for (size_t i = 0; i < TILE_STAGE::STAGE_END; ++i)
 	{
 		for (size_t j = 0; j < TILEMODE_CHANGE::MODE_END; ++j)
@@ -170,6 +198,17 @@ HRESULT TileManager::Update_TileList(const _float& fTimeDetla)
 	
 	return S_OK;
 }
+void TileManager::LateUpdate_Tile(const _float& fTimeDelta)
+{
+	for (size_t i = 0; i < TILE_STAGE::STAGE_END; ++i)
+	{
+		for (size_t j = 0; j < TILEMODE_CHANGE::MODE_END; ++j)
+		{
+			for (auto& iter : m_vecTileBuffer[i][j])
+				iter->LateUpdate_GameObject(fTimeDelta);
+		}
+	}
+}
 void TileManager::Render_TileList()
 {
 	for (size_t i = 0; i < TILE_STAGE::STAGE_END; ++i)
@@ -224,6 +263,8 @@ void TileManager::Save_Tile(HWND g_hWnd)
 	_tchar			 cPathName[128]  = {};
 	_int			 iTileTextureCnt = 0;
 	_vec3		     vNextPos	     = {};
+	_bool			 bOnlyAni		 = {};
+	UvXY			 Uv				 = {};
 	for (size_t i = 0; i < TILE_STAGE::STAGE_END; ++i)
 	{
 		for (size_t j = 0; j < TILEMODE_CHANGE::MODE_END; ++j)
@@ -237,12 +278,13 @@ void TileManager::Save_Tile(HWND g_hWnd)
 				eTileMode = dynamic_cast<TileInfo*>(pTile->Get_Component(COMPONENT_TYPE::COMPONENT_TILEINFO))->Get_TileMode();
 				eTileStage = dynamic_cast<TileInfo*>(pTile->Get_Component(COMPONENT_TYPE::COMPONENT_TILEINFO))->Get_TileStage();
 				iTileTextureCnt = dynamic_cast<TileInfo*>(pTile->Get_Component(COMPONENT_TYPE::COMPONENT_TILEINFO))->Get_TileTextureNumber();
-				vNextPos = dynamic_cast<TileInfo*>(pTile->Get_Component(COMPONENT_TYPE::COMPONENT_TILEINFO))->Get_NextPos();
+				vNextPos	= dynamic_cast<TileInfo*>(pTile->Get_Component(COMPONENT_TYPE::COMPONENT_TILEINFO))->Get_NextPos();
 				ua_tcscpy_s(cTileName, 128, dynamic_cast<TileInfo*>(pTile->Get_Component(COMPONENT_TYPE::COMPONENT_TILEINFO))->Get_TileTextureName().c_str());
-				
-				Scale = *dynamic_cast<Transform*>(pTile->Get_Component(COMPONENT_TYPE::COMPONENT_TRANSFORM))->Get_Scale();
-				Rotation = *dynamic_cast<Transform*>(pTile->Get_Component(COMPONENT_TYPE::COMPONENT_TRANSFORM))->Get_Rotation();
+				Uv = dynamic_cast<TileInfo*>(pTile->Get_Component(COMPONENT_TYPE::COMPONENT_TILEINFO))->Get_Uv();
+				Scale		= *dynamic_cast<Transform*>(pTile->Get_Component(COMPONENT_TYPE::COMPONENT_TRANSFORM))->Get_Scale();
+				Rotation	= *dynamic_cast<Transform*>(pTile->Get_Component(COMPONENT_TYPE::COMPONENT_TRANSFORM))->Get_Rotation();
 				dynamic_cast<Transform*>(pTile->Get_Component(COMPONENT_TYPE::COMPONENT_TRANSFORM))->Get_Info(INFO_POS, &Info);
+				bOnlyAni	= dynamic_cast<TileInfo*>(pTile->Get_Component(COMPONENT_TYPE::COMPONENT_TILEINFO))->Get_OnlyAnimation();
 
 				WriteFile(hFile, &Info,			   sizeof(_vec3), &dwByte, NULL);
 				WriteFile(hFile, &iTilenum,		   sizeof(_int), &dwByte, NULL);
@@ -253,10 +295,10 @@ void TileManager::Save_Tile(HWND g_hWnd)
 				WriteFile(hFile, &Scale,		   sizeof(_vec3), &dwByte, NULL);
 				WriteFile(hFile, &Rotation,		   sizeof(_vec3), &dwByte, NULL);
 				WriteFile(hFile, &eTileStage,	   sizeof(TILE_STAGE), &dwByte, NULL);
-				WriteFile(hFile, &iTileTextureCnt, sizeof(_int), &dwByte, NULL);
+				WriteFile(hFile, &iTileTextureCnt, sizeof(_int),  &dwByte, NULL);
 				WriteFile(hFile, &vNextPos,		   sizeof(_vec3), &dwByte, NULL);
-
-				
+				WriteFile(hFile, &bOnlyAni,		   sizeof(_bool), &dwByte, NULL);
+				WriteFile(hFile, &Uv,			   sizeof(UvXY), &dwByte, NULL);
 			}
 		}
 	}

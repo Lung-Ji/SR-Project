@@ -3,9 +3,10 @@
 #include <iostream>
 #include <fstream>
 const _tchar* m_pTileName[128];
-Tile::Tile(LPDIRECT3DDEVICE9 _GRPDEV) :m_iMode(0),m_iNumber(0),m_iStge(0), m_eTileInstall(INSTALL_MODE::MODE_END), m_vScalePivot({0,0,0}), m_vNextPos({0,0,0,}), GameObject(_GRPDEV), m_pTileState(nullptr), m_bTileCheck(true), m_pTileFront(nullptr), m_pTileLeft(nullptr), m_pTileRight(nullptr)
-, m_eTileState(TILE_STATE::STATE_END), m_vTilePos(0,0,0), m_vPosPivot(0,0,0),m_vRotationPivot(0,0,0),m_eStage(TILE_STAGE::STAGE_END),m_pTileBack(nullptr), m_fHeight(0.f), m_pTransform(nullptr), m_pBuffer(nullptr), m_pTileName(nullptr), m_bMouseClick(false), m_eMode(TILEMODE_CHANGE::MODE_END),m_eTile(Engine::TILE_SIDE::TILE_END)
+Tile::Tile(LPDIRECT3DDEVICE9 _GRPDEV) :m_Sprite(nullptr),m_iMode(0),m_iTileUnderNumber(0), m_iNumber(0),m_iStge(0), m_eTileInstall(INSTALL_MODE::MODE_END), m_bOnlyAnimation(false), m_vScalePivot({0,0,0}), m_vNextPos({0,0,0,}), GameObject(_GRPDEV), m_pTileState(nullptr), m_bTileCheck(true), m_pTileFront(nullptr), m_pTileLeft(nullptr), m_pTileRight(nullptr)
+, m_eTileState(TILE_STATE::STATE_END), m_vOriginal(0,0,0),m_vOriginRotation(0,0,0), m_vTilePos(0, 0, 0), m_vPosPivot(0, 0, 0), m_vRotationPivot(0, 0, 0), m_eStage(TILE_STAGE::STAGE_END), m_pTileBack(nullptr), m_fHeight(0.f), m_pTransform(nullptr), m_pBuffer(nullptr), m_pTileName(nullptr), m_bMouseClick(false), m_eMode(TILEMODE_CHANGE::MODE_END), m_eTile(Engine::TILE_SIDE::TILE_END)
 {
+	m_fPivot = 0.01f;
 	m_vOriginal = {};
 }
 Tile::Tile(const GameObject& _RHS) : GameObject(_RHS) {}
@@ -18,11 +19,25 @@ HRESULT Tile::Component_Initialize() {
 	m_pTileBack  = ADD_COMPONENT_TILEBACK;
 	m_pTileFront = ADD_COMPONENT_TILEFRONT;
 	m_pTransform = ADD_COMPONENT_TRANSFORM;
-
+	D3DXCreateSprite(GRPDEV, &m_Sprite);
 	m_vecName[TILE_STATE::STATE_NORMAL].push_back	(L"../../Tile/Stage1");
 	m_vecName[TILE_STATE::STATE_ANIMATION].push_back(L"../../Tile/AnimationObject");
 	m_vecName[TILE_STATE::STATE_DESTORY].push_back	(L"../../Tile/DestroyObject");
 	m_vecName[TILE_STATE::STATE_POTAL].push_back	(L"../../Tile/Stage1/Potal");
+
+	_float fMax(128);
+	_float x = 1.f / 128.f;//0.2f / 2048.f;
+	_float y = 1.f / 128.f;
+	for (_int i = 0; i < 16; ++i)
+	{
+		for (_int j = 0; j < 16; ++j)
+		{
+			UvXY uv{ _float((j * fMax) / 2048.f) + x , _float((j + 1) * fMax / 2048.f) - x , 
+				     _float((i * fMax) / 2048.f) + y , _float((i + 1) * fMax / 2048.f) - y };
+
+			m_vecUVXY.push_back(uv);
+		}
+	}
 	return S_OK;
 }
 HRESULT Tile::Ready_GameObject() {
@@ -62,7 +77,7 @@ VOID Tile::LateUpdate_GameObject(const _float& _DT) {
 	Mode_Change();  //타일 큐브 스왑용 O : 큐브, P : 타일
 	Imgui();
 	auto& io = ImGui::GetIO(); //마우스 ui에서 사용중이면 리턴
-	if (io.WantCaptureMouse) return;
+	if (m_eTileInstall == INSTALL_MODE::MODE_INSTALL && io.WantCaptureMouse) return;
 	switch (m_eTileInstall)
 	{
 	case INSTALL_MODE::MODE_INSTALL:
@@ -78,25 +93,28 @@ VOID Tile::Render_GameObject()
 {
 	GRPDEV->SetTransform(D3DTS_WORLD, m_pTransform->Get_World());
 	
-	if (m_eMode == TILEMODE_CHANGE::MODE_END)
-		GRPDEV->SetTexture(0, nullptr);
-	else
-		GRPDEV->SetTexture(0,ResourceManager::GetInstance()->Find_Texture(m_pTileName));
-
-	switch (m_eTile)
 	{
-	case TILE_SIDE::TILE_FRONT:
-		m_pTileFront->Render_Buffer();
-		break;
-	case TILE_SIDE::TILE_RIGHT:
-		m_pTileRight->Render_Buffer();
-		break;
-	case TILE_SIDE::TILE_LEFT:
-		m_pTileLeft->Render_Buffer();
-		break;
-	case TILE_SIDE::TILE_OTHER:
-		m_pBuffer->Render_Buffer();
-		break;
+
+		if (m_eMode == TILEMODE_CHANGE::MODE_END)
+			GRPDEV->SetTexture(0, nullptr);
+		else
+			GRPDEV->SetTexture(0, ResourceManager::GetInstance()->Find_Texture(m_pTileName));
+
+		switch (m_eTile)
+		{
+		case TILE_SIDE::TILE_FRONT:
+			m_pTileFront->Render_Buffer();
+			break;
+		case TILE_SIDE::TILE_RIGHT:
+			m_pTileRight->Render_Buffer();
+			break;
+		case TILE_SIDE::TILE_LEFT:
+			m_pTileLeft->Render_Buffer();
+			break;
+		case TILE_SIDE::TILE_OTHER:
+			m_pBuffer->Render_Buffer();
+			break;
+		}
 	}
 	GRPDEV->SetTexture(0, nullptr);
 }
@@ -107,7 +125,7 @@ void Tile::Mode_Change()
 }
 void Tile::Imgui()
 {
-	ImGui::SetNextWindowSize({ 600,600 });
+	ImGui::SetNextWindowSize({ 800,600 });
 
 	ImGui::Begin("Editor",NULL,ImGuiWindowFlags_MenuBar);
 		if (ImGui::BeginMenuBar())
@@ -136,10 +154,12 @@ void Tile::Imgui()
 }
 void Tile::Imgui_Setting()
 {
+	static _float fsScale(1);
+	_float sMin(-100), sMax(100);
 	_vec3 vScale = *m_pTransform->Get_Scale();
 	_vec3 vRotation = *m_pTransform->Get_Rotation();
 	_vec3 vPos = {};
-	_float fMin(0.0f), fMax(100),fMovePosMin(0), fMovePosMax(0),vMouseMin(0), vMouseMax(0), fHeightMin(0.f), fHeightMax(10.f), fPosMin(0.f), fPosMax(200.f);
+	_float fMin(0.0f), fMax(100),UMin(0), UMax(0), fMovePosMin(-100), fMovePosMax(129), fMoveScaleMin(-100), fMoveScaleMax(129), fMoveRotMin(-360), fMoveRotMax(360), vMouseMin(0), vMouseMax(0), fHeightMin(0.f), fHeightMax(10.f), fPosMin(0.f), fPosMax(200.f);
 	_float fRotationMin(-180.f), fRotationMax(180);
 	_vec3 vSca = { 1.f,1.f,1.f };
 	_vec3 vRot = { 0.f,0.f,0.f };
@@ -149,11 +169,11 @@ void Tile::Imgui_Setting()
 	{
 		for (auto iter : m_vecImage[i])
 		{
-
+	
 			if (m_pTileName != nullptr && !_tcscmp(m_pTileName, iter.wstr->c_str()))
 			{
-				vScale.x = iter.vSize.x;
-				vScale.y = iter.vSize.y;
+				vScale.x = iter.vSize.x / fsScale;
+				vScale.y = iter.vSize.y / fsScale;
 			}
 		}
 	}
@@ -164,28 +184,64 @@ void Tile::Imgui_Setting()
 	else
 	{
 
-		vScale = vScale + m_vScalePivot;
-		ImGui::Text("Scale"); //텍스트 
-		ImGui::SameLine(50.f, 0.f);//텍스트 오른쪽에 //scale 출력 ##하면 글자 다음으로 출력됨
-		ImGui::SliderFloat3("##1", vScale, fMin, fMax);
-		Imgui_PivotButton("Scale", &vScale);
+		Imgui_ObjectValue("Scale", "##1", "Scale", &vScale, fMax, fMin);
 		m_pTransform->Set_Scale(vScale);
 
-		ImGui::Text("Rotation");
-		ImGui::SameLine(100.f, 0.f);
-		ImGui::SliderFloat3("##2", vRotation, fRotationMin, fRotationMax);
-		Imgui_PivotButton("Rot", &m_vRotationPivot);
-		vRotation.x = vRotation.x + m_vRotationPivot.x;
+		Imgui_ObjectValue("Rotation", "##2", "Rot", &vRotation, fRotationMax, fRotationMin);
 		m_pTransform->Set_Rotation(vRotation);
 	
 	    //////////////////TILE/////////////////////////
 		{
+			ImGui::Text("PivotScale");
+			ImGui::SameLine(50.f, 0.f);
+			ImGui::SliderFloat2("##99", &m_fPivot, sMin, sMax);
+
+			Imgui_ButtonStyle();
+			if (ImGui::Button("PivotScale+"))
+			{
+				m_fPivot += 0.1f;
+			}
+			ImGui::PopStyleColor(3);
+
+			ImGui::SameLine(50.f, 0.f);
+			Imgui_ButtonStyle();
+			if (ImGui::Button("PivotScale"))
+			{
+
+				m_fPivot -= 0.1f;
+			}
+			ImGui::PopStyleColor(3);
+
+
+
+			ImGui::Text("UVXY");
+			ImGui::SameLine(50.f, 0.f);
+			ImGui::SliderFloat2("##98", &m_iTileUnderNumber, UMin, UMax);
+
+			Imgui_ButtonStyle();
+			if (ImGui::Button("UVXY+"))
+			{
+				m_iTileUnderNumber += 1;
+			}
+			ImGui::PopStyleColor(3);
+
+			ImGui::SameLine(50.f, 0.f);
+			Imgui_ButtonStyle();
+			if (ImGui::Button("UVXY-"))
+			{
+
+				m_iTileUnderNumber -= 1;
+			}
+			ImGui::PopStyleColor(3);
+
+
+
+
 			ImGui::Text("TilePos");
 			ImGui::SameLine(50.f, 0.f);		
 			ImGui::SliderFloat3("##3", m_vTilePos, vMouseMin, vMouseMax);
-			ImGui::PushStyleColor(ImGuiCol_Button, D3DXCOLOR(0.0f, 0.f, 0.f, 1.f));
-			ImGui::PushStyleColor(ImGuiCol_ButtonHovered, (ImVec4)ImColor::HSV(0.8f, 0.7f, 0.7f));
-			ImGui::PushStyleColor(ImGuiCol_ButtonActive, (ImVec4)ImColor::HSV(0.5f, 0.7f, 0.7f));
+
+			Imgui_ButtonStyle();
 			if (ImGui::Button("Y FloatPos+"))
 			{
 				m_vPosPivot.y = m_vPosPivot.y + 0.1f;
@@ -193,9 +249,7 @@ void Tile::Imgui_Setting()
 			ImGui::PopStyleColor(3);
 
 			ImGui::SameLine(100.f, 0.f);
-			ImGui::PushStyleColor(ImGuiCol_Button, D3DXCOLOR(0.0f, 0.f, 0.f, 1.f));
-			ImGui::PushStyleColor(ImGuiCol_ButtonHovered, (ImVec4)ImColor::HSV(0.8f, 0.7f, 0.7f));
-			ImGui::PushStyleColor(ImGuiCol_ButtonActive, (ImVec4)ImColor::HSV(0.5f, 0.7f, 0.7f));
+			Imgui_ButtonStyle();
 			if (ImGui::Button("Y FloatPos-"))
 			{
 				m_vPosPivot.y -= 0.1f;
@@ -206,18 +260,15 @@ void Tile::Imgui_Setting()
 
 
 			ImGui::SameLine(200.f, 0.f);
-			ImGui::PushStyleColor(ImGuiCol_Button, D3DXCOLOR(0.0f, 0.f, 0.f, 1.f));
-			ImGui::PushStyleColor(ImGuiCol_ButtonHovered, (ImVec4)ImColor::HSV(0.8f, 0.7f, 0.7f));
-			ImGui::PushStyleColor(ImGuiCol_ButtonActive, (ImVec4)ImColor::HSV(0.5f, 0.7f, 0.7f));
+			Imgui_ButtonStyle();
 			if (ImGui::Button("Y INTPos+"))
 			{
 				m_vPosPivot.y += 1;
 			}
 			ImGui::PopStyleColor(3);
+
 			ImGui::SameLine(300, 0.f);
-			ImGui::PushStyleColor(ImGuiCol_Button, D3DXCOLOR(0.0f, 0.f, 0.f, 1.f));
-			ImGui::PushStyleColor(ImGuiCol_ButtonHovered, (ImVec4)ImColor::HSV(0.8f, 0.7f, 0.7f));
-			ImGui::PushStyleColor(ImGuiCol_ButtonActive, (ImVec4)ImColor::HSV(0.5f, 0.7f, 0.7f));
+			Imgui_ButtonStyle();
 			if (ImGui::Button("Y INTPos-"))
 			{
 				m_vPosPivot.y -= 1;
@@ -228,21 +279,15 @@ void Tile::Imgui_Setting()
 		}
 		
 		///////////////////POTAL//////////////////////////
-			ImGui::Text("PotalPos");
-			ImGui::SameLine(100.f, 0.f);
-			ImGui::SliderFloat3("##4", m_vNextPos, fPosMin, fPosMax);
-			Imgui_PivotButton("Potal", &m_vNextPos);
-
+		Imgui_ObjectValue("PotalPos", "##4", "Potal", &m_vNextPos, fPosMax, fPosMin);
 
         ///////////////////MoveTile/////////////////////////
-			ImGui::Text("MoveTile");
-			ImGui::SameLine(100.f, 0.f);
-			ImGui::SliderFloat3("##5", m_vOriginal, fMovePosMin, fMovePosMax);
-			Imgui_PivotButton("Move", &m_vOriginal);
+		Imgui_ObjectValue("MoveTilePos", "##5","Move", &m_vOriginal, fMovePosMax, fMovePosMin);
+		Imgui_ObjectValue("MoveTileScale", "##6", "MScale", &m_vScalePivot, fMoveScaleMax, fMoveScaleMin);
+		Imgui_ObjectValue("MoveTileRotation", "##7", "MRotation", &m_vOriginRotation, fMoveRotMax, fMoveRotMin,50.f);
+
 		
-		ImGui::PushStyleColor(ImGuiCol_Button, D3DXCOLOR(0.0f, 0.f, 0.f, 1.f));
-		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, (ImVec4)ImColor::HSV(0.8f, 0.7f, 0.7f));
-		ImGui::PushStyleColor(ImGuiCol_ButtonActive, (ImVec4)ImColor::HSV(0.5f, 0.7f, 0.7f));
+		Imgui_ButtonStyle();
 		if (ImGui::Button("Reset Option"))
 		{
 			m_pTransform->Set_Scale(vSca);
@@ -264,6 +309,8 @@ void Tile::Imgui_Image(const char* tName, TILE_STATE eid)
 	_bool bSetTexture = false;
 	if (!ImGui::CollapsingHeader(tName)) //그냥 타이틀 이름
 		return;
+	ImVec2 scroll_size = ImVec2(0, 0);
+	ImGui::BeginChild("Scroll", scroll_size, true, ImGuiWindowFlags_HorizontalScrollbar);
 
 	_int nCount = 0;
 	for (int i = 0; i < m_vecImage[eid].size(); i++)
@@ -287,32 +334,35 @@ void Tile::Imgui_Image(const char* tName, TILE_STATE eid)
 			ImGui::SameLine();
 		else nCount = 0;
 	}
-	
+	ImGui::EndChild();
 }
 void Tile::Imgui_ModeChanger()
 {
 	_bool bSetTexture = false;
 	_int  iChoice(0);
-	static const char* cTile[]	       = { "TILE_FRONT","TILE_RIGHT","TILE_LEFT","TILE_OTHER"};
-	static const char* cTileStater[]   = { "NORMAL", "COLLISION", "TRIGGER","ANIMATION","DESTORY","POTAL","POTALEFFECT","POTALGASI","POTALGASIEFFECT","END"};
-	static const char* cTileMode[]	   = { "TILE","CUBE","OBJECT","END" };
-	static const char* cTileStage[]    = { "STAGE1", "STAGE2", "STAGE3", "STAGE4", "STAGE5","STAGE6","STAGE7","STAGE8", "STAGE9" ,"STAGE10","BOSSSTAGE" };
-	static const char* cTIleInstall[]  = { "Install", "MOVE" };
-	static const char* cSelect_Tile    = nullptr;
-	static const char* cSelect_State   = nullptr;
-	static const char* cSelect_Stage   = nullptr;
-	static const char* cSelect_Mode	   = nullptr;
-	static const char* cSelect_Install = nullptr;
+	static const char* cTile[]	         = { "TILE_FRONT","TILE_RIGHT","TILE_LEFT","TILE_OTHER"};
+	static const char* cTileStater[]     = { "NORMAL", "COLLISION", "TRIGGER","ANIMATION","DESTORY","POTAL","POTALEFFECT","POTALGASI","POTALGASIEFFECT","UNDERTILE","END"};
+	static const char* cTileMode[]	     = { "TILE","CUBE","OBJECT","END" };
+	static const char* cTileStage[]      = { "STAGE1", "STAGE2", "STAGE3", "STAGE4", "STAGE5","STAGE6","STAGE7","STAGE8", "STAGE9" ,"STAGE10","BOSSSTAGE" };
+	static const char* cTIleInstall[]    = { "Install", "MOVE" };
+	static const char* cTileAnimation[]  = {"TRUE", "FALSE"};
+	static const char* cSelect_Tile      = nullptr;
+	static const char* cSelect_State     = nullptr;
+	static const char* cSelect_Stage     = nullptr;
+	static const char* cSelect_Mode	     = nullptr;
+	static const char* cSelect_Install   = nullptr;
+	static const char* cSelect_Animat    = nullptr;
 	if (!ImGui::CollapsingHeader("TILEMode"))
 		return;
 	else
 	{
 		////////////////////MODE_END///////////////////////
 		{
+			ImVec2 scroll_size = ImVec2(0.f, 0.f);
+		
 			ImGui::Text("TileMode");
 			ImGui::SameLine(140.0f, 0.f);
-
-			if (ImGui::BeginCombo("##Mode", cSelect_Mode))
+		if (ImGui::BeginCombo("##Mode", cSelect_Mode))
 			{
 				for (_int i = 0; i < IM_ARRAYSIZE(cTileMode); i++)
 				{
@@ -331,6 +381,7 @@ void Tile::Imgui_ModeChanger()
 				}
 				ImGui::EndCombo();
 			}
+		
 		}
 		////////////////////TILE_SIDE//////////////////////
 		{
@@ -412,6 +463,7 @@ void Tile::Imgui_ModeChanger()
 						else if (!strcmp(cSelect_State, cTileStater[6]))  m_eTileState = TILE_STATE::STATE_POTALEFFECT;
 						else if (!strcmp(cSelect_State, cTileStater[7]))  m_eTileState = TILE_STATE::STATE_POTALGASI;
 						else if (!strcmp(cSelect_State, cTileStater[8]))  m_eTileState = TILE_STATE::STATE_POTALGASI_EFFECT;
+						else if (!strcmp(cSelect_State, cTileStater[9]))  m_eTileState = TILE_STATE::STATE_UNDERTILE;
 					}
 					if (bSelect)
 						ImGui::SetItemDefaultFocus();
@@ -441,9 +493,33 @@ void Tile::Imgui_ModeChanger()
 				ImGui::EndCombo();
 			}
 		}
+
+		////////////////////Animation//////////////////////
+		{
+			
+			ImGui::Text("Animation");
+			ImGui::SameLine(140.0f, 0.f);
+
+			if (ImGui::BeginCombo("##Animatin", cSelect_Animat))
+			{
+				for (_int i = 0; i < IM_ARRAYSIZE(cTileAnimation); i++)
+				{
+					_bool bSelect = (cSelect_Animat == cTileAnimation[i]);
+					if (ImGui::Selectable(cTileAnimation[i], bSelect))
+					{
+						cSelect_Animat = cTileAnimation[i];
+						if (!strcmp(cSelect_Animat, cTileAnimation[0]))	      m_bOnlyAnimation = true;
+						else if (!strcmp(cSelect_Animat, cTileAnimation[1]))  m_bOnlyAnimation = false;
+					}
+					if (bSelect)
+						ImGui::SetItemDefaultFocus();
+				}
+				ImGui::EndCombo();
+			}
+		}
 	}
 }
-void Tile::Imgui_PivotButton(const char pName[32], _vec3* vPivot)
+void Tile::Imgui_PivotButton(const char pName[32], _vec3* vPivot,_float iLinePivot)
 {
 	
 	char tXP[32] = "X", tYP[32] = "Y", tZP[32] = "Z", tXM[32] = "X", tYM[32] = "Y", tZM[32] = "Z",
@@ -461,77 +537,55 @@ void Tile::Imgui_PivotButton(const char pName[32], _vec3* vPivot)
 	///////////////정수/////////////////
 	{
 
-		ImGui::PushStyleColor(ImGuiCol_Button, D3DXCOLOR(0.0f, 0.f, 0.f, 1.f));
-		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, (ImVec4)ImColor::HSV(0.8f, 0.7f, 0.7f));
-		ImGui::PushStyleColor(ImGuiCol_ButtonActive, (ImVec4)ImColor::HSV(0.5f, 0.7f, 0.7f));
+		Imgui_ButtonStyle();
 		if (ImGui::Button(tXP))
 		{
-			vPivot->x += 1;
+			vPivot->x +=1;
 		}
 		ImGui::PopStyleColor(3);
 
-		ImGui::SameLine(70.f, 0.f);
+		ImGui::SameLine((70.f+iLinePivot), 0.f);
 
-		ImGui::PushStyleColor(ImGuiCol_Button, D3DXCOLOR(0.0f, 0.f, 0.f, 1.f));
-		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, (ImVec4)ImColor::HSV(0.8f, 0.7f, 0.7f));
-		ImGui::PushStyleColor(ImGuiCol_ButtonActive, (ImVec4)ImColor::HSV(0.5f, 0.7f, 0.7f));
+		Imgui_ButtonStyle();
 		if (ImGui::Button(tXM))
 		{
-			vPivot->x -= 1;
-			if (vPivot->x < 0)
-				vPivot->x = 1;
+			vPivot->x  -= 1;
 		}
 		ImGui::PopStyleColor(3);
 
-		ImGui::SameLine(140.f, 0.f);
+		ImGui::SameLine((140.f+ iLinePivot), 0.f);
 
-		ImGui::PushStyleColor(ImGuiCol_Button, D3DXCOLOR(0.0f, 0.f, 0.f, 1.f));
-		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, (ImVec4)ImColor::HSV(0.8f, 0.7f, 0.7f));
-		ImGui::PushStyleColor(ImGuiCol_ButtonActive, (ImVec4)ImColor::HSV(0.5f, 0.7f, 0.7f));
+		Imgui_ButtonStyle();
 		if (ImGui::Button(tYP))
 		{
-			vPivot->y += 1;
-			if (vPivot->y < 0)
-				vPivot->y = 1;
+			vPivot->y +=  1;
 		}
 
 		ImGui::PopStyleColor(3);
-		ImGui::SameLine(210.f, 0.f);
+		ImGui::SameLine(210.f+ iLinePivot, 0.f);
 
-		ImGui::PushStyleColor(ImGuiCol_Button, D3DXCOLOR(0.0f, 0.f, 0.f, 1.f));
-		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, (ImVec4)ImColor::HSV(0.8f, 0.7f, 0.7f));
-		ImGui::PushStyleColor(ImGuiCol_ButtonActive, (ImVec4)ImColor::HSV(0.5f, 0.7f, 0.7f));
+		Imgui_ButtonStyle();
 		if (ImGui::Button(tYM))
 		{
 			vPivot->y -= 1;
-			if (vPivot->y < 0)
-				vPivot->y = 1;
 		}
 
 		ImGui::PopStyleColor(3);
-		ImGui::SameLine(280.f, 0.f);
-		ImGui::PushStyleColor(ImGuiCol_Button, D3DXCOLOR(0.0f, 0.f, 0.f, 1.f));
-		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, (ImVec4)ImColor::HSV(0.8f, 0.7f, 0.7f));
-		ImGui::PushStyleColor(ImGuiCol_ButtonActive, (ImVec4)ImColor::HSV(0.5f, 0.7f, 0.7f));
+		ImGui::SameLine(280.f+ iLinePivot, 0.f);
+		Imgui_ButtonStyle();
 		if (ImGui::Button(tZP))
 		{
 			vPivot->z += 1;
-			if (vPivot->z < 0)
-				vPivot->z = 1;
 		}
 
 		ImGui::PopStyleColor(3);
 
-		ImGui::SameLine(350.f, 0.f);
+		ImGui::SameLine(350.f+ iLinePivot, 0.f);
 
-		ImGui::PushStyleColor(ImGuiCol_Button, D3DXCOLOR(0.0f, 0.f, 0.f, 1.f));
-		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, (ImVec4)ImColor::HSV(0.8f, 0.7f, 0.7f));
-		ImGui::PushStyleColor(ImGuiCol_ButtonActive, (ImVec4)ImColor::HSV(0.5f, 0.7f, 0.7f));
+		Imgui_ButtonStyle();
 		if (ImGui::Button(tZM))
 		{
 			vPivot->z -= 1;
-			if (vPivot->z < 0)
-				vPivot->z = 1;
 		}
 		ImGui::PopStyleColor(3);
 	}
@@ -539,80 +593,71 @@ void Tile::Imgui_PivotButton(const char pName[32], _vec3* vPivot)
 	///////////////실수/////////////////
 	{
 
-		ImGui::PushStyleColor(ImGuiCol_Button, D3DXCOLOR(0.0f, 0.f, 0.f, 1.f));
-		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, (ImVec4)ImColor::HSV(0.8f, 0.7f, 0.7f));
-		ImGui::PushStyleColor(ImGuiCol_ButtonActive, (ImVec4)ImColor::HSV(0.5f, 0.7f, 0.7f));
+		Imgui_ButtonStyle();
 		if (ImGui::Button(tfXP))
 		{
-			vPivot->x += 0.1;
+			vPivot->x += m_fPivot;
 		}
 		ImGui::PopStyleColor(3);
 
-		ImGui::SameLine(70.f, 0.f);
+		ImGui::SameLine(70.f+ iLinePivot, 0.f);
 
-		ImGui::PushStyleColor(ImGuiCol_Button, D3DXCOLOR(0.0f, 0.f, 0.f, 1.f));
-		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, (ImVec4)ImColor::HSV(0.8f, 0.7f, 0.7f));
-		ImGui::PushStyleColor(ImGuiCol_ButtonActive, (ImVec4)ImColor::HSV(0.5f, 0.7f, 0.7f));
+		Imgui_ButtonStyle();
 		if (ImGui::Button(tfXM))
 		{
-			vPivot->x -= 0.1;
-			if (vPivot->x < 0)
-				vPivot->x = 0.1;
+			vPivot->x -= m_fPivot;
 		}
 		ImGui::PopStyleColor(3);
 
-		ImGui::SameLine(140.f, 0.f);
+		ImGui::SameLine(140.f+ iLinePivot, 0.f);
 
-		ImGui::PushStyleColor(ImGuiCol_Button, D3DXCOLOR(0.0f, 0.f, 0.f, 1.f));
-		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, (ImVec4)ImColor::HSV(0.8f, 0.7f, 0.7f));
-		ImGui::PushStyleColor(ImGuiCol_ButtonActive, (ImVec4)ImColor::HSV(0.5f, 0.7f, 0.7f));
+		Imgui_ButtonStyle();
 		if (ImGui::Button(tfYP))
 		{
-			vPivot->y += 0.1;
-			if (vPivot->y < 0)
-				vPivot->y = 0.1;
+			vPivot->y += m_fPivot;
 		}
 
 		ImGui::PopStyleColor(3);
-		ImGui::SameLine(210.f, 0.f);
+		ImGui::SameLine(210.f+ iLinePivot, 0.f);
 
-		ImGui::PushStyleColor(ImGuiCol_Button, D3DXCOLOR(0.0f, 0.f, 0.f, 1.f));
-		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, (ImVec4)ImColor::HSV(0.8f, 0.7f, 0.7f));
-		ImGui::PushStyleColor(ImGuiCol_ButtonActive, (ImVec4)ImColor::HSV(0.5f, 0.7f, 0.7f));
+		Imgui_ButtonStyle();
 		if (ImGui::Button(tfYM))
 		{
-			vPivot->y -= 0.1;
-			if (vPivot->y < 0)
-				vPivot->y = 0.1;
+			vPivot->y -= m_fPivot;
 		}
 
 		ImGui::PopStyleColor(3);
-		ImGui::SameLine(280.f, 0.f);
-		ImGui::PushStyleColor(ImGuiCol_Button, D3DXCOLOR(0.0f, 0.f, 0.f, 1.f));
-		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, (ImVec4)ImColor::HSV(0.8f, 0.7f, 0.7f));
-		ImGui::PushStyleColor(ImGuiCol_ButtonActive, (ImVec4)ImColor::HSV(0.5f, 0.7f, 0.7f));
+		ImGui::SameLine(280.f+ iLinePivot, 0.f);
+		Imgui_ButtonStyle();
 		if (ImGui::Button(tfZP))
 		{
-			vPivot->z += 0.1;
-			if (vPivot->z < 0)
-				vPivot->z = 0.1;
+			vPivot->z += m_fPivot;
 		}
 
 		ImGui::PopStyleColor(3);
 
-		ImGui::SameLine(350.f, 0.f);
+		ImGui::SameLine(350.f+ iLinePivot, 0.f);
 
-		ImGui::PushStyleColor(ImGuiCol_Button, D3DXCOLOR(0.0f, 0.f, 0.f, 1.f));
-		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, (ImVec4)ImColor::HSV(0.8f, 0.7f, 0.7f));
-		ImGui::PushStyleColor(ImGuiCol_ButtonActive, (ImVec4)ImColor::HSV(0.5f, 0.7f, 0.7f));
+		Imgui_ButtonStyle();
 		if (ImGui::Button(tfZM))
 		{
-			vPivot->z -= 0.1;
-			if (vPivot->z < 0)
-				vPivot->z = 0.1;
+			vPivot->z -= m_fPivot;
 		}
 		ImGui::PopStyleColor(3);
 	}
+}
+void Tile::Imgui_ButtonStyle()
+{
+	ImGui::PushStyleColor(ImGuiCol_Button, D3DXCOLOR(0.0f, 0.f, 0.f, 1.f));
+	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, (ImVec4)ImColor::HSV(0.8f, 0.7f, 0.7f));
+	ImGui::PushStyleColor(ImGuiCol_ButtonActive, (ImVec4)ImColor::HSV(0.5f, 0.7f, 0.7f));
+}
+void Tile::Imgui_ObjectValue(const char* TextName, const char* SliderName, const char* ButtonName, _vec3* vValue, _float fMax, _float fMin,_float iLinePivot)
+{
+	ImGui::Text(TextName);
+	ImGui::SameLine(100.f, 0.f);
+	ImGui::SliderFloat3(SliderName, *vValue, fMin, fMax);
+	Imgui_PivotButton(ButtonName, vValue, iLinePivot);
 }
 void Tile::Set_AnimationCount(_int* icnt)
 {
@@ -640,6 +685,18 @@ void Tile::Set_AnimationCount(_int* icnt)
 	else if (!_tcscmp(m_pTileName, L"Spr_Deco_BushFlower01_0%d.png") 
 		  || !_tcscmp(m_pTileName, L"Spr_Deco_BushFlower02_0%d.png")) *icnt = 8;
 	else if (!_tcscmp(m_pTileName, L"spr_spawneffect0%d.png")) *icnt = 7;
+	
+	if (!_tcscmp(m_pTileName, L"spr_spawneffect0%d.png")) *icnt = 7;
+
+	if (!_tcscmp(m_pTileName, L"pr_InfectionThorns_05.png") ||
+		!_tcscmp(m_pTileName, L"pr_InfectionThorns_06.png") ||
+		!_tcscmp(m_pTileName, L"Spr_InfectionDoor_Thorns03_05.png") || 
+	    !_tcscmp(m_pTileName, L"Spr_InfectionDoor_Thorns05_03.png") ||
+		!_tcscmp(m_pTileName, L"Spr_InfectionDoor_Thorns05_04.png") ||
+		!_tcscmp(m_pTileName, L"Spr_InfectionDoor_Thorns05_05.png") ||
+		!_tcscmp(m_pTileName, L"Spr_InfectionThorns_01.png") ||
+		!_tcscmp(m_pTileName, L"Spr_InfectionThorns_DestructionEffect_00.png")) *icnt = 1;
+
 }
 HRESULT Tile::Load_Image(const _tchar* pName, TILE_STATE eid)
 {
@@ -731,7 +788,7 @@ HRESULT Tile::LoadFile()
 	
 			GameObject* GOBJ = nullptr;
 			GRPDEV->AddRef();
-			GOBJ = CXZTile::Create(GRPDEV, eTileSide, eTileState);
+			//GOBJ = CXZTile::Create(GRPDEV, eTileSide, eTileState);
 			GOBJ->Set_ObjectTag(L"CXZTile");
 	
 			if (eTileState == TILE_STATE::STATE_DESTORY || eTileState == TILE_STATE::STATE_ANIMATION)
@@ -936,18 +993,23 @@ void Tile::Check_TilePoint()
 				switch (m_eMode)
 				{
 				case TILEMODE_CHANGE::MODE_TILE:
-					pTile = CXZTile::Create(GRPDEV,m_eTile,m_eTileState);
+					if (m_eTileState == STATE_UNDERTILE)
+					{
+						pTile = CXZTile::Create(GRPDEV, m_eTile, m_eTileState,  m_vecUVXY[(_int)m_iTileUnderNumber].x1, m_vecUVXY[(_int)m_iTileUnderNumber].x2, m_vecUVXY[(_int)m_iTileUnderNumber].y, m_vecUVXY[(_int)m_iTileUnderNumber].y2);
+					
+					}
+					pTile = CXZTile::Create(GRPDEV,m_eTile,m_eTileState, m_vecUVXY[(_int)m_iTileUnderNumber].x1, m_vecUVXY[(_int)m_iTileUnderNumber].x2, m_vecUVXY[(_int)m_iTileUnderNumber].y, m_vecUVXY[(_int)m_iTileUnderNumber].y2);
 					break;
 				case TILEMODE_CHANGE::MODE_CUBE:
 					pTile = CubeTile::Create(GRPDEV);
 					break;
 				case TILEMODE_CHANGE::MODE_OBJECT:
-					pTile = CXZTile::Create(GRPDEV, m_eTile, m_eTileState);
+					pTile = CXZTile::Create(GRPDEV, m_eTile, m_eTileState, m_vecUVXY[(_int)m_iTileUnderNumber].x1, m_vecUVXY[(_int)m_iTileUnderNumber].x2, m_vecUVXY[(_int)m_iTileUnderNumber].y, m_vecUVXY[(_int)m_iTileUnderNumber].y2);
 					break;
 				}
 				if (pTile != nullptr)
 				{
-					GRPDEV->AddRef();
+					//GRPDEV->AddRef();
 					switch (m_eMode)
 					{
 					case TILEMODE_CHANGE::MODE_TILE:
@@ -955,7 +1017,7 @@ void Tile::Check_TilePoint()
 						{
 							_int i(0);
 							Set_AnimationCount(&i);
-							  dynamic_cast<TileInfo*>(pTile->Get_Component(COMPONENT_TYPE::COMPONENT_TILEINFO))->Set_TileAnimaiton(m_pTileName, i, m_eTile, m_eTileState, m_eMode, (_int)vMouseCheck.z * VTXCNTX + (_int)vMouseCheck.x, m_vNextPos);
+							  dynamic_cast<TileInfo*>(pTile->Get_Component(COMPONENT_TYPE::COMPONENT_TILEINFO))->Set_TileAnimaiton(m_pTileName, i, m_eTile, m_eTileState, m_eMode, (_int)vMouseCheck.z * VTXCNTX + (_int)vMouseCheck.x, m_vNextPos, m_bOnlyAnimation);
 						}
 						else
 						{
@@ -965,7 +1027,7 @@ void Tile::Check_TilePoint()
 						}
 						dynamic_cast<Transform*>(pTile->Get_Component(COMPONENT_TYPE::COMPONENT_TRANSFORM))->Set_Scale(*m_pTransform->Get_Scale());
 						dynamic_cast<Transform*>(pTile->Get_Component(COMPONENT_TYPE::COMPONENT_TRANSFORM))->Set_Rotation(*m_pTransform->Get_Rotation());
-						TileManager::GetInstance()->Add_Tile(pTile, vMouseCheck, m_eStage, m_eMode, m_eTile, m_vPosPivot);
+						TileManager::GetInstance()->Add_Tile(pTile, vMouseCheck, m_eStage, m_eMode, m_eTile, m_vPosPivot, m_bOnlyAnimation);
 						
 						break;
 					case TILEMODE_CHANGE::MODE_CUBE:
@@ -982,7 +1044,6 @@ void Tile::Check_TilePoint()
 						break;
 
 					}	
-	
 				}
 			}
 			m_bMouseClick = false;
@@ -1039,11 +1100,11 @@ void Tile::Move_Tile()
 	ScreenToClient(hWnd, &pt);
 
 	//픽킹 계산 :<
-	Component* ComBuff = SceneManager::GetInstance()->Get_GameObject(L"Terrain")->Get_Component(Engine::COMPONENT_TYPE::COMPONENT_TERRAIN);
-	Buffer* pBuffer = dynamic_cast<Buffer*>(ComBuff);
+	Component*  ComBuff = SceneManager::GetInstance()->Get_GameObject(L"Terrain")->Get_Component(Engine::COMPONENT_TYPE::COMPONENT_TERRAIN);
+	Buffer*		pBuffer = dynamic_cast<Buffer*>(ComBuff);
 
 	Component* ComTransform = SceneManager::GetInstance()->Get_GameObject(L"Terrain")->Get_Component(Engine::COMPONENT_TYPE::COMPONENT_TRANSFORM);
-	Transform* pTransform = dynamic_cast<Transform*>(ComTransform);
+	Transform*   pTransform = dynamic_cast<Transform*>(ComTransform);
 
 	D3DXMatrixIdentity(&vWorldInvese);
 	memcpy(&vWorldInvese, pTransform->Get_World(), sizeof(_matrix));
@@ -1086,10 +1147,10 @@ void Tile::Move_Tile()
 				//흠
 				dynamic_cast<Transform*>(iter->Get_Component(Engine::COMPONENT_TYPE::COMPONENT_TRANSFORM))->Get_Info(INFO_POS, &vPos);
 				memcpy(&InverseWorld, dynamic_cast<Transform*>(iter->Get_Component(Engine::COMPONENT_TYPE::COMPONENT_TRANSFORM))->Get_World(), sizeof(_matrix));
-				vTileLocalPos[0] = { -1.f, 0.f, -1.f }; //좌하단 y+ 기준
-				vTileLocalPos[1] = { 1.f, 0.f, -1.f };  //우하단 y+ 기준
-				vTileLocalPos[2] = { -1.f, 0.f,  1.f }; //좌상단 y+ 기준
-				vTileLocalPos[3] = { 1.f, 0.f,  1.f };  //우상단 y+ 기준
+				vTileLocalPos[0] = { -1.f, 0.f, -1.f };  //좌하단 y+ 기준
+				vTileLocalPos[1] = {  1.f, 0.f, -1.f };  //우하단 y+ 기준
+				vTileLocalPos[2] = { -1.f, 0.f,  1.f };  //좌상단 y+ 기준
+				vTileLocalPos[3] = {  1.f, 0.f,  1.f };  //우상단 y+ 기준
 
 				for (int i = 0; i < 4; ++i)
 					D3DXVec3TransformCoord(&vTileLocalPos[i], &vTileLocalPos[i], &InverseWorld);
@@ -1129,14 +1190,14 @@ void Tile::Move_Tile()
 	// 
 	if (MOUSE_LBUTTON && !m_bMouseClick)
 	{
-		if(TileManager::GetInstance()->Choice_Tile(&m_iStge, &m_iMode, &m_iNumber, vOrigin, vDirection, &m_vOriginal))
+		if(TileManager::GetInstance()->Choice_Tile(&m_iStge, &m_iMode, &m_iNumber, vOrigin, vDirection, &m_vOriginal, &m_vScalePivot, &m_vOriginRotation))
 			m_bMouseClick = true;
 			//해당 타일이 클릭되면 true
 	}
 	//타일 움직이기
 	if (m_bMouseClick)
 	{
-		TileManager::GetInstance()->Set_Tile(m_vOriginal, m_iStge,m_iMode,m_iNumber);
+		TileManager::GetInstance()->Set_Tile(m_vOriginal, m_vScalePivot, m_vOriginRotation, m_iStge,m_iMode,m_iNumber);
 	}
 	//우클릭시 해당 위치에 타일 놓기
 	if (MOUSE_RBUTTON)
@@ -1145,6 +1206,10 @@ void Tile::Move_Tile()
 		//타일 놓으면 다시 클릭 활성화
 		m_iStge = 0, m_iMode = 0, m_iNumber = 0;
 		m_bMouseClick = false;
+		m_vOriginal = { 0,0,0 };
+		m_vScalePivot = { 0,0,0 };
+		m_vOriginRotation = { 0,0,0 };
+
 	}
 
 	m_pTransform->Set_Pos(vMouseCheck.x, vMouseCheck.y + 1.f + (pTransform->Get_Scale()->y) * 0.15, vMouseCheck.z);
@@ -1167,5 +1232,6 @@ VOID Tile::Free() {
 			Safe_Delete(iter.wstr);
 	}
 	
+	Safe_Release(m_Sprite);
 	GameObject::Free();
 }

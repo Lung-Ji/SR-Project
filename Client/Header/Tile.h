@@ -10,6 +10,7 @@ private:
     explicit Tile(const GameObject& ths);
     virtual ~Tile();
 public:
+   
     struct ImageFile {
         wstring* wstr;
         _vec2     vSize;
@@ -27,7 +28,9 @@ public:
     void                        Imgui_Setting();
     void                        Imgui_Image(const char* tName, TILE_STATE eid);
     void                        Imgui_ModeChanger();
-    void                        Imgui_PivotButton(const char pName[32], _vec3* vPivot);
+    void                        Imgui_PivotButton(const char pName[32], _vec3* vPivot,_float iLinePivot = 0);
+    void                        Imgui_ButtonStyle();
+    void                        Imgui_ObjectValue(const char* TextName, const char* SliderName, const char* ButtonName, _vec3* vValue, _float fMax, _float fMin, _float iLinePivot = 0);
 public:
     void                        Set_AnimationCount(int* icnt);
 
@@ -54,25 +57,33 @@ private:
 
     vector<const _tchar*>        m_vecName[TILE_STATE::STATE_END];
     vector<ImageFile>            m_vecImage[TILE_STATE::STATE_END];
+    vector<RECT>                 m_vecTileUnder;
+    vector<UvXY>                 m_vecUVXY;
     _bool                        m_bTileCheck;
     _bool                        m_bMouseClick;
+    _bool                        m_bOnlyAnimation;
 
     const _tchar*                m_pPathName;
     const _tchar*                m_pTileName;
     const _tchar*                m_pTileState;
 
 private:
+    _float                       m_fPivot;
     _int                         m_iStge;
     _int                         m_iMode;
     _int                         m_iNumber;
+    _float                         m_iTileUnderNumber;
+
     _vec3                        m_vOriginal;
     _vec3                        m_vNextPos;
     _vec3                        m_vMousePos;
     _vec3                        m_vTilePos;
     _vec3                        m_vPosPivot;
     _vec3                        m_vScalePivot;
+    _vec3                        m_vOriginRotation;
     _vec3                        m_vRotationPivot;
 private:
+    ID3DXSprite*                 m_Sprite;
     TILE_SIDE                    m_eTile;
     TILE_STATE                   m_eTileState;
     TILEMODE_CHANGE              m_eMode;

@@ -1,7 +1,6 @@
 #pragma once
 #include "GameObject.h"
 
-
 class CXZTile :
     public GameObject
 {
@@ -12,7 +11,7 @@ private:
 
 public:
 
-    virtual			HRESULT		Ready_GameObject(TILE_SIDE eid, TILE_STATE eState);
+    virtual			HRESULT		Ready_GameObject(TILE_SIDE eid, TILE_STATE eState, FLOAT& X1 , FLOAT& X2 , FLOAT& Y1 , FLOAT& Y2 );
     virtual			INT			Update_GameObject(CONST FLOAT& _DT);
     virtual			VOID		LateUpdate_GameObject(CONST FLOAT& _DT);
     virtual			VOID		Render_GameObject();
@@ -21,6 +20,7 @@ public:
   
 public:
     void            Set_Buffer(TILE_SIDE eid);
+    D3DMATERIAL9            Set_Material();
     void            Frame_Move      (CONST FLOAT& _DT);
     void            Tile_Animation  (CONST FLOAT& _DT);
     void            Tile_Destory    (CONST FLOAT& _DT);
@@ -30,20 +30,22 @@ public:
     void            Tile_Gasi_Destory();
     Transform*       Crash_Player();
 private:
-    HRESULT			Component_Initialize(TILE_SIDE eid, TILE_STATE eState);
+    HRESULT			Component_Initialize(TILE_SIDE eid, TILE_STATE eState, FLOAT& X1, FLOAT& X2, FLOAT& Y1 , FLOAT& Y2);
     
     TileInfo*               m_pTileInfo;
+    Transform*              m_pTransform;
     Buffer*                 m_pBuffer;
     Buffer*                 m_CubeBuffer;
-
-    Transform*              m_pTransform;
-    Collider*               m_pCollider;
+    NoCloneBuffer*          m_pNoCloneBuff;
+    D3DMATERIAL9            m_Material;
+private:
     _float                  m_fFrame;
     _float                  m_fTime;
     _bool                   m_bStopFrame;
+    DWORD                   m_Alpha;
 
 public:
-    static         CXZTile* Create(LPDIRECT3DDEVICE9 pGraphicDev, TILE_SIDE eid, TILE_STATE eState);
+    static         CXZTile* Create(LPDIRECT3DDEVICE9 pGraphicDev, TILE_SIDE eid, TILE_STATE eState, FLOAT& X1, FLOAT& X2, FLOAT& Y1, FLOAT& Y2);
 
 private:
    virtual  void            Free();
