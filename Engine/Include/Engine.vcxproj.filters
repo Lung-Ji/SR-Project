@@ -180,8 +180,6 @@
     <ClInclude Include="..\Header\Font.h">
       <Filter>99. Component\07. Font</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\UISprite.h" />
-     </ClInclude>
     <ClInclude Include="..\Header\NoCloneBuffer.h">
       <Filter>99. Component\01. Buffer</Filter>
     </ClInclude>
