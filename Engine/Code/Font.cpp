@@ -31,11 +31,13 @@ void FontObject::Render_Font()
 	GRPDEV->SetRenderState(D3DRS_ZENABLE, TRUE);
 }
 
-void FontObject::Import_Font(CONST TCHAR* _msg, UINT _weight, UINT _width, const _vec2 _pos){
+HRESULT FontObject::Import_Font(CONST TCHAR* _msg, UINT _weight, UINT _width, const _vec2 _pos){
 	FontList.push_back(FontINFO(_msg, _weight, _width, _pos));
 
 	D3DXCreateFont(GRPDEV, 12, FontList.back().WIDTH, FontList.back().WEIGHT, FontList.back().MIPLEVELS, FontList.back().ITALIC, FontList.back().CHARSET,
 		FontList.back().OUTPUTPRECISION, FontList.back().QUALITY, FontList.back().PITCHANDFAMILY, FontList.back().FACENAME, &Font);
+
+	return S_OK;
 }
 
 FontObject* FontObject::Create(LPDIRECT3DDEVICE9 GRPDEV, const _tchar* pFontType, const _uint& iWidth, const _uint& iHeight, const _uint& iWeight)
