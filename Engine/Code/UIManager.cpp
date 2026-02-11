@@ -64,10 +64,6 @@ VOID UIManager::Render_UI(LPDIRECT3DDEVICE9 _GRPDEV, UIType _uitype)
                 for (auto& sprite : pair.second)
                     Sprite->Draw(sprite.TEXTURE, NULL, NULL, &sprite.POS, D3DCOLOR_ARGB(sprite.OPACITY, 255, 255, 255));
             }
-            else
-            {
-                MSG_BOX("Not exist UIType");
-            }
         }
     }
     Sprite->End();

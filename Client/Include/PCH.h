@@ -36,7 +36,10 @@
 #include "PlayerEffect.h"
 #include "UIEffect.h"
 #include "NPC.h"
-
+#include "Object_Explain.h"
+//#include "Monster_State.h"
+//#include "Monster1.h"
+//#include "BossMonster.h"
 
 #include "Monster.h"
 #include "MonsterTest.h"
@@ -60,6 +63,8 @@
 #include "Bow.h"
 #include "Arrow.h"
 #include "TileDestoryEffect.h"
+#include "PlayerInven.h"
+#include "Augments.h"
 //////////////////////////////////////////// Scene List
 
 #include "StartScene.h"

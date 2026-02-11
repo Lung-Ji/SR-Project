@@ -154,6 +154,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\Header\Augments.h" />
     <ClInclude Include="..\Header\Arrow.h" />
     <ClInclude Include="..\Header\Bow.h" />
     <ClInclude Include="..\Header\Bat.h">
@@ -175,6 +176,7 @@
     </ClInclude>
     <ClInclude Include="..\Header\Fireball.h" />
     <ClInclude Include="..\Header\MonsterEffect.h" />
+    <ClInclude Include="..\Header\Object_Explain.h" />
     <ClInclude Include="..\Header\MonsterSummon03.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClInclude>
@@ -226,6 +228,9 @@
       </ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\Header\Player.h" />
+    <ClInclude Include="..\Header\PlayerInven.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="..\Header\ScorpionEvilSoul.h" />
     <ClInclude Include="..\Header\StartScene.h" />
     <ClInclude Include="..\Header\StartScene.h">
@@ -258,6 +263,7 @@
     <ClInclude Include="ENUM.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Code\Augments.cpp" />
     <ClCompile Include="..\Code\Arrow.cpp" />
     <ClCompile Include="..\Code\Bow.cpp" />
     <ClCompile Include="..\Code\Bat.cpp">
@@ -279,6 +285,7 @@
     </ClCompile>
     <ClCompile Include="..\Code\Fireball.cpp" />
     <ClCompile Include="..\Code\MonsterEffect.cpp" />
+    <ClCompile Include="..\Code\Object_Explain.cpp" />
     <ClCompile Include="..\Code\MonsterSummon03.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
@@ -340,6 +347,9 @@
       </ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\Code\Player.cpp" />
+    <ClCompile Include="..\Code\PlayerInven.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\Code\ScorpionEvilSoul.cpp" />
     <ClCompile Include="..\Code\StartScene.cpp" />
     <ClCompile Include="..\Code\Terrain.cpp" />
