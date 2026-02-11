@@ -1,6 +1,6 @@
 #pragma once
 #include "GameObject.h"
-enum class OBJECT_DESTORY { STONE, GRASS, DESTORY_END };
+enum class OBJECT_DESTORY { STONE, GRASS,POTALEFFECT, DESTORY_END };
 class TileDestoryEffect :
     public GameObject
 {
@@ -10,7 +10,7 @@ private:
     virtual ~TileDestoryEffect();
 
 public:
-    virtual			HRESULT		Ready_GameObject(OBJECT_DESTORY eid, _int iCnt, _vec3 vPos);
+    virtual			HRESULT		Ready_GameObject(OBJECT_DESTORY eid, _int iCnt, _vec3 vPos, _vec3 vScale, _vec3 vRot);
     virtual			INT			Update_GameObject(CONST FLOAT& _DT);
     virtual			VOID		LateUpdate_GameObject(CONST FLOAT& _DT);
     virtual			VOID		Render_GameObject();
@@ -26,7 +26,6 @@ private:
     
 private: 
     vector<IDirect3DBaseTexture9*>	m_vecTileEffectList[static_cast<int>(OBJECT_DESTORY::DESTORY_END)];
-    vector<const _tchar*>           m_vecName[static_cast<int>(OBJECT_DESTORY::DESTORY_END)];
     
     Buffer*                         m_pTileEffectBuff;
     Transform*                      m_pTransform;
@@ -40,7 +39,7 @@ private:
 
     _int                            m_iCnt;
 public:
-    static         TileDestoryEffect* Create(LPDIRECT3DDEVICE9 pGraphicDev, OBJECT_DESTORY eid, _int iCnt, _vec3 vPos);
+    static         TileDestoryEffect* Create(LPDIRECT3DDEVICE9 pGraphicDev, OBJECT_DESTORY eid, _int iCnt, _vec3 vPos, _vec3 vScale, _vec3 vRot);
 
 private:
     virtual  void            Free();

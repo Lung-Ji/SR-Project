@@ -78,7 +78,6 @@ VOID RenderManager::Render_UI(LPDIRECT3DDEVICE9& _GRPDEV)	{
 }
 VOID RenderManager::Render_TILE(LPDIRECT3DDEVICE9& _GRPDEV)
 {
-	
 	_GRPDEV->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 	_GRPDEV->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	_GRPDEV->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
@@ -86,20 +85,22 @@ VOID RenderManager::Render_TILE(LPDIRECT3DDEVICE9& _GRPDEV)
 	_GRPDEV->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 	_GRPDEV->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
+	//알파 테스트 특정 수치 이하의 색상값을 출력되지 않게함
 	_GRPDEV->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
 	_GRPDEV->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
 	_GRPDEV->SetRenderState(D3DRS_ALPHAREF, 0xc0);
-  
-	TileManager::GetInstance()->Render_TileList();
+	RenderGroup[RENDER_TILE].sort([](GameObject* DEST, GameObject* SRC)->bool
+		{
+			return DEST->Get_AlphaYValue() < SRC->Get_AlphaYValue();
+		});
+
 	for (auto& _OBJ : RenderGroup[RENDER_TILE]){
 		if (_OBJ->Get_ObjectDead() == FALSE)
 			_OBJ->Render_GameObject();
 	}
 
-	TileManager::GetInstance()->Render_TileList();
-
 	_GRPDEV->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
-
+	_GRPDEV->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 	_GRPDEV->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 	_GRPDEV->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }

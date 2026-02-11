@@ -1,13 +1,12 @@
 #include "TileInfo.h"
 
-TileInfo::TileInfo(LPDIRECT3DDEVICE9 _GRPDEV) : Component(_GRPDEV), m_iTileNumber(0),
-m_eTileState(TILE_STATE::STATE_END), m_bPortal(false), m_iTextureCount(0), m_eTileSide(TILE_SIDE::TILE_END), m_eTileMode(TILEMODE_CHANGE::MODE_END) {
+TileInfo::TileInfo(LPDIRECT3DDEVICE9 _GRPDEV) : Component(_GRPDEV), m_iTileNumber(0), m_pTexture(nullptr),
+m_eTileState(TILE_STATE::STATE_END), m_bPortal(false), m_bOnlyAnimation(false), m_iTextureCount(0), m_eTileSide(TILE_SIDE::TILE_END), m_eTileMode(TILEMODE_CHANGE::MODE_END) {
 }
-TileInfo::TileInfo(const TileInfo& _RHS) : Component(_RHS),  m_eTileSide(_RHS.m_eTileSide), m_bPortal(_RHS.m_bPortal),
+TileInfo::TileInfo(const TileInfo& _RHS) : Component(_RHS),  m_eTileSide(_RHS.m_eTileSide), m_bPortal(_RHS.m_bPortal),m_pTexture(_RHS.m_pTexture),
 m_eTileState(_RHS.m_eTileState), m_eTileMode(_RHS.m_eTileMode), m_pTileName(_RHS.m_pTileName), m_iTileNumber(_RHS.m_iTileNumber) {
-		
-		
-
+	if (m_pTexture != nullptr)
+		m_pTexture->AddRef();
 }
 TileInfo::~TileInfo() { }
 
@@ -43,5 +42,7 @@ Component* TileInfo::Clone() {
 }
 VOID TileInfo::Free() {
 
+	if (m_pTexture != nullptr)
+		Safe_Release(m_pTexture);
 	Component::Free();
 }

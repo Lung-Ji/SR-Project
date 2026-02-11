@@ -150,6 +150,7 @@ call Copy.bat</Command>
     <ClInclude Include="..\Header\CollisionManager.h" />
     <ClInclude Include="..\Header\Component.h" />
     <ClInclude Include="..\Header\EffectManager.h " />
+    <ClInclude Include="..\Header\NoCloneBuffer.h" />
     <ClInclude Include="..\Header\TileInfo.h" />
     <ClInclude Include="..\Header\Engine_Define.h" />
     <ClInclude Include="..\Header\Engine_Enum.h" />
@@ -197,6 +198,7 @@ call Copy.bat</Command>
       </ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\Code\EffectManager.cpp" />
+    <ClCompile Include="..\Code\NoCloneBuffer.cpp" />
     <ClCompile Include="..\Code\TileInfo.cpp" />
     <ClCompile Include="..\Code\KeyManager.cpp" />
     <ClCompile Include="..\Code\ResourceManager.cpp" />
