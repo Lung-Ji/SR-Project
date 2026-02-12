@@ -71,6 +71,7 @@ FLOAT Monster::BillBoard(Transform* TransCom, LPDIRECT3DDEVICE9 _GRPDEV, _vec3 v
 	matWorld._42 = TransCom->Get_Position()->y + matWorld._22 * 0.5f;
 	matWorld._43 = TransCom->Get_Position()->z + matWorld._23 * 0.5f;
 
+	// 쓰레기값 방지
 	matWorld._14 = matWorld._24 = matWorld._34 = 0.f;
 	matWorld._44 = 1.f;
 	TransCom->Set_World(&matWorld);

@@ -4,7 +4,7 @@
 #define BatIMGX 280
 #define BatIMGY 219
 
-enum BAT_STATE { BAT_IDLE, BAT_TRACKING, BAT_ATTACKING, BAT_Hit, BAT_DEAD };
+enum BAT_STATE { BAT_SUMMON, BAT_IDLE, BAT_TRACKING, BAT_ATTACKING, BAT_Hit, BAT_DEAD };
 
 class Bat : public GameObject
 {
@@ -29,6 +29,10 @@ private:
 
 public:
 	static Bat* Create(LPDIRECT3DDEVICE9 _GRPDEV);
+	BOOL			OnCollisionEnter(GameObject* _Other)	override;
+	BOOL			OnCollisionStay(GameObject* _Other)		override;
+	BOOL			OnCollisionExit(GameObject* _Other)		override;
+
 private:
 	virtual VOID Free();
 
@@ -54,4 +58,5 @@ private:
 	_float Speed;
 
 	TEXINFO m_tTexInfo;
+	COLINFO m_tColInfo;
 };

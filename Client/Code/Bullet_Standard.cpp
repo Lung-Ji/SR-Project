@@ -22,6 +22,7 @@ VOID Bullet_Standard::LateUpdate_GameObject(const _float& _DT) {
 	Component_Collider->Set_Scale(ColliderScale.x, 1.f, ColliderScale.z);
 	Component_Transform->Move_Pos(&m_vDir, m_fSpeed, _DT);
 	BillBoard();
+	//AlphaSorting((_vec3*)&Component_Transform->Get_World()->_41);
 }
 VOID Bullet_Standard::Render_GameObject() {
 

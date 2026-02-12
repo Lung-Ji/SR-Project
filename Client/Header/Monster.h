@@ -33,6 +33,13 @@ typedef struct tagTextureInfo
 	_float						_frameTick		=	0.f;
 }TEXINFO;
 
+typedef struct tagCollisionInfo
+{
+	_float _hp		= 0.f;
+	_float _atk		= 0.f;
+
+}COLINFO;
+
 class Monster 
 {
 public:
@@ -42,6 +49,8 @@ public:
 //렌더링 관련
 	static	HRESULT			Set_TextureList(CONST TCHAR* __FileName, TEXINFO* __Textures);
 	static	FLOAT			BillBoard(Transform* TransCom, LPDIRECT3DDEVICE9 _GRPDEV, _vec3 vRight = { 1.f, 0.f,0.f });
-
 	static	HRESULT			Flip_Horizontal(Transform* TransCom, _vec3* pDir, _float Buffer);
+
+// 충돌 관련
+	static	VOID			
 };

@@ -174,12 +174,6 @@
     <ClInclude Include="..\Header\Fireball.h" />
     <ClInclude Include="..\Header\MonsterEffect.h" />
     <ClInclude Include="..\Header\Object_Explain.h" />
-    <ClInclude Include="..\Header\MonsterSummon03.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="..\Header\MonsterSummon01.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClInclude>
     <ClInclude Include="..\Header\MonsterTest.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClInclude>
@@ -225,6 +219,7 @@
     <ClInclude Include="..\Header\PlayerInven.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="..\Header\ScorpionBullet.h" />
     <ClInclude Include="..\Header\ScorpionEvilSoul.h" />
     <ClInclude Include="..\Header\StartScene.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -270,12 +265,6 @@
     <ClCompile Include="..\Code\Fireball.cpp" />
     <ClCompile Include="..\Code\MonsterEffect.cpp" />
     <ClCompile Include="..\Code\Object_Explain.cpp" />
-    <ClCompile Include="..\Code\MonsterSummon03.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="..\Code\MonsterSummon01.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="..\Code\MonsterTest.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
@@ -329,6 +318,7 @@
     </ClCompile>
     <ClCompile Include="..\Code\Player.cpp" />
     <ClCompile Include="..\Code\PlayerInven.cpp" />
+    <ClCompile Include="..\Code\ScorpionBullet.cpp" />
     <ClCompile Include="..\Code\ScorpionEvilSoul.cpp" />
     <ClCompile Include="..\Code\StartScene.cpp" />
     <ClCompile Include="..\Code\Terrain.cpp" />

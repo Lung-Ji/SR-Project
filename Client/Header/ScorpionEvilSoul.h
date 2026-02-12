@@ -37,12 +37,17 @@ private:
 
 public:
 	static ScorpoinEvilSoul* Create(LPDIRECT3DDEVICE9 _GRPDEV);
+	BOOL			OnCollisionEnter(GameObject* _Other)	override;
+	BOOL			OnCollisionStay(GameObject* _Other)		override;
+	BOOL			OnCollisionExit(GameObject* _Other)		override;
+
 private:
 	virtual VOID Free();
 
 	VOID Set_Target(CONST TCHAR* _TAG);
 
 	GameObject* m_pTarget;
+	GameObject* m_pBullet;
 	_vec3		m_vDir;
 
 	SCROPOINEVILSOUL_STATE CurrState;
@@ -62,4 +67,5 @@ private:
 	_float m_fSpeed;
 
 	TEXINFO m_tTexInfo;
+	COLINFO m_tColInfo;
 };

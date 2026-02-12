@@ -18,9 +18,9 @@ public:
 	virtual BOOL		OnCollisionExit(GameObject* _Other);
 
 public:
-	HRESULT						Ready_Effect(CONST TCHAR* _Filename, _vec3 vPos, BOOL _Repeatable = false, FLOAT _PlayTime = 1.f);
+	HRESULT						Ready_Effect(MONSTER_EFFECT _SKILLTYPE, _vec3 vPos, BOOL _Repeatable = false, FLOAT _PlayTime = 1.f);
 	HRESULT						Make_TextureList(CONST TCHAR* _Filename);
-	static	MonsterEffect*		Create(LPDIRECT3DDEVICE9 _GRPDEV, CONST TCHAR* _Filename, _vec3 vPos, BOOL _Repeatable, FLOAT _PlayTime);
+	static	MonsterEffect*		Create(LPDIRECT3DDEVICE9 _GRPDEV, MONSTER_EFFECT _SKILLTYPE, _vec3 vPos, BOOL _Repeatable, FLOAT _PlayTime);
 private:
 	HRESULT				Component_Initialize();
 	virtual	VOID		Free();
@@ -37,5 +37,11 @@ private:
 	Transform*	Component_Transform;
 	Texture*	Component_Texture;
 	Collider*	Component_Collider;
+
+public:
+	bool			Get_Notify(INT Num) { return Notify[Num]; }
+
+private:
+	BOOL			Notify[2];
 };
 

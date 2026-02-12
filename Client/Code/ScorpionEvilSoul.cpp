@@ -8,6 +8,7 @@ HRESULT ScorpoinEvilSoul::Ready_GameObject() {
 	if (FAILED(Component_Initialize())) return E_FAIL;
 
 	m_pTarget = nullptr;
+	m_pBullet = nullptr;
 	CurrState = SCROPOINEVILSOUL_APPEAR;
 	PrevState = CurrState;
 
@@ -75,28 +76,24 @@ VOID ScorpoinEvilSoul::LateUpdate_GameObject(const _float& _DT) {
 
 	switch (CurrState)
 	{
-	case SCROPOINEVILSOUL_APPEAR:
-		Monster::Set_TextureList(L"Spr_Monster_BlueScorpionEvilSoul_appear", &m_tTexInfo);
-		break;
-	case SCROPOINEVILSOUL_IDLE:
-	case SCROPOINEVILSOUL_TRACKING:
-	case SCROPOINEVILSOUL_CHARGING:
-	case SCROPOINEVILSOUL_ATTACKING:
-	case SCROPOINEVILSOUL_HIT:
+	default:
 		Monster::Set_TextureList(L"Spr_Monster_BlueScorpionEvilSoul_Stand", &m_tTexInfo);
 		Monster::Flip_Horizontal(Component_Transform, &m_vDir, 0.1f);
 		if (fabsf(m_vDir.z) > 0.1f)
 			if (m_vDir.z > 0.f)
-					m_tTexInfo._frame += (m_tTexInfo._frame < m_tTexInfo._Endframe / 2) * m_tTexInfo._Endframe / 2;
+				m_tTexInfo._frame += (m_tTexInfo._frame < m_tTexInfo._Endframe / 2) * m_tTexInfo._Endframe / 2;
+		break;
+
+	case SCROPOINEVILSOUL_APPEAR:
+		Monster::Set_TextureList(L"Spr_Monster_BlueScorpionEvilSoul_appear", &m_tTexInfo);
 		break;
 	case SCROPOINEVILSOUL_DISAPPEAR:
 		Monster::Set_TextureList(L"Spr_Monster_BlueScorpionEvilSoul_disappear", &m_tTexInfo);
 		break;
-	default:
-		break;
 	}
 
 	Monster::BillBoard(Component_Transform, GRPDEV);
+	//AlphaSorting(Component_Transform->Get_Position());
 }
 VOID ScorpoinEvilSoul::Render_GameObject() {
 	GRPDEV->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
@@ -133,6 +130,18 @@ ScorpoinEvilSoul* ScorpoinEvilSoul::Create(LPDIRECT3DDEVICE9 _GRPDEV) {
 	}
 	return MST;
 }
+BOOL ScorpoinEvilSoul::OnCollisionEnter(GameObject* _Other)
+{
+	return TRUE;
+}
+BOOL ScorpoinEvilSoul::OnCollisionStay(GameObject* _Other)
+{
+	return TRUE;
+}
+BOOL ScorpoinEvilSoul::OnCollisionExit(GameObject* _Other)
+{
+	return TRUE;
+}
 VOID ScorpoinEvilSoul::Free() {
 
 	GameObject::Free();
@@ -161,7 +170,7 @@ VOID ScorpoinEvilSoul::State_Idle(const _float& _DT)
 	else
 	{
 		_vec3	Dir = *POS(m_pTarget) - *MYPOS;
-		if (D3DXVec3Length(&Dir) < 100.f)
+		if (D3DXVec3Length(&Dir) < 5.f)
 			ScorpoinEvilSoul::Change_State(SCROPOINEVILSOUL_TRACKING);
 	}
 
@@ -173,19 +182,51 @@ VOID ScorpoinEvilSoul::State_Tracking(const _float& _DT)
 {
 	m_vDir = *POS(m_pTarget) - *MYPOS;
 	m_fTimer1 += _DT;
-	m_fSpeed = m_fDefault_Speed;
 
-	if (D3DXVec3Length(&m_vDir) < 5.f)
+	_float Dis = D3DXVec3Length(&m_vDir);
+	if (Dis > 3.f)
+		m_fSpeed = m_fDefault_Speed;
+	else
+		m_fSpeed = 0.f;
+
+	if(Dis < 5.f)
 		m_fTimer2 = 0.f;
 	else
 		m_fTimer2 += _DT;
 
 	if (m_fTimer1 > 1.f)
 		ScorpoinEvilSoul::Change_State(SCROPOINEVILSOUL_CHARGING);
-	else if(m_fTimer2 > 3.f)
+	else if (m_fTimer2 > 3.f)
+	{
 		ScorpoinEvilSoul::Change_State(SCROPOINEVILSOUL_IDLE);
+		m_pTarget = nullptr;
+	}
 }
 
 VOID ScorpoinEvilSoul::State_Charging(const _float& _DT)
 {
+	m_fSpeed = 0.f;
+	m_vDir = *POS(m_pTarget) - *MYPOS;
+
+	if (nullptr == m_pBullet)
+	{
+		m_pBullet = ScorpionBullet::Create(GRPDEV);
+		m_pBullet->Set_ObjectTag(L"ScorpionBullet");
+		static_cast<Transform*>(m_pBullet->Get_Component(COMPONENT_TYPE::COMPONENT_TRANSFORM))->Set_Pos(*MYPOS);
+		static_cast<Bullet_Standard*>(m_pBullet)->Set_Master(this);
+		SceneManager::GetInstance()->Get_CurrentScene()->Get_Layer(LAYER_TYPE::LAYER_STATIC_OBJECT)
+			->Add_GameObject(m_pBullet);
+	}
+	else
+		m_fTimer1 += _DT;
+
+	if (m_fTimer1 > 1.f)
+	{
+		CollisionManager::GetInstance()->Add_ColliderObject(m_pBullet);
+		D3DXVec3Normalize(static_cast<ScorpionBullet*>(m_pBullet)->Get_Dir(), &m_vDir);
+		ScorpoinEvilSoul::Change_State(SCROPOINEVILSOUL_IDLE);
+		m_pBullet = nullptr;
+		m_pTarget == nullptr;
+	}
 }
+
