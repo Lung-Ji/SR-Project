@@ -8,7 +8,7 @@ enum BAT_STATE { BAT_SUMMON, BAT_IDLE, BAT_TRACKING, BAT_ATTACKING, BAT_Hit, BAT
 
 class Bat : public GameObject
 {
-private:
+public:
 	explicit Bat(LPDIRECT3DDEVICE9 _GRPDEV);
 	explicit Bat(CONST GameObject& _RHS);
 	virtual ~Bat();
@@ -45,11 +45,13 @@ private:
 	BAT_STATE CurrState;
 	BAT_STATE PrevState;
 
+	BOOL Appear_Ready;
 	VOID Change_State(BAT_STATE eState);
 	VOID State_Appear(const _float& _DT);
 	VOID State_Idle();
 	VOID State_Tracking(const _float& _DT);
 	VOID State_Attacking(const _float& _DT);
+	VOID State_Dead();
 
 	_float Timer1;
 	_float Timer2;

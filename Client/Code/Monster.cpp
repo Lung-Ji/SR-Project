@@ -5,7 +5,6 @@ GameObject* Monster::Set_Target(const TCHAR* _TAG, GameObject*& GameObj)
 	GameObj = SceneManager::GetInstance()->Get_GameObject(_TAG);
 	return GameObj;
 }
-
 GameObject* Monster::Set_Target(CONST TCHAR* _TAG)
 {
 	GameObject* GameObj = SceneManager::GetInstance()->Get_GameObject(_TAG);
@@ -96,4 +95,18 @@ HRESULT Monster::Flip_Horizontal(Transform* TransCom, _vec3* pDir, _float Buffer
 			TransCom->Get_Scale()->x *= -1.f;
 	}
 	return S_OK;
+}
+
+VOID Monster::Add_Monster_to_Scene(GameObject* pMonster)
+{
+	TCHAR Classname[256];
+	swprintf_s(Classname, 256, L"%S", typeid(*pMonster).name());
+
+	CONST TCHAR* pName = wcschr(Classname, L' ');
+
+	pName = (pName != nullptr) ? pName + 1 : Classname;
+	pMonster->Set_ObjectTag(pName);
+	SceneManager::GetInstance()->Get_CurrentScene()->Get_Layer(LAYER_TYPE::LAYER_DYNAMIC_OBJECT)->Add_GameObject(pMonster);
+
+	CollisionManager::GetInstance()->Add_ColliderObject(pMonster);
 }

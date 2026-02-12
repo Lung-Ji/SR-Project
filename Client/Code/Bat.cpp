@@ -11,7 +11,9 @@ HRESULT Bat::Ready_GameObject() {
 
 	pTarget = nullptr;
 	pTargetPos = nullptr;
-	CurrState = BAT_IDLE;
+
+	Appear_Ready = false;
+	CurrState = BAT_SUMMON;
 	PrevState = CurrState;
 
 	Timer1 = 0.f;
@@ -46,14 +48,22 @@ INT	Bat::Update_GameObject(const _float& _DT)
 	case BAT_Hit:
 		break;
 	case BAT_DEAD:
+		State_Dead();
+		return 0;
 		break;
 	default:
 		break;
 	}
 	if (KEY_DOWN(DIK_Q)) {
 		//Set_ObjectDead(TRUE);
-		Bat::Change_State(BAT_SUMMON);
+		//Bat::Change_State(BAT_SUMMON);
+		GameObject* test = Monster::Create<Bat>(GRPDEV, { (_float)(rand() % 20), 0.5f, (_float)(rand() % 20)}, 3.f);
+		Monster::Add_Monster_to_Scene(test);
 		return 0;
+	}
+	if (KEY_DOWN(DIK_P))
+	{
+		Bat::Change_State(BAT_DEAD);
 	}
 
 
@@ -84,10 +94,17 @@ VOID Bat::Render_GameObject() {
 
 	GRPDEV->SetTransform(D3DTS_WORLD, Component_Transform->Get_World());
 
-	GRPDEV->SetTexture(0, m_tTexInfo._vecTexture[m_tTexInfo._frame]);
 	
-	if(CurrState != BAT_SUMMON)
+	switch (CurrState)
+	{
+	default:
+		GRPDEV->SetTexture(0, m_tTexInfo._vecTexture[m_tTexInfo._frame]);
 		Component_Buffer->Render_Buffer();
+		break;
+	case BAT_SUMMON:
+	case BAT_DEAD:
+		break;
+	}
 
 	GRPDEV->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
@@ -98,12 +115,12 @@ HRESULT Bat::Component_Initialize() {
 
 	Component_Transform->Set_Pos(10.f, 0.5f, 10.f);
 	Component_Transform->Set_Rotation(0.f, 0.f, 0.f);
-	Component_Transform->Set_Scale(0.84f, 0.657f, 1.f);
+	Component_Transform->Set_Scale(0.289f, 0.223f, 1.f);
 
 	Component_Collider = ADD_COMPONENT_COLLIDER;
 	Component_Collider->Set_CenterPos(Component_Transform);
 
-	Component_Collider->Set_Scale(0.6f, 1.f, 0.6f);
+	Component_Collider->Set_Scale(0.289f, 1.f, 0.289f);
 
 	return S_OK;
 }
@@ -118,6 +135,17 @@ Bat* Bat::Create(LPDIRECT3DDEVICE9 _GRPDEV) {
 }
 BOOL Bat::OnCollisionEnter(GameObject* _Other)
 {
+	wstring Tag = _Other->Get_ObjectTag();
+	if (Tag == L"PlayerArrow")
+	{
+		Arrow* pArrow = static_cast<Arrow*>(_Other);
+		//m_tColInfo._hp -= pArrow->Get_Atk();  // ¾ø³×;;
+	}
+	else
+	{
+		return false;
+	}
+
 	return TRUE;
 }
 BOOL Bat::OnCollisionStay(GameObject* _Other)
@@ -154,17 +182,22 @@ VOID Bat::State_Appear(const _float& _DT)
 {
 	if (nullptr == pTarget)
 	{
+		Appear_Ready = false;
 		pTarget = MonsterEffect::Create(GRPDEV,	MONSTER_EFFECT::MONSTER_SUMMONS03,*MYPOS, FALSE, 1.f);
 		//*static_cast<Transform*>(pTarget->Get_Component(COMPONENT_TYPE::COMPONENT_TRANSFORM))->Get_Scale() = *Component_Transform->Get_Scale();
 		EffectManager::GetInstance()->Append_Effect(EFFECT_OWNER::MONSTER, pTarget);
 	}
 	if (pTarget->Get_ObjectDead())
 	{
+		Appear_Ready = true;
 		pTarget = MonsterEffect::Create(GRPDEV, MONSTER_EFFECT::MONSTER_SUMMONS01, *MYPOS, FALSE, 1.f);
 		EffectManager::GetInstance()->Append_Effect(EFFECT_OWNER::MONSTER, pTarget);
 		PLAY_MONSTER_EFFECT_ONCE(MONSTER_EFFECT::MONSTER_SUMMONS02, *MYPOS, 1.1f);
-		Bat::Change_State(BAT_IDLE);
 	}
+
+	if (Appear_Ready)
+		if (static_cast<MonsterEffect*>(pTarget)->Get_Notify())
+			Bat::Change_State(BAT_IDLE);
 }
 
 VOID Bat::State_Idle()
@@ -249,4 +282,10 @@ VOID Bat::State_Attacking(const _float& _DT)
 	{
 		Change_State(BAT_IDLE);
 	}
+}
+
+VOID Bat::State_Dead()
+{
+	PLAY_MONSTER_EFFECT_ONCE(MONSTER_EFFECT::MONSTER_DEATH, *MYPOS, 1.f);
+	ObjectDead = true;
 }

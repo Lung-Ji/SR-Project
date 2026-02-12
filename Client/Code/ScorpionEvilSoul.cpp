@@ -156,7 +156,7 @@ VOID ScorpoinEvilSoul::Change_State(SCROPOINEVILSOUL_STATE eState)
 
 VOID ScorpoinEvilSoul::State_Appear()
 {
-	if (m_tTexInfo._frame >= m_tTexInfo._Endframe)
+	if (m_tTexInfo._frame >= m_tTexInfo._Endframe -1)
 		ScorpoinEvilSoul::Change_State(SCROPOINEVILSOUL_IDLE);
 }
 

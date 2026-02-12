@@ -39,9 +39,9 @@ private:
 	Collider*	Component_Collider;
 
 public:
-	bool			Get_Notify(INT Num) { return Notify[Num]; }
+	bool			Get_Notify() { return Notify; }
 
 private:
-	BOOL			Notify[2];
+	BOOL			Notify;
 };
 

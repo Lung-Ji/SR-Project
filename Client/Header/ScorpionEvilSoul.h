@@ -16,7 +16,7 @@ enum SCROPOINEVILSOUL_STATE {
 
 class ScorpoinEvilSoul : public GameObject
 {
-private:
+public:
 	explicit ScorpoinEvilSoul(LPDIRECT3DDEVICE9 _GRPDEV);
 	explicit ScorpoinEvilSoul(CONST GameObject& _RHS);
 	virtual ~ScorpoinEvilSoul();
@@ -36,7 +36,7 @@ private:
 	Collider*		Component_Collider;
 
 public:
-	static ScorpoinEvilSoul* Create(LPDIRECT3DDEVICE9 _GRPDEV);
+	static			ScorpoinEvilSoul* Create(LPDIRECT3DDEVICE9 _GRPDEV);
 	BOOL			OnCollisionEnter(GameObject* _Other)	override;
 	BOOL			OnCollisionStay(GameObject* _Other)		override;
 	BOOL			OnCollisionExit(GameObject* _Other)		override;

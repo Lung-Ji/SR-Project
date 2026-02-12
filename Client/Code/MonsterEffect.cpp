@@ -8,15 +8,16 @@ MonsterEffect::~MonsterEffect()																						{}
 HRESULT MonsterEffect::Ready_Effect(MONSTER_EFFECT _SKILLTYPE, _vec3 vPos, BOOL _Repeatable, FLOAT _PlayTime) {
 	if (FAILED(Component_Initialize())) return E_FAIL;
 
-	Notify[0] = Notify[1] = false;
+	Notify = 0;
 
 	switch (_SKILLTYPE)
 	{
 	case MONSTER_EFFECT::MONSTER_SUMMONS01:		Make_TextureList(L"Spr_Effect_MonsterSummons01");		break;
 	case MONSTER_EFFECT::MONSTER_SUMMONS02:		Make_TextureList(L"Spr_Effect_MonsterSummons02");		break;
 	case MONSTER_EFFECT::MONSTER_SUMMONS03:		Make_TextureList(L"Spr_Effect_MonsterSummons03");		break;
+	case MONSTER_EFFECT::MONSTER_DEATH:			Make_TextureList(L"Spr_Effect_baseDeathEffect_B");		break;
 
-	default:	case MONSTER_EFFECT::SKILL_END:		break;
+	case MONSTER_EFFECT::SKILL_END:		default:		break;
 	}
 
 
@@ -85,8 +86,9 @@ VOID MonsterEffect::LateUpdate_GameObject(CONST FLOAT& _DT) {
 		}
 		FrameTick = 0.f;
 	}
+
 	if (TextureIndex > ENDFRAME / 2)
-		Notify[0] = true;
+		Notify = true;
 
 	Monster::BillBoard(Component_Transform, GRPDEV);
 }

@@ -264,10 +264,7 @@ void Bow::CreateArrow(const _float& _DT)
 			{
 				GameObject* arrow = Arrow::Create(GRPDEV, ArrowType::IceArrow_LV1, &_arrowPos);
 
-				TCHAR arrowTag[128] = L"";
-				wsprintfW(arrowTag, L"PlayerArrow_%d", _arrowCount++);
-
-				arrow->Set_ObjectTag(arrowTag);
+				arrow->Set_ObjectTag(L"PlayerArrow");
 				arrow->Set_ObjectType(GAMEOBJECT_TYPE::OBJECT_PLAYER);
 
 				SceneManager::GetInstance()->Get_CurrentScene()->Get_Layer(LAYER_TYPE::LAYER_DYNAMIC_OBJECT)->Add_GameObject(arrow);
