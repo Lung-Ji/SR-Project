@@ -18,76 +18,76 @@
 #define MONSTER_DEATH_PLAYTTIME		1.f
 #pragma endregion
 #pragma region Bat
-#define BAT_SPEED					1.f			//	±âº» ÀÌµ¿ ¼Óµµ
-#define BAT_HP						100.f		//	±âº» Ã¼·Â
+#define BAT_SPEED					1.f			//	Â±Ã¢ÂºÂ» Ã€ÃŒÂµÂ¿ Â¼Ã“ÂµÂµ
+#define BAT_HP						100.f		//	Â±Ã¢ÂºÂ» ÃƒÂ¼Â·Ã‚
 
-#define BAT_TRACKINGDIS				5.f			//	ÇÃ·¹ÀÌ¾î °¨Áö ¹üÀ§
-#define BAT_TRACKING_TIME			3.f			//	°ø°İ ÄğÅ¸ÀÓ					TRACKING	-> CASTING
-#define BAT_LOST_TIME				2.f			//	ÃßÀû ³õÄ¡´Â ½Ã°£				TRACKING	-> IDLE
+#define BAT_TRACKINGDIS				5.f			//	Ã‡ÃƒÂ·Â¹Ã€ÃŒÂ¾Ã® Â°Â¨ÃÃ¶ Â¹Ã¼Ã€Â§
+#define BAT_TRACKING_TIME			3.f			//	Â°Ã¸Â°Ã Ã„Ã°Ã…Â¸Ã€Ã“					TRACKING	-> CASTING
+#define BAT_LOST_TIME				2.f			//	ÃƒÃŸÃ€Ã» Â³ÃµÃ„Â¡Â´Ã‚ Â½ÃƒÂ°Â£				TRACKING	-> IDLE
 
-#define BAT_CASTING_TIME			1.f			//	½ÃÀü ½Ã°£(¼±µô)				CASTING		-> CHANNELING
+#define BAT_CASTING_TIME			1.f			//	Â½ÃƒÃ€Ã¼ Â½ÃƒÂ°Â£(Â¼Â±ÂµÃ´)				CASTING		-> CHANNELING
 
-#define BAT_CHANNELING_TIME			2.f			//	°ø°İ ÆĞÅÏ À¯Áö ½Ã°£(ÈÄµô)		CHANNELING	-> IDLE
-#define BAT_BULLET_NUM				5			//	ÃÑ¾Ë °¹¼ö
-#define BAT_RUSHSPEED				2.f			//	CHANELING Áß ÀÌµ¿ ¼Óµµ
+#define BAT_CHANNELING_TIME			2.f			//	Â°Ã¸Â°Ã Ã†ÃÃ…Ã Ã€Â¯ÃÃ¶ Â½ÃƒÂ°Â£(ÃˆÃ„ÂµÃ´)		CHANNELING	-> IDLE
+#define BAT_BULLET_NUM				5			//	ÃƒÃ‘Â¾Ã‹ Â°Â¹Â¼Ã¶
+#define BAT_RUSHSPEED				2.f			//	CHANELING ÃÃŸ Ã€ÃŒÂµÂ¿ Â¼Ã“ÂµÂµ
 
-#define BAT_HORIZONTALFLIP_BUFFER	0.1f		//	ÀÌ¹ÌÁö ÁÂ¿ì ¹İÀü ¹öÆÛ
+#define BAT_HORIZONTALFLIP_BUFFER	0.1f		//	Ã€ÃŒÂ¹ÃŒÃÃ¶ ÃÃ‚Â¿Ã¬ Â¹ÃÃ€Ã¼ Â¹Ã¶Ã†Ã›
 #pragma endregion
 #pragma region Bullet_Standard
 #define	BULLET_STANDARD_SPEED  1.f
 #pragma endregion
 
 #pragma region ScorpionEvilSoul
-#define SCORPIONEVILSOUL_SPEED					1.f			//	±âº» ÀÌµ¿ ¼Óµµ
-#define SCORPIONEVILSOUL_HP						100.f		//	±âº» Ã¼·Â
+#define SCORPIONEVILSOUL_SPEED					1.f			//	Â±Ã¢ÂºÂ» Ã€ÃŒÂµÂ¿ Â¼Ã“ÂµÂµ
+#define SCORPIONEVILSOUL_HP						100.f		//	Â±Ã¢ÂºÂ» ÃƒÂ¼Â·Ã‚
 
-#define SCORPIONEVILSOUL_TRACKINGDIS			5.f			//	ÇÃ·¹ÀÌ¾î °¨Áö ¹üÀ§
-#define SCORPIONEVILSOUL_TRACKINGMIN			2.f			//  ÀÌ ÀÌ»ó °¡±î¿öÁö·ÁÇÏÁö ¾ÊÀ½
-#define SCORPIONEVILSOUL_TRACKING_TIME			3.f			//	°ø°İ ÄğÅ¸ÀÓ					TRACKING	-> CASTING
-#define SCORPIONEVILSOUL_LOST_TIME				2.f			//	ÃßÀû ³õÄ¡´Â ½Ã°£				TRACKING	-> IDLE
+#define SCORPIONEVILSOUL_TRACKINGDIS			5.f			//	Ã‡ÃƒÂ·Â¹Ã€ÃŒÂ¾Ã® Â°Â¨ÃÃ¶ Â¹Ã¼Ã€Â§
+#define SCORPIONEVILSOUL_TRACKINGMIN			2.f			//  Ã€ÃŒ Ã€ÃŒÂ»Ã³ Â°Â¡Â±Ã®Â¿Ã¶ÃÃ¶Â·ÃÃ‡ÃÃÃ¶ Â¾ÃŠÃ€Â½
+#define SCORPIONEVILSOUL_TRACKING_TIME			3.f			//	Â°Ã¸Â°Ã Ã„Ã°Ã…Â¸Ã€Ã“					TRACKING	-> CASTING
+#define SCORPIONEVILSOUL_LOST_TIME				2.f			//	ÃƒÃŸÃ€Ã» Â³ÃµÃ„Â¡Â´Ã‚ Â½ÃƒÂ°Â£				TRACKING	-> IDLE
 
-#define SCORPIONEVILSOUL_CASTING_TIME			1.f			//	½ÃÀü ½Ã°£(¼±µô)				CASTING		-> CHANNELING
+#define SCORPIONEVILSOUL_CASTING_TIME			1.f			//	Â½ÃƒÃ€Ã¼ Â½ÃƒÂ°Â£(Â¼Â±ÂµÃ´)				CASTING		-> CHANNELING
 
-#define SCORPIONEVILSOUL_CHANNELING_TIME		2.f			//	°ø°İ ÆĞÅÏ À¯Áö ½Ã°£(ÈÄµô)		CHANNELING	-> IDLE
-#define SCORPIONEVILSOUL_BULLET_NUM				5			//	ÃÑ¾Ë °¹¼ö
-#define SCORPIONEVILSOUL_RUSHSPEED				2.f			//	CHANELING Áß ÀÌµ¿ ¼Óµµ
+#define SCORPIONEVILSOUL_CHANNELING_TIME		2.f			//	Â°Ã¸Â°Ã Ã†ÃÃ…Ã Ã€Â¯ÃÃ¶ Â½ÃƒÂ°Â£(ÃˆÃ„ÂµÃ´)		CHANNELING	-> IDLE
+#define SCORPIONEVILSOUL_BULLET_NUM				5			//	ÃƒÃ‘Â¾Ã‹ Â°Â¹Â¼Ã¶
+#define SCORPIONEVILSOUL_RUSHSPEED				2.f			//	CHANELING ÃÃŸ Ã€ÃŒÂµÂ¿ Â¼Ã“ÂµÂµ
 
-#define SCORPIONEVILSOUL_HORIZONTALFLIP_BUFFER	0.1f		//	ÀÌ¹ÌÁö ÁÂ¿ì ¹İÀü ¹öÆÛ
+#define SCORPIONEVILSOUL_HORIZONTALFLIP_BUFFER	0.1f		//	Ã€ÃŒÂ¹ÃŒÃÃ¶ ÃÃ‚Â¿Ã¬ Â¹ÃÃ€Ã¼ Â¹Ã¶Ã†Ã›
 #pragma endregion
 
 #pragma region ShotGunEvilSoul
-#define SHOTGUNEVILSOUL_SPEED					1.f			//	±âº» ÀÌµ¿ ¼Óµµ
-#define SHOTGUNEVILSOUL_HP						100.f		//	±âº» Ã¼·Â
+#define SHOTGUNEVILSOUL_SPEED					1.f			//	Â±Ã¢ÂºÂ» Ã€ÃŒÂµÂ¿ Â¼Ã“ÂµÂµ
+#define SHOTGUNEVILSOUL_HP						100.f		//	Â±Ã¢ÂºÂ» ÃƒÂ¼Â·Ã‚
 
-#define SHOTGUNEVILSOUL_TRACKINGDIS				5.f			//	ÇÃ·¹ÀÌ¾î °¨Áö ¹üÀ§
-#define SHOTGUNEVILSOUL_TRACKING_TIME			3.f			//	°ø°İ ÄğÅ¸ÀÓ					TRACKING	-> CASTING
-#define SHOTGUNEVILSOUL_LOST_TIME				2.f			//	ÃßÀû ³õÄ¡´Â ½Ã°£				TRACKING	-> IDLE
+#define SHOTGUNEVILSOUL_TRACKINGDIS				5.f			//	Ã‡ÃƒÂ·Â¹Ã€ÃŒÂ¾Ã® Â°Â¨ÃÃ¶ Â¹Ã¼Ã€Â§
+#define SHOTGUNEVILSOUL_TRACKING_TIME			3.f			//	Â°Ã¸Â°Ã Ã„Ã°Ã…Â¸Ã€Ã“					TRACKING	-> CASTING
+#define SHOTGUNEVILSOUL_LOST_TIME				2.f			//	ÃƒÃŸÃ€Ã» Â³ÃµÃ„Â¡Â´Ã‚ Â½ÃƒÂ°Â£				TRACKING	-> IDLE
 
-#define SHOTGUNEVILSOUL_CASTING_TIME			1.f			//	½ÃÀü ½Ã°£(¼±µô)				CASTING		-> CHANNELING
+#define SHOTGUNEVILSOUL_CASTING_TIME			1.f			//	Â½ÃƒÃ€Ã¼ Â½ÃƒÂ°Â£(Â¼Â±ÂµÃ´)				CASTING		-> CHANNELING
 
-#define SHOTGUNEVILSOUL_CHANNELING_TIME			0.5f		//	°ø°İ ÆĞÅÏ À¯Áö ½Ã°£(ÈÄµô)		CHANNELING	-> IDLE
-#define SHOTGUNEVILSOUL_BULLET_NUM				12			//	ÃÑ¾Ë °¹¼ö
-#define SHOTGUNEVILSOUL_SPREAD					30.f		//	ºĞ»ê ¹üÀ§
+#define SHOTGUNEVILSOUL_CHANNELING_TIME			0.5f		//	Â°Ã¸Â°Ã Ã†ÃÃ…Ã Ã€Â¯ÃÃ¶ Â½ÃƒÂ°Â£(ÃˆÃ„ÂµÃ´)		CHANNELING	-> IDLE
+#define SHOTGUNEVILSOUL_BULLET_NUM				12			//	ÃƒÃ‘Â¾Ã‹ Â°Â¹Â¼Ã¶
+#define SHOTGUNEVILSOUL_SPREAD					30.f		//	ÂºÃÂ»Ãª Â¹Ã¼Ã€Â§
 
-#define SHOTGUNEVILSOUL_HORIZONTALFLIP_BUFFER	0.1f		//	ÀÌ¹ÌÁö ÁÂ¿ì ¹İÀü ¹öÆÛ
+#define SHOTGUNEVILSOUL_HORIZONTALFLIP_BUFFER	0.1f		//	Ã€ÃŒÂ¹ÃŒÃÃ¶ ÃÃ‚Â¿Ã¬ Â¹ÃÃ€Ã¼ Â¹Ã¶Ã†Ã›
 #pragma endregion
 
 #pragma region EvilSlime
-#define EVILSLIME_SPEED						1.f			//	±âº» ÀÌµ¿ ¼Óµµ
-#define EVILSLIME_HP						100.f		//	±âº» Ã¼·Â
+#define EVILSLIME_SPEED						1.f			//	Â±Ã¢ÂºÂ» Ã€ÃŒÂµÂ¿ Â¼Ã“ÂµÂµ
+#define EVILSLIME_HP						100.f		//	Â±Ã¢ÂºÂ» ÃƒÂ¼Â·Ã‚
 
-#define EVILSLIME_TRACKINGDIS				5.f			//	ÇÃ·¹ÀÌ¾î °¨Áö ¹üÀ§
-#define EVILSLIME_TRACKING_TIME				3.f			//	°ø°İ ÄğÅ¸ÀÓ					TRACKING	-> CASTING
-#define EVILSLIME_LOST_TIME					2.f			//	ÃßÀû ³õÄ¡´Â ½Ã°£				TRACKING	-> IDLE
+#define EVILSLIME_TRACKINGDIS				5.f			//	Ã‡ÃƒÂ·Â¹Ã€ÃŒÂ¾Ã® Â°Â¨ÃÃ¶ Â¹Ã¼Ã€Â§
+#define EVILSLIME_TRACKING_TIME				3.f			//	Â°Ã¸Â°Ã Ã„Ã°Ã…Â¸Ã€Ã“					TRACKING	-> CASTING
+#define EVILSLIME_LOST_TIME					2.f			//	ÃƒÃŸÃ€Ã» Â³ÃµÃ„Â¡Â´Ã‚ Â½ÃƒÂ°Â£				TRACKING	-> IDLE
 
-#define EVILSLIME_CASTING_TIME				3.f			//	½ÃÀü ½Ã°£(¼±µô)				CASTING		-> CHANNELING
-#define EVILSIME_JUMP_HEIGHT				1.f			//	Á¡ÇÁ °ø°İ ³ôÀÌ
+#define EVILSLIME_CASTING_TIME				3.f			//	Â½ÃƒÃ€Ã¼ Â½ÃƒÂ°Â£(Â¼Â±ÂµÃ´)				CASTING		-> CHANNELING
+#define EVILSIME_JUMP_HEIGHT				1.f			//	ÃÂ¡Ã‡Ã Â°Ã¸Â°Ã Â³Ã´Ã€ÃŒ
 
-#define EVILSLIME_CHANNELING_TIME			0.3f		//	°ø°İ ÆĞÅÏ À¯Áö ½Ã°£(ÈÄµô)		CHANNELING	-> IDLE
-#define EVILSLIME_BULLET_NUM				8			//	ÃÑ¾Ë °¹¼ö
-#define EVILSLIME_RUSHSPEED					2.f			//	CHANELING Áß ÀÌµ¿ ¼Óµµ
+#define EVILSLIME_CHANNELING_TIME			0.3f		//	Â°Ã¸Â°Ã Ã†ÃÃ…Ã Ã€Â¯ÃÃ¶ Â½ÃƒÂ°Â£(ÃˆÃ„ÂµÃ´)		CHANNELING	-> IDLE
+#define EVILSLIME_BULLET_NUM				8			//	ÃƒÃ‘Â¾Ã‹ Â°Â¹Â¼Ã¶
+#define EVILSLIME_RUSHSPEED					2.f			//	CHANELING ÃÃŸ Ã€ÃŒÂµÂ¿ Â¼Ã“ÂµÂµ
 
-#define EVILSLIME_HORIZONTALFLIP_BUFFER		0.1f		//	ÀÌ¹ÌÁö ÁÂ¿ì ¹İÀü ¹öÆÛ
+#define EVILSLIME_HORIZONTALFLIP_BUFFER		0.1f		//	Ã€ÃŒÂ¹ÃŒÃÃ¶ ÃÃ‚Â¿Ã¬ Â¹ÃÃ€Ã¼ Â¹Ã¶Ã†Ã›
 #pragma endregion
 enum MONSTER_STATE
 {
@@ -161,21 +161,21 @@ public:
 	static	GameObject* Set_Target(CONST TCHAR* _TAG);
 	static	_vec3		Normalize(_vec3 vec);
 
-//·»´õ¸µ °ü·Ã
+//Â·Â»Â´ÃµÂ¸Âµ Â°Ã¼Â·Ãƒ
 public:
 	static	HRESULT			Set_TextureList(CONST TCHAR* __FileName, TEXINFO* __Textures);
 	static	HRESULT			Set_TextureList(CONST TCHAR* __FileName, MONINFO* _MonsterInfo);
 	static	FLOAT			BillBoard(Transform* TransCom, LPDIRECT3DDEVICE9 _GRPDEV, _vec3 vRight = { 1.f, 0.f,0.f });
 	static	HRESULT			Flip_Horizontal(Transform* TransCom, _vec3* pDir, _float Buffer);
 	static	VOID			BillBoard_Standard(LPDIRECT3DDEVICE9 GRPDEV, Transform* Component_Transform);
-// Ãæµ¹ °ü·Ã
+// ÃƒÃ¦ÂµÂ¹ Â°Ã¼Â·Ãƒ
 public:
 
 
-	//»ı¼º °ü·Ã
+	//Â»Ã½Â¼Âº Â°Ã¼Â·Ãƒ
 public:
-	static VOID Add_Monster_to_Scene(GameObject* pMonster); // ¾À& Äİ¸®Àü ¿ÀºêÁ§Æ® ¸®½ºÆ®¿¡ ¿ÀºêÁ§Æ®¸¦ Ãß°¡, _TAG´Â Å¬·¡½º ÀÌ¸§
-	static uint64_t XorShift128plus(uint64_t& _Seed1, uint64_t& _Seed2);	// ·£´ı ºñÆ®¿¬»ê 
+	static VOID Add_Monster_to_Scene(GameObject* pMonster); // Â¾Ã€& Ã„ÃÂ¸Â®Ã€Ã¼ Â¿Ã€ÂºÃªÃÂ§Ã†Â® Â¸Â®Â½ÂºÃ†Â®Â¿Â¡ Â¿Ã€ÂºÃªÃÂ§Ã†Â®Â¸Â¦ ÃƒÃŸÂ°Â¡, _TAGÂ´Ã‚ Ã…Â¬Â·Â¡Â½Âº Ã€ÃŒÂ¸Â§
+	static uint64_t XorShift128plus(uint64_t& _Seed1, uint64_t& _Seed2);	// Â·Â£Â´Ã½ ÂºÃ±Ã†Â®Â¿Â¬Â»Ãª 
 
 	template<typename T>
 	static	GameObject* Create(LPDIRECT3DDEVICE9 _GRPDEV)
@@ -188,10 +188,10 @@ public:
 			return nullptr;
 		}
 		return MST;
-	}//±âÃÊ »ı¼º¿ë  "," Âï°í À§Ä¡ ¹× ¹èÀ² ¼³Á¤ °¡´É
+	}//Â±Ã¢ÃƒÃŠ Â»Ã½Â¼ÂºÂ¿Ã«  "," Ã‚Ã¯Â°Ã­ Ã€Â§Ã„Â¡ Â¹Ã— Â¹Ã¨Ã€Â² Â¼Â³ÃÂ¤ Â°Â¡Â´Ã‰
 
 	template<typename T>
-	static	GameObject* Create(LPDIRECT3DDEVICE9 _GRPDEV, _vec3 _vPos, _float _fScalemult = 3.f)	// ¹èÀ² 3Àº ÁÖ°í »ı°¢ÇÒ°Í
+	static	GameObject* Create(LPDIRECT3DDEVICE9 _GRPDEV, _vec3 _vPos, _float _fScalemult = 3.f)	// Â¹Ã¨Ã€Â² 3Ã€Âº ÃÃ–Â°Ã­ Â»Ã½Â°Â¢Ã‡Ã’Â°Ã
 	{
 		GameObject* MST = Create<T>(_GRPDEV);
 

@@ -154,6 +154,12 @@
     <Filter Include="03. GameObject\06. Effect\02. MonsterEffect\01. Alert">
       <UniqueIdentifier>{972b69e8-ba8b-4e8f-9b7a-88f61efefedd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04. UI\SpeechBubble">
+      <UniqueIdentifier>{9aae2f71-39a1-4a86-a57c-6ad0d8bad953}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Scene\02.DocheolScene">
+      <UniqueIdentifier>{e7b56a2d-1555-4e8c-9652-a748c6efddaa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\GameManager.h">
@@ -315,6 +321,18 @@
     <ClInclude Include="..\Header\EvilSlime.h">
       <Filter>03. GameObject\02. Monster\02. Monster\04. EvilSlime</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\FieldApostle.h">
+      <Filter>04. UI\AugmentUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\SpeechBubble.h">
+      <Filter>04. UI\SpeechBubble</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Spawner.h">
+      <Filter>03. GameObject\05. Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\DoCheolScene.h">
+      <Filter>02. Scene\02.DocheolScene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\GameManager.cpp">
@@ -459,6 +477,19 @@
       <Filter>03. GameObject\02. Monster\02. Monster\04. EvilSlime</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\MonsterEffect.cpp" />
+    </ClCompile>
+    <ClCompile Include="..\Code\FieldApostle.cpp">
+      <Filter>04. UI\AugmentUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\SpeechBubble.cpp">
+      <Filter>04. UI\SpeechBubble</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Spawner.cpp">
+      <Filter>03. GameObject\05. Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\DoCheolScene.cpp">
+      <Filter>02. Scene\02.DocheolScene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="small.ico">

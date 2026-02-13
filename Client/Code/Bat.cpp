@@ -110,6 +110,16 @@ VOID Bat::Render_GameObject() {
 
 	GRPDEV->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
+BOOL Bat::OnCollisionEnter(GameObject* _Other)
+{
+	if (_Other->Get_ObjectTag() == L"PlayerArrow")
+	{
+		int atk = dynamic_cast<Arrow*>(_Other)->Get_Atk();
+		_hp -= atk;
+	}
+
+	return 0;
+}
 HRESULT Bat::Component_Initialize() {
 
 	Component_Buffer = ADD_COMPONENT_RECTTEX;
@@ -121,7 +131,6 @@ HRESULT Bat::Component_Initialize() {
 
 	Component_Collider = ADD_COMPONENT_COLLIDER;
 	Component_Collider->Set_CenterPos(Component_Transform);
-
 	Component_Collider->Set_Scale(0.289f, 1.f, 0.289f);
 
 	return S_OK;
@@ -141,7 +150,7 @@ BOOL Bat::OnCollisionEnter(GameObject* _Other)
 	if (Tag == L"PlayerArrow")
 	{
 		Arrow* pArrow = static_cast<Arrow*>(_Other);
-		//m_tColInfo._hp -= pArrow->Get_Atk();  // ¾ø³×;;
+		//m_tColInfo._hp -= pArrow->Get_Atk();  // Â¾Ã¸Â³Ã—;;
 	}
 	else
 	{
