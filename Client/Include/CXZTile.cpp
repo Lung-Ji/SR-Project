@@ -46,9 +46,9 @@ VOID CXZTile::Render_GameObject()
 {
 	DWORD Argb = D3DCOLOR_ARGB( 255, 255, 255, 255);
 
-	GRPDEV->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-	GRPDEV->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
-	GRPDEV->SetRenderState(D3DRS_ALPHAREF, 0xc0);
+	//GRPDEV->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+	//GRPDEV->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+	//GRPDEV->SetRenderState(D3DRS_ALPHAREF, 0xc0);
 
 	GRPDEV->SetTransform(D3DTS_WORLD, m_pTransform->Get_World());
 	
@@ -152,7 +152,7 @@ VOID CXZTile::Render_GameObject()
 	}
 
 
-	GRPDEV->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+	//GRPDEV->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 	GRPDEV->SetTexture(0, NULL);
 }
 

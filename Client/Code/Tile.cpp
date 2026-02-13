@@ -342,7 +342,7 @@ void Tile::Imgui_ModeChanger()
 	static const char* cTile[]	         = { "TILE_FRONT","TILE_RIGHT","TILE_LEFT","TILE_OTHER"};
 	static const char* cTileStater[]     = { "NORMAL", "COLLISION", "TRIGGER","ANIMATION","DESTORY","POTAL","POTALEFFECT","POTALGASI","POTALGASIEFFECT","UNDERTILE","GASIBREAK","END"};
 	static const char* cTileMode[]	     = { "TILE","CUBE","OBJECT","END" };
-	static const char* cTileStage[]      = { "STAGE1", "STAGE2", "STAGE3", "STAGE4", "STAGE5","STAGE6","STAGE7","STAGE8", "STAGE9" ,"STAGE10","BOSSSTAGE"};
+	static const char* cTileStage[]      = { "STAGE1", "STAGE2", "STAGE3", "STAGE4", "FIRSTBOSS","DOCHER1","DOCHER2","DOCHERBOSS", "END" };
 	static const char* cTIleInstall[]    = { "Install", "MOVE" };
 	static const char* cTileAnimation[]  = {"TRUE", "FALSE"};
 	static const char* cTileSpawner[] = { "NPC1", "NPC2", "ITEM_SPAWN1", "ITEM_SPAWN2", "ITEM_SPAWN3", "ITEM_SPAWN4", "ITEM_SAPWN5","ITEM_SPAWN6", "MONSTER_SPAWN1", "MONSTER_SPAWN2", "MONSTER_SPAWN3", "MONSTER_SPAWN4", "BOSS_SPAWN","SPAWN_END"};
@@ -428,13 +428,10 @@ void Tile::Imgui_ModeChanger()
 						else if (!strcmp(cSelect_Stage, cTileStage[1])) m_eStage = TILE_STAGE::TILE_STAGE2;
 						else if (!strcmp(cSelect_Stage, cTileStage[2])) m_eStage = TILE_STAGE::TILE_STAGE3;
 						else if (!strcmp(cSelect_Stage, cTileStage[3])) m_eStage = TILE_STAGE::TILE_STAGE4;
-						else if (!strcmp(cSelect_Stage, cTileStage[4])) m_eStage = TILE_STAGE::TILE_STAGE5;
-						else if (!strcmp(cSelect_Stage, cTileStage[5])) m_eStage = TILE_STAGE::TILE_STAGE6;
-						else if (!strcmp(cSelect_Stage, cTileStage[6])) m_eStage = TILE_STAGE::TILE_STAGE7;
-						else if (!strcmp(cSelect_Stage, cTileStage[7])) m_eStage = TILE_STAGE::TILE_STAGE8;
-						else if (!strcmp(cSelect_Stage, cTileStage[8])) m_eStage = TILE_STAGE::TILE_STAGE9;
-						else if (!strcmp(cSelect_Stage, cTileStage[9])) m_eStage = TILE_STAGE::TILE_STAGE10;
-						else if (!strcmp(cSelect_Stage, cTileStage[10])) m_eStage = TILE_STAGE::TILE_BOSS;
+						else if (!strcmp(cSelect_Stage, cTileStage[4])) m_eStage = TILE_STAGE::TILE_FIRSTBOSS;
+						else if (!strcmp(cSelect_Stage, cTileStage[5])) m_eStage = TILE_STAGE::TILE_DOCHER1;
+						else if (!strcmp(cSelect_Stage, cTileStage[6])) m_eStage = TILE_STAGE::TILE_DOCHER2;
+						else if (!strcmp(cSelect_Stage, cTileStage[7])) m_eStage = TILE_STAGE::STAGE_END;
 					}
 					if (bSelect)
 						ImGui::SetItemDefaultFocus();

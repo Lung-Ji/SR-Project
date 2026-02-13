@@ -201,14 +201,7 @@ HRESULT TileManager::Update_TileList(const _float& fTimeDetla)
 			{
 
 				(*iter)->Update_GameObject(fTimeDetla);
-				//_bool bDead = (*iter)->Get_ObjectDead();
-				//
-				//if (bDead == TRUE)
-				//{
-				//	Safe_Release((*iter));
-				//	iter = m_vecTileBuffer[i][j].erase(iter);
-				//
-			    //	}
+		
 				if (iter != m_vecTileBuffer[i][j].end())
 					++iter;	
 			}
@@ -216,28 +209,6 @@ HRESULT TileManager::Update_TileList(const _float& fTimeDetla)
 		}
 	}
 	
-	for (size_t i = 0; i < TILE_STAGE::STAGE_END; ++i)
-	{
-		for (size_t j = 0; j < TILEMODE_CHANGE::MODE_END; ++j)
-		{
-			for (auto iter = m_vecTileBuffer[i][j].begin(); iter != m_vecTileBuffer[i][j].end();)
-			{
-
-				(*iter)->Update_GameObject(fTimeDetla);
-				//_bool bDead = (*iter)->Get_ObjectDead();
-				//
-				//if (bDead == TRUE)
-				//{
-				//	Safe_Release((*iter));
-				//	iter = m_vecTileBuffer[i][j].erase(iter);
-				//
-				//	}
-				if (iter != m_vecTileBuffer[i][j].end())
-					++iter;
-			}
-
-		}
-	}
 	
 	return S_OK;
 }
@@ -315,6 +286,9 @@ void TileManager::Save_Tile(HWND g_hWnd)
 		{
 			for (auto& pTile : m_vecTileBuffer[i][j])
 			{
+				pTile->Update_GameObject(0); //안하면 큰일남;;
+				pTile->LateUpdate_GameObject(0);
+
 
 				iTilenum = dynamic_cast<TileInfo*>(pTile->Get_Component(COMPONENT_TYPE::COMPONENT_TILEINFO))->Get_TileNumber();
 				eTileSide = dynamic_cast<TileInfo*>(pTile->Get_Component(COMPONENT_TYPE::COMPONENT_TILEINFO))->Get_TileSideName();
@@ -376,6 +350,8 @@ void TileManager::Free()
 		{
 			for (auto& iter : m_vecTileBuffer[i][j])
 				Safe_Release(iter);
+
+			m_vecTileBuffer[i][j].clear();
 		}
 	}
 

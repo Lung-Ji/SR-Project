@@ -33,7 +33,7 @@ HRESULT	MapScene::Ready_Scene() {
 	TILEMODE_CHANGE  eTileMode = TILEMODE_CHANGE::MODE_END;
 	TILE_STAGE	     eTileStage = TILE_STAGE::STAGE_END;
 	_tchar			 cTileName[128] = {};
-	_vec3		     Info = {};
+	_vec3		     Info  = {};
 	_vec3			 Scale = {};
 	_vec3			 Rotation = {};
 	_tchar			 cPathName[128] = {};
