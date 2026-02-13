@@ -10,16 +10,20 @@ HRESULT MonsterEffect::Ready_Effect(MONSTER_EFFECT _SKILLTYPE, _vec3 vPos, BOOL 
 
 	Notify = 0;
 
+	m_eEffect = _SKILLTYPE;
+
 	switch (_SKILLTYPE)
 	{
 	case MONSTER_EFFECT::MONSTER_SUMMONS01:		Make_TextureList(L"Spr_Effect_MonsterSummons01");		break;
 	case MONSTER_EFFECT::MONSTER_SUMMONS02:		Make_TextureList(L"Spr_Effect_MonsterSummons02");		break;
 	case MONSTER_EFFECT::MONSTER_SUMMONS03:		Make_TextureList(L"Spr_Effect_MonsterSummons03");		break;
 	case MONSTER_EFFECT::MONSTER_DEATH:			Make_TextureList(L"Spr_Effect_baseDeathEffect_B");		break;
-
-	case MONSTER_EFFECT::SKILL_END:		default:		break;
+	case MONSTER_EFFECT::ALERT_CIRCLE:			TextureList.push_back(ResourceManager::GetInstance()->Find_Texture(L"AlertCircle.png")); break;
+	case MONSTER_EFFECT::SKILL_END:				default:		break;
 	}
 
+
+	Component_Transform->Set_Scale(2.f, 2.f, 2.f);
 
 	Component_Transform->Set_Pos(vPos);
 	Repeatable = _Repeatable;
@@ -35,10 +39,11 @@ HRESULT MonsterEffect::Make_TextureList(CONST TCHAR* _Filename)
 	INT _frame = 0;
 	IDirect3DTexture9* pTexture = nullptr;
 
+	TCHAR Filename[256] = L"";
+
 	while (++_frame)
 	{
 		++ENDFRAME;
-		TCHAR Filename[256] = L"";
 		swprintf_s(Filename, 256, L"%s_%02d.png", _Filename, ENDFRAME);
 		pTexture = ResourceManager::GetInstance()->Find_Texture(Filename);
 		if (nullptr == pTexture) break;
@@ -76,7 +81,11 @@ INT  MonsterEffect::Update_GameObject(CONST FLOAT& _DT) {
 }
 VOID MonsterEffect::LateUpdate_GameObject(CONST FLOAT& _DT) {
 	if (ObjectDead)	return;
-	if (FrameTick > PlayTime / ENDFRAME) {
+	if (TextureList.size() == 1)
+	{
+		ObjectDead = FRAMETICK >= PlayTime;
+	}
+	else if (FrameTick > PlayTime / ENDFRAME) {
 		if (TextureIndex++ >= ENDFRAME - 2) {
 			if (Repeatable) { TextureIndex = 0; }
 			else {
@@ -90,7 +99,15 @@ VOID MonsterEffect::LateUpdate_GameObject(CONST FLOAT& _DT) {
 	if (TextureIndex > ENDFRAME / 2)
 		Notify = true;
 
-	Monster::BillBoard(Component_Transform, GRPDEV);
+	switch (m_eEffect)
+	{
+	default:
+		Monster::BillBoard_Standard(GRPDEV, Component_Transform);
+		break;
+	case MONSTER_EFFECT::MONSTER_SUMMONS01:
+		Monster::BillBoard(Component_Transform, GRPDEV);
+		break;
+	}
 }
 VOID MonsterEffect::Render_GameObject() {
 	if (ObjectDead)	return;

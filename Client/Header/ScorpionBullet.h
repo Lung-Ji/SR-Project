@@ -3,7 +3,7 @@
 
 class ScorpionBullet : public GameObject
 {
-private:
+public:
 	explicit ScorpionBullet(LPDIRECT3DDEVICE9 _GRPDEV);
 	explicit ScorpionBullet(CONST GameObject& _RHS);
 	virtual ~ScorpionBullet();

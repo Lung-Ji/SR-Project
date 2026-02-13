@@ -1,16 +1,16 @@
 #pragma once
 #include "GameObject.h"
 
-#define SCROPOINEVILSOULIMGX 143
-#define SCROPOINEVILSOULIMGY 224
+#define SCROPOINEVILSOULIMGX 169
+#define SCROPOINEVILSOULIMGY 284
 
 
-class ScorpoinEvilSoul : public GameObject
+class ShotGunEvilSoul : public GameObject
 {
 public:
-	explicit ScorpoinEvilSoul(LPDIRECT3DDEVICE9 _GRPDEV);
-	explicit ScorpoinEvilSoul(CONST GameObject& _RHS);
-	virtual ~ScorpoinEvilSoul();
+	explicit ShotGunEvilSoul(LPDIRECT3DDEVICE9 _GRPDEV);
+	explicit ShotGunEvilSoul(CONST GameObject& _RHS);
+	virtual ~ShotGunEvilSoul();
 
 public:
 	virtual			HRESULT		Ready_GameObject();
@@ -22,22 +22,22 @@ private:
 	HRESULT			Component_Initialize();
 
 private:
-	Buffer*			Component_Buffer;
-	Transform*		Component_Transform;
-	Collider*		Component_Collider;
+	Buffer* Component_Buffer;
+	Transform* Component_Transform;
+	Collider* Component_Collider;
 
 public:
-	static			ScorpoinEvilSoul* Create(LPDIRECT3DDEVICE9 _GRPDEV);
+	static			ShotGunEvilSoul* Create(LPDIRECT3DDEVICE9 _GRPDEV);
 	BOOL			OnCollisionEnter(GameObject* _Other)	override;
 	BOOL			OnCollisionStay(GameObject* _Other)		override;
 	BOOL			OnCollisionExit(GameObject* _Other)		override;
-	MONSTERINFO*		Get_Info() { return &m_tInfo; }
+	MONSTERINFO* Get_Info() { return &m_tInfo; }
 
 private:
 	virtual VOID Free();
 
 	VOID Set_Target(CONST TCHAR* _TAG);
-	
+
 	MONINFO m_tInfo;
 
 	VOID State_Summon(const _float& _DT);

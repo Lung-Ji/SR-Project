@@ -62,6 +62,8 @@ VOID ScorpionBullet::LateUpdate_GameObject(const _float& _DT) {
 	pmatWorld->_42 = vPos.y;
 	pmatWorld->_43 = vPos.z;
 
+
+	Component_Collider->Set_Scale(MYSCALE->x, 1.f, MYSCALE->z);
 	//AlphaSorting(Component_Transform->Get_Position());
 	//AlphaSorting((_vec3*)&Component_Transform->Get_World()->_41);
 }
@@ -80,7 +82,7 @@ HRESULT ScorpionBullet::Component_Initialize() {
 	Component_Transform = ADD_COMPONENT_TRANSFORM;
 
 	Component_Transform->Set_Rotation(0.f, 0.f, 0.f);
-	Component_Transform->Set_Scale(1.f, 1.f, 1.f);
+	Component_Transform->Set_Scale(0.2f, 0.2f, 0.2f);
 	Component_Transform->Set_Pos(0.f, 0.5f, 0.f);
 
 	Component_Collider = ADD_COMPONENT_COLLIDER;

@@ -48,6 +48,8 @@
 #include "Bullet_Standard.h"
 #include "Fireball.h"
 #include "ScorpionBullet.h"
+#include "ShotGunEvilSoul.h"
+#include "EvilSlime.h"
 
 #include "Player.h"
 #include "Tile.h"

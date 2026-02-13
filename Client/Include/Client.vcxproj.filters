@@ -118,9 +118,6 @@
     <Filter Include="03. GameObject\06. Effect\02. MonsterEffect\99. Abandoned">
       <UniqueIdentifier>{33bbc5b6-90ed-40c6-b7f1-9e66c79c0b77}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. GameObject\06. Effect\02. MonsterEffect\01. MonsterSummon">
-      <UniqueIdentifier>{972b69e8-ba8b-4e8f-9b7a-88f61efefedd}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03. GameObject\02. Monster\02. Monster\02. ScorpionEvilSoul">
       <UniqueIdentifier>{9cb39ed9-d361-4a69-b06c-890759bbd692}</UniqueIdentifier>
     </Filter>
@@ -147,6 +144,15 @@
     </Filter>
     <Filter Include="03. GameObject\06. Effect\02. MonsterEffect\00. MonsterEffect">
       <UniqueIdentifier>{fc51ebe6-2fb3-4524-897b-a5e5fa378c26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\02. Monster\02. Monster\03. ShotGunEvilSoul">
+      <UniqueIdentifier>{1373bb05-7100-44eb-a4c4-e35dfae4748b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\02. Monster\02. Monster\04. EvilSlime">
+      <UniqueIdentifier>{0b780999-08fa-451f-9e14-a7d3b1c136f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. GameObject\06. Effect\02. MonsterEffect\01. Alert">
+      <UniqueIdentifier>{972b69e8-ba8b-4e8f-9b7a-88f61efefedd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -255,9 +261,6 @@
     <ClInclude Include="..\Header\UIEffect.h">
       <Filter>03. GameObject\06. Effect\04. UIEffect</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\Monster1.h">
-      <Filter>03. GameObject\02. Monster\00. BaseMonster</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\Docheol.h">
       <Filter>03. GameObject\02. Monster\01. Boss\01. Docheol</Filter>
     </ClInclude>
@@ -305,6 +308,12 @@
     </ClInclude>
     <ClInclude Include="..\Header\ScorpionBullet.h">
       <Filter>03. GameObject\07. ProJectile\03.ScorpionBullet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\ShotGunEvilSoul.h">
+      <Filter>03. GameObject\02. Monster\02. Monster\03. ShotGunEvilSoul</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\EvilSlime.h">
+      <Filter>03. GameObject\02. Monster\02. Monster\04. EvilSlime</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -395,9 +404,6 @@
     <ClCompile Include="..\Code\UIEffect.cpp">
       <Filter>03. GameObject\06. Effect\04. UIEffect</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\Monster1.cpp">
-      <Filter>03. GameObject\02. Monster\00. BaseMonster</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\Docheol.cpp">
       <Filter>03. GameObject\02. Monster\01. Boss\01. Docheol</Filter>
     </ClCompile>
@@ -422,14 +428,8 @@
     <ClCompile Include="..\Code\Fireball.cpp">
       <Filter>03. GameObject\07. ProJectile\02.Fireball</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\MonsterEffect.cpp">
-      <Filter>03. GameObject\06. Effect\02. MonsterEffect\01. MonsterSummon</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\ScorpionEvilSoul.cpp">
       <Filter>03. GameObject\02. Monster\02. Monster\02. ScorpionEvilSoul</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\MonsterEffect.cpp">
-      <Filter>03. GameObject\06. Effect\02. MonsterEffect\01. MonsterSummon\00. MonsterEffect</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Arrow.cpp">
       <Filter>03. GameObject\01. Player\01. Arrow</Filter>
@@ -449,6 +449,16 @@
     <ClCompile Include="..\Code\ScorpionBullet.cpp">
       <Filter>03. GameObject\07. ProJectile\03.ScorpionBullet</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\MonsterEffect.cpp">
+      <Filter>03. GameObject\06. Effect\02. MonsterEffect\00. MonsterEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\ShotGunEvilSoul.cpp">
+      <Filter>03. GameObject\02. Monster\02. Monster\03. ShotGunEvilSoul</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\EvilSlime.cpp">
+      <Filter>03. GameObject\02. Monster\02. Monster\04. EvilSlime</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\MonsterEffect.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="small.ico">

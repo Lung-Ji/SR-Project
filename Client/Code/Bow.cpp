@@ -68,7 +68,7 @@ INT Bow::Update_GameObject(const _float& _DT)
 {
 	if (_isEquip) {
 		GameObject::Update_GameObject(_DT);
-		RenderManager::GetInstance()->Add_RenderGroup(RENDER_ALPHA, this);
+		RenderManager::GetInstance()->Add_RenderGroup(RENDER_NONALPHA, this);
 
 		if (_isDestroied) return -1;
 

@@ -171,6 +171,7 @@
       </ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\Header\Docheol.h" />
+    <ClInclude Include="..\Header\EvilSlime.h" />
     <ClInclude Include="..\Header\Fireball.h" />
     <ClInclude Include="..\Header\MonsterEffect.h" />
     <ClInclude Include="..\Header\Object_Explain.h" />
@@ -208,9 +209,6 @@
     <ClInclude Include="..\Header\Monster.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="..\Header\Monster1.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClInclude>
     <ClInclude Include="..\Header\NPC.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
       </ExcludedFromBuild>
@@ -221,6 +219,7 @@
     </ClInclude>
     <ClInclude Include="..\Header\ScorpionBullet.h" />
     <ClInclude Include="..\Header\ScorpionEvilSoul.h" />
+    <ClInclude Include="..\Header\ShotGunEvilSoul.h" />
     <ClInclude Include="..\Header\StartScene.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
       </ExcludedFromBuild>
@@ -262,6 +261,7 @@
       </ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\Code\Docheol.cpp" />
+    <ClCompile Include="..\Code\EvilSlime.cpp" />
     <ClCompile Include="..\Code\Fireball.cpp" />
     <ClCompile Include="..\Code\MonsterEffect.cpp" />
     <ClCompile Include="..\Code\Object_Explain.cpp" />
@@ -309,9 +309,6 @@
     <ClCompile Include="..\Code\Monster.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="..\Code\Monster1.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="..\Code\NPC.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
       </ExcludedFromBuild>
@@ -320,6 +317,7 @@
     <ClCompile Include="..\Code\PlayerInven.cpp" />
     <ClCompile Include="..\Code\ScorpionBullet.cpp" />
     <ClCompile Include="..\Code\ScorpionEvilSoul.cpp" />
+    <ClCompile Include="..\Code\ShotGunEvilSoul.cpp" />
     <ClCompile Include="..\Code\StartScene.cpp" />
     <ClCompile Include="..\Code\Terrain.cpp" />
     <ClCompile Include="..\Code\Tile.cpp" />

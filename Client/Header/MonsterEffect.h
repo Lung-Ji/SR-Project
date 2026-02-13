@@ -43,5 +43,6 @@ public:
 
 private:
 	BOOL			Notify;
+	MONSTER_EFFECT	m_eEffect;
 };
 

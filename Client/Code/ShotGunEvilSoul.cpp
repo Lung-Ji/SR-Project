@@ -1,74 +1,52 @@
 #include "../Include/PCH.h"
 
-Bat::Bat(LPDIRECT3DDEVICE9 _GRPDEV) : GameObject(_GRPDEV) {}
-Bat::Bat(const GameObject& _RHS) : GameObject(_RHS) {}
-Bat::~Bat() {}
+ShotGunEvilSoul::ShotGunEvilSoul(LPDIRECT3DDEVICE9 _GRPDEV) : GameObject(_GRPDEV) {}
+ShotGunEvilSoul::ShotGunEvilSoul(const GameObject& _RHS) : GameObject(_RHS) {}
+ShotGunEvilSoul::~ShotGunEvilSoul() {}
 
-HRESULT Bat::Ready_GameObject() {
+HRESULT ShotGunEvilSoul::Ready_GameObject() {
 	if (FAILED(Component_Initialize())) return E_FAIL;
 
 	m_tInfo.eState[0] = MONSTER_STATE_SUMMON;
-
-	m_tInfo.fHp = BAT_HP;
+	m_tInfo.fHp = SHOTGUNEVILSOUL_HP;
 
 	return S_OK;
 }
-INT	Bat::Update_GameObject(const _float& _DT)
+INT	ShotGunEvilSoul::Update_GameObject(const _float& _DT)
 {
-	if (m_tInfo.fHp <= 0.f)
-		m_tInfo.Change_State(MONSTER_STATE_DEAD);
-
+	// <플레이어 업데이트 시점>
 	GameObject::Update_GameObject(_DT);
 
 	switch (m_tInfo.eState[0])
 	{
-	case MONSTER_STATE_SUMMON:
-	case MONSTER_STATE_APPEAR:
-		Bat::State_Appear(_DT);
-		break;
-	case MONSTER_STATE_IDLE:
-		Bat::State_Idle();
-		break;
-	case MONSTER_STATE_TRACKING:
-		Bat::State_Tracking(_DT);
-		break;
-	case MONSTER_STATE_CASTING:
-		Bat::State_Casting(_DT);
-		break;
-	case MONSTER_STATE_CHANNELING:
-		Bat::State_Channeling(_DT);
-		break;
-	case MONSTER_STATE_DEAD:
-		Bat::State_Dead();
-		break;
 	default:
 		break;
+	case MONSTER_STATE_SUMMON:
+		ShotGunEvilSoul::State_Summon(_DT);
+		break;
+	case MONSTER_STATE_IDLE:
+		ShotGunEvilSoul::State_Idle(_DT);
+		break;
+	case MONSTER_STATE_TRACKING:
+		ShotGunEvilSoul::State_Tracking(_DT);
+		break;
+	case MONSTER_STATE_CASTING:
+		ShotGunEvilSoul::State_Casting(_DT);
+		break;
+	case MONSTER_STATE_CHANNELING:
+		ShotGunEvilSoul::State_Channeling(_DT);
+		break;
+	case MONSTER_STATE_DEAD:
+		ShotGunEvilSoul::State_Dead();
+		break;
 	}
-
-	if (KEY_DOWN(DIK_Q)) {
-		//Set_ObjectDead(TRUE);
-		//Bat::Change_State(BAT_SUMMON);
-		GameObject* test = Monster::Create<EvilSlime>(GRPDEV, { (_float)(rand() % 20), 0.5f, (_float)(rand() % 20)}, 3.f);
-		Monster::Add_Monster_to_Scene(test);
-		return 0;
-	}
-	if (KEY_DOWN(DIK_O)) {
-		//Set_ObjectDead(TRUE);
-		//Bat::Change_State(BAT_SUMMON);
-		GameObject* test = Monster::Create<ShotGunEvilSoul>(GRPDEV, { (_float)(rand() % 20), 0.5f, (_float)(rand() % 20)}, 3.f);
-		Monster::Add_Monster_to_Scene(test);
-		return 0;
-	}
-	if (KEY_DOWN(DIK_P))
-	{
-		m_tInfo.Change_State(MONSTER_STATE_DEAD);
-	}
-
 
 	RenderManager::GetInstance()->Add_RenderGroup(RENDER_ALPHA, this);
+
 	return 0;
 }
-VOID Bat::LateUpdate_GameObject(const _float& _DT) {
+VOID ShotGunEvilSoul::LateUpdate_GameObject(const _float& _DT) {
+
 	GameObject::LateUpdate_GameObject(_DT);
 
 	m_tInfo.vDirection.y = 0.f;
@@ -77,93 +55,97 @@ VOID Bat::LateUpdate_GameObject(const _float& _DT) {
 	switch (m_tInfo.eState[0])
 	{
 	default:
-		Monster::Set_TextureList(L"Spr_Monster_BlueEvilBat", &m_tInfo.Textureinfo);
-		m_tInfo.Textureinfo._frameTick += _DT;
-		if (m_tInfo.Textureinfo._frameTick > FRAMETICK)
+		if (FAILED(Monster::Set_TextureList(L"Spr_Monster_BlueEliteShotGunEvilSoul_Stand", &m_tInfo)))
 		{
-			m_tInfo.Textureinfo._frameTick = 0.f;
-			++m_tInfo.Textureinfo._frame %= m_tInfo.Textureinfo._Endframe / 2;
+			m_tInfo.Change_State(MONSTER_STATE_DEAD);
+			return;
 		}
+
+		if (m_tInfo.Textureinfo._frameTick >= FRAMETICK)
+		{
+			++m_tInfo.Textureinfo._frame %= m_tInfo.Textureinfo._Endframe / 2;
+			m_tInfo.Textureinfo._frameTick = 0.f;
+
+			if (fabsf(m_tInfo.vDirection.z) > 0.1f)
+				if (m_tInfo.vDirection.z > 0.f)
+					m_tInfo.Textureinfo._frame += m_tInfo.Textureinfo._Endframe / 2;
+		}
+		if (FAILED(Monster::Flip_Horizontal(Component_Transform, &m_tInfo.vDirection, SHOTGUNEVILSOUL_HORIZONTALFLIP_BUFFER)))
+		{
+			m_tInfo.Change_State(MONSTER_STATE_DEAD);
+			return;
+		}
+
+		//if (m_tInfo.Textureinfo._frame < m_tInfo.Textureinfo._Endframe / 2)
+		break;
+
+	case MONSTER_STATE_APPEAR:
+	case MONSTER_STATE_SUMMON:
+	case MONSTER_STATE_DEAD:
 		break;
 	}
-
-	Monster::Flip_Horizontal(Component_Transform, &m_tInfo.vDirection, BAT_HORIZONTALFLIP_BUFFER);
-
 	Monster::BillBoard(Component_Transform, GRPDEV);
 }
-VOID Bat::Render_GameObject() {
+VOID ShotGunEvilSoul::Render_GameObject() {
 	GRPDEV->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-
 	GRPDEV->SetTransform(D3DTS_WORLD, Component_Transform->Get_World());
-	
+
 	switch (m_tInfo.eState[0])
 	{
 	default:
 		GRPDEV->SetTexture(0, m_tInfo.Textureinfo._vecTexture[m_tInfo.Textureinfo._frame]);
 		Component_Buffer->Render_Buffer();
 		break;
-	case MONSTER_STATE_SUMMON:
 	case MONSTER_STATE_APPEAR:
+	case MONSTER_STATE_SUMMON:
 	case MONSTER_STATE_DEAD:
 		break;
 	}
 
 	GRPDEV->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
-HRESULT Bat::Component_Initialize() {
+HRESULT ShotGunEvilSoul::Component_Initialize() {
 
 	Component_Buffer = ADD_COMPONENT_RECTTEX;
 	Component_Transform = ADD_COMPONENT_TRANSFORM;
 
-	Component_Transform->Set_Pos(10.f, 0.112f, 10.f);
+	Component_Transform->Set_Pos(10.f, 0.5f, 0.f);
 	Component_Transform->Set_Rotation(0.f, 0.f, 0.f);
-	Component_Transform->Set_Scale(0.289f, 0.223f, 1.f);
-
+	Component_Transform->Set_Scale(0.169f, 0.284f, 1.f);
 	Component_Collider = ADD_COMPONENT_COLLIDER;
 	Component_Collider->Set_CenterPos(Component_Transform);
 
-	Component_Collider->Set_Scale(0.289f, 1.f, 0.289f);
+	Component_Collider->Set_Scale(0.5f, 1.f, 0.5f);
 
 	return S_OK;
 }
-Bat* Bat::Create(LPDIRECT3DDEVICE9 _GRPDEV) {
-	Bat* MST = new Bat(_GRPDEV);
+ShotGunEvilSoul* ShotGunEvilSoul::Create(LPDIRECT3DDEVICE9 _GRPDEV) {
+	ShotGunEvilSoul* MST = new ShotGunEvilSoul(_GRPDEV);
 	if (FAILED(MST->Ready_GameObject())) {
-		MSG_BOX("Cannot Create Bat.");
+		MSG_BOX("Cannot Create ShotGunEvilSoul.");
 		Safe_Release(MST);
 		return nullptr;
 	}
 	return MST;
 }
-BOOL Bat::OnCollisionEnter(GameObject* _Other)
-{
-	wstring Tag = _Other->Get_ObjectTag();
-	if (Tag == L"PlayerArrow")
-	{
-		Arrow* pArrow = static_cast<Arrow*>(_Other);
-		//m_tColInfo._hp -= pArrow->Get_Atk();  // 없네;;
-	}
-	else
-	{
-		return false;
-	}
-
-	return TRUE;
-}
-BOOL Bat::OnCollisionStay(GameObject* _Other)
+BOOL ShotGunEvilSoul::OnCollisionEnter(GameObject* _Other)
 {
 	return TRUE;
 }
-BOOL Bat::OnCollisionExit(GameObject* _Other)
+BOOL ShotGunEvilSoul::OnCollisionStay(GameObject* _Other)
 {
 	return TRUE;
 }
-VOID Bat::Free() {
+BOOL ShotGunEvilSoul::OnCollisionExit(GameObject* _Other)
+{
+	return TRUE;
+}
+VOID ShotGunEvilSoul::Free() {
 
 	GameObject::Free();
 }
 
-VOID Bat::State_Appear(const _float& _DT)
+VOID ShotGunEvilSoul::State_Summon(const _float& _DT)
 {
 	m_tInfo.fTimer[0] += _DT;
 	if (nullptr == m_tInfo.pGameObj[0])
@@ -193,27 +175,31 @@ VOID Bat::State_Appear(const _float& _DT)
 		}
 }
 
-VOID Bat::State_Idle()
+VOID ShotGunEvilSoul::State_Idle(const _float& _DT)
 {
 	if (m_tInfo.pGameObj[0] == nullptr)
-		m_tInfo.pGameObj[0]=(Monster::Set_Target(L"Player"));
+		m_tInfo.pGameObj[0] = (Monster::Set_Target(L"Player"));
 
 	_vec3 vDir = *POS(m_tInfo.pGameObj[0]) - *MYPOS;
 	vDir.y = 0.f;
 
-	if (D3DXVec3Length(&vDir) < BAT_TRACKINGDIS)
+	if (D3DXVec3Length(&vDir) < SHOTGUNEVILSOUL_TRACKINGDIS)
 		m_tInfo.Change_State(MONSTER_STATE_TRACKING);
 }
 
-VOID Bat::State_Tracking(const _float& _DT)
+VOID ShotGunEvilSoul::State_Tracking(const _float& _DT)
 {
 	if (nullptr == m_tInfo.pGameObj[0] || m_tInfo.pGameObj[0]->Get_ObjectDead())
 		m_tInfo.Change_State(MONSTER_STATE_IDLE);
 
-	m_tInfo.fSpeed = BAT_SPEED;
+
 	m_tInfo.vDirection = *POS(m_tInfo.pGameObj[0]) - *MYPOS;
 
-	if (D3DXVec3Length(&m_tInfo.vDirection) < BAT_TRACKINGDIS)
+	_float fDis = D3DXVec3Length(&m_tInfo.vDirection);
+
+	m_tInfo.fSpeed = (fDis > SCORPIONEVILSOUL_TRACKINGMIN) * SCORPIONEVILSOUL_SPEED;
+
+	if (fDis < SHOTGUNEVILSOUL_TRACKINGDIS)
 	{
 		m_tInfo.fTimer[0] += _DT;
 		m_tInfo.fTimer[1] = 0.f;
@@ -223,62 +209,61 @@ VOID Bat::State_Tracking(const _float& _DT)
 		m_tInfo.fTimer[1] += _DT;
 	}
 
-	if (m_tInfo.fTimer[0] >= BAT_TRACKING_TIME)
+	if (m_tInfo.fTimer[0] >= SHOTGUNEVILSOUL_TRACKING_TIME)
 	{
 		m_tInfo.Change_State(MONSTER_STATE_CASTING);
 	}
-	else if (m_tInfo.fTimer[1] >= BAT_LOST_TIME)
+	else if (m_tInfo.fTimer[1] >= SHOTGUNEVILSOUL_LOST_TIME)
 	{
 		m_tInfo.Change_State(MONSTER_STATE_IDLE);
 	}
-
 }
-VOID Bat::State_Casting(const _float& _DT)
+
+VOID ShotGunEvilSoul::State_Casting(const _float& _DT)
 {
 	if (nullptr == m_tInfo.pGameObj[0] || m_tInfo.pGameObj[0]->Get_ObjectDead())
 		m_tInfo.Change_State(MONSTER_STATE_IDLE);
 
-	m_tInfo.fTimer[0]	+= _DT;
-	m_tInfo.fSpeed		 = 0.f;
-	
-	if (m_tInfo.fTimer[0] >= BAT_CASTING_TIME)
+	m_tInfo.fTimer[0] += _DT;
+	m_tInfo.fSpeed = 0.f;
+
+	if (m_tInfo.fTimer[0] >= SHOTGUNEVILSOUL_CASTING_TIME)
 	{
 		m_tInfo.Change_State(MONSTER_STATE_CHANNELING);
 	}
 }
 
-VOID Bat::State_Channeling(const _float& _DT)
+VOID ShotGunEvilSoul::State_Channeling(const _float& _DT)
 {
 	if (nullptr == m_tInfo.pGameObj[0] || m_tInfo.pGameObj[0]->Get_ObjectDead())
 		m_tInfo.Change_State(MONSTER_STATE_IDLE);
 
-	m_tInfo.fSpeed = BAT_RUSHSPEED;
 	m_tInfo.fTimer[0] += _DT;
-	m_tInfo.fTimer[1] += _DT;
 
-	if (m_tInfo.fTimer[1] >= BAT_CHANNELING_TIME / (BAT_BULLET_NUM + 1))
+	if (m_tInfo.fTimer[0] >= SHOTGUNEVILSOUL_CHANNELING_TIME)
 	{
-		m_tInfo.fTimer[1] = 0.f;
-		//m_tInfo.pGameObj[1] = Bullet_Standard::Create(GRPDEV);
-		m_tInfo.pGameObj[1] = Monster::Create<Bullet_Standard>(GRPDEV, { MYPOS->x, 0.5f, MYPOS->z });
+		_vec3	vDir = *POS(m_tInfo.pGameObj[0]) - *MYPOS;
+		_float	fBaseRadian = atan2f(vDir.z, vDir.x);
 
-		Bullet_Standard* pBullet = static_cast<Bullet_Standard*>(m_tInfo.pGameObj[1]);
-		pBullet->Set_Master(this);
-		_vec3 vDir = *POS(m_tInfo.pGameObj[0]) - *MYPOS;
-		D3DXVec3Normalize(&vDir, &vDir);
-		pBullet->Set_Dir(vDir);
+		uint64_t Seed[2] = { (uint64_t)time(NULL), GetTickCount64() };
 
-		Monster::Add_Monster_to_Scene(m_tInfo.pGameObj[1]);
-		
-	}
+		for (int i = 0; i < SHOTGUNEVILSOUL_BULLET_NUM; ++i)
+		{
+			_float fRandom = (Monster::XorShift128plus(Seed[0], Seed[1]) % 1000) / 1000.f;
 
-	if (m_tInfo.fTimer[0] >= BAT_CHANNELING_TIME)
-	{
+			m_tInfo.pGameObj[1] = Monster::Create<Bullet_Standard>(GRPDEV, *MYPOS, 1.f);
+
+			_float fRadian = fBaseRadian + fRandom * (D3DXToRadian(SHOTGUNEVILSOUL_SPREAD)) - D3DXToRadian(SHOTGUNEVILSOUL_SPREAD) * 0.5f;
+			static_cast<Bullet_Standard*>(m_tInfo.pGameObj[1])->Set_Dir(cosf(fRadian), 0.f, sinf(fRadian));
+
+			Monster::Add_Monster_to_Scene(m_tInfo.pGameObj[1]);
+
+			m_tInfo.pGameObj[1] = nullptr;
+		}
 		m_tInfo.Change_State(MONSTER_STATE_IDLE);
 	}
 }
-
-VOID Bat::State_Dead()
+VOID ShotGunEvilSoul::State_Dead()
 {
 	PLAY_MONSTER_EFFECT_ONCE(MONSTER_EFFECT::MONSTER_DEATH, *MYPOS, 1.f);
 	ObjectDead = true;
