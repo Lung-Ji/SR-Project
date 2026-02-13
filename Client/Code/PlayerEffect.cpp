@@ -24,6 +24,7 @@ HRESULT PlayerEffect::Ready_Effect(PLAYER_SKILL _SKILLTYPE, _vec3* _PlayerPOS, B
 	else if (_SKILLTYPE == PLAYER_SKILL::ICE_CHARGING) { Make_TextureList(L"IceBowCharging"); }
 	else if (_SKILLTYPE == PLAYER_SKILL::ICE_CHARGE) { Make_TextureList(L"IceArrow_Charge"); }
 	else if (_SKILLTYPE == PLAYER_SKILL::ICE_SHADER) { Make_TextureList(L"IceShader"); }
+	else if (_SKILLTYPE == PLAYER_SKILL::FAIRY_CHARGING) { Make_TextureList(L"FariyCharging"); }
 
 	if (!AngleChase)
 	{
@@ -121,6 +122,9 @@ INT  PlayerEffect::Update_GameObject(CONST FLOAT& _DT) {
 		break;
 	case PLAYER_SKILL::ICE_CHARGE:
 		if(!(KEY_HOLD(DIK_SPACE))) ObjectDead = true;
+		break;
+	case PLAYER_SKILL::FAIRY_CHARGING:
+		if (!(KEY_HOLD(DIK_SPACE))) ObjectDead = true;
 		break;
 	}
 

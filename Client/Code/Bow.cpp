@@ -415,7 +415,7 @@ void Bow::CreateChargingEffect(const _float& _DT)
 	float angle = atan2f(dir2D.y, dir2D.x);
 
 	float radius = 1.f;
-	if (_type == BowType::FairyBow) radius = 1.1f;
+	if (_type == BowType::FairyBow) radius = 1.6f;
 	else if (_type == BowType::IceBow) radius = 1.6f;
 	else if (_type == BowType::EvilHeadBow) radius = 1.0f;
 	else if (_type == BowType::WindBow) radius = 1.6f;
@@ -430,13 +430,13 @@ void Bow::CreateChargingEffect(const _float& _DT)
 		if (_ChargingTime > 1.f)
 		{
 			// ¿Ã∆Â∆Æ
-			_vec3 Size = { 1.f, 1.f, 1.f };
+			_vec3 Size = { 1.5f, 1.5f, 1.5f };
 			switch (_type)
 			{
 			case BowType::FairyBow:
+				PLAY_PLAYER_EFFECT(PLAYER_SKILL::FAIRY_CHARGING, &_pulsepos, 0.2f, Size);
 				break;
 			case BowType::IceBow:
-				Size = { 1.5f, 1.5f, 1.5f };
 				PLAY_PLAYER_EFFECT(PLAYER_SKILL::ICE_CHARGING, &_pulsepos, 0.2f, Size);
 				break;
 			case BowType::EvilHeadBow:
