@@ -147,6 +147,8 @@ public:
 	
 	int		Get_Token() { return _token; }
 	void	Set_Token(INT _value) { _token = _value; }
+
+	_int	GetBowCharging() { return _weaponSlot[_equipNum]->Get_Charging(); }
 	//////////////////////
 private:
 	virtual VOID Free();

@@ -509,7 +509,7 @@ void Player::ATTACK_STATE(const _float& _DT)
 		_dashStart = true;
 		_frame = 1;
 	}
-	else if (!mouseLB) {
+	else if (!mouseLB && !KEY_HOLD(DIK_SPACE)) {
 		_pState = pState::STATE_IDLE;
 	}
 
@@ -718,6 +718,10 @@ void Player::Idle_Final_Input(const _float& _DT)
 	else if (mouseLB) {
 		_pState = pState::STATE_ATTACK;
 		_attackDelay = 2.0f;
+		_frame = 1;
+	}
+	else if (KEY_HOLD(DIK_SPACE)) {
+		_pState = pState::STATE_ATTACK;
 		_frame = 1;
 	}
 }

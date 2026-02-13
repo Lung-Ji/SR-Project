@@ -5,6 +5,7 @@ enum class ArrowType {
 	FairyArrow,
 	IceArrow_LV1,
 	IceArrow_LV2,
+	IceCharging,
 	EvilHead_Arrow,
 	Wind_Arrow,
 
@@ -45,6 +46,7 @@ private:
 private:
 	ArrowType	_type;
 	int			_hp;
+	_float		_originAngle;
 
 	_vec3		_playerPos;
 	float		_angle;
@@ -57,5 +59,7 @@ private:
 	float		_speed;
 	float		_sumSpeed;
 	int			_arrowAtk;
+
+	float _EvilTime;
 };
 

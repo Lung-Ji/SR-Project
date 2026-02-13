@@ -44,8 +44,10 @@ private:
 	void			SetGrahpic();
 	void			CreateArrow(const _float& _DT);
 	void			CreateEffect(const _float& _DT);
+	void			CreateChargingArrow(const _float& _DT);
+	void			CreateChargingEffect(const _float& _DT);
 	void			Late_Ready();
-	void			MakeArrow(_vec3 pos, _vec2 arrowDir);
+	void			MakeArrow(_vec3 pos, _vec2 arrowDir, bool charging = false);
 private:
 	Buffer* Component_Buffer;
 	Transform* Component_Transform;
@@ -59,6 +61,7 @@ public:
 	void		Set_Bow_Type(BowType type)		{ _type = type; }
 	void		Set_Bow_Equip(bool isequip)		{ _isEquip = isequip; }
 	BowStat*	Get_Bow_Stat()					{ return &_Stat; }
+	_int		Get_Charging()					{ return _Charging; }
 private:
 	virtual VOID Free();
 private:
@@ -78,5 +81,9 @@ private:
 	_vec3		_pulsepos;
 	_vec3		_arrowPos;
 	float		_attackDelay;
+
+	_int		_Charge;
+	_int		_Charging;
+	_float		_ChargingTime;
 };
 

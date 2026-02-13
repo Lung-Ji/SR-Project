@@ -10,6 +10,7 @@ HRESULT PlayerEffect::Ready_Effect(PLAYER_SKILL _SKILLTYPE, _vec3* _PlayerPOS, B
 
 	_bool AngleChase = true;
 	_effectSize = _Size;
+	SKILL_TYPE = _SKILLTYPE;
 
 	if		(_SKILLTYPE == PLAYER_SKILL::SKILL_1)	{ Make_TextureList(L"Spr_Effect_ExplosionNormal02_");		}
 	else if (_SKILLTYPE == PLAYER_SKILL::SKILL_2)	{ Make_TextureList(L"Spr_Ui_Effect_BossClear_lraCharge_");	}
@@ -20,6 +21,9 @@ HRESULT PlayerEffect::Ready_Effect(PLAYER_SKILL _SKILLTYPE, _vec3* _PlayerPOS, B
 	else if (_SKILLTYPE == PLAYER_SKILL::WIND_PULSE) { Make_TextureList(L"Wind_Charge"); }
 	else if (_SKILLTYPE == PLAYER_SKILL::WIND_CHARGING) { Make_TextureList(L"Wind_Charging"); }
 	else if (_SKILLTYPE == PLAYER_SKILL::FAIRY_HITEFFECT) { Make_TextureList(L"Fariy_HitEffect"); }
+	else if (_SKILLTYPE == PLAYER_SKILL::ICE_CHARGING) { Make_TextureList(L"IceBowCharging"); }
+	else if (_SKILLTYPE == PLAYER_SKILL::ICE_CHARGE) { Make_TextureList(L"IceArrow_Charge"); }
+	else if (_SKILLTYPE == PLAYER_SKILL::ICE_SHADER) { Make_TextureList(L"IceShader"); }
 
 	if (!AngleChase)
 	{
@@ -39,6 +43,7 @@ HRESULT PlayerEffect::Ready_Effect(PLAYER_SKILL _SKILLTYPE, _vec3* _PlayerPOS, B
 	else
 	{
 		_playerPos = _PlayerPOS;
+		Repeatable = _Repeatable;
 		
 		CameraObject* Camera = dynamic_cast<CameraObject*>(SceneManager::GetInstance()->Get_CurrentScene()->Get_GameObject(L"Camera"));
 		_vec3 cameraDir = *(Camera->Get_EyeVec()) - *(Camera->Get_AtVec());
@@ -107,6 +112,17 @@ INT  PlayerEffect::Update_GameObject(CONST FLOAT& _DT) {
 	GameObject::Update_GameObject(_DT);
 	 
 	FrameTick += _DT;
+	Player* player = nullptr;
+	switch (SKILL_TYPE)
+	{
+	case PLAYER_SKILL::ICE_CHARGING :
+		player = dynamic_cast<Player*>(SceneManager::GetInstance()->Get_CurrentScene()->Get_GameObject(L"Player"));
+		if (player->GetBowCharging() == 0) ObjectDead = true;
+		break;
+	case PLAYER_SKILL::ICE_CHARGE:
+		if(!(KEY_HOLD(DIK_SPACE))) ObjectDead = true;
+		break;
+	}
 
 	if (true)
 	{
