@@ -171,6 +171,9 @@
       </ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\Header\Docheol.h" />
+    <ClInclude Include="..\Header\FieldApostle.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="..\Header\Fireball.h" />
     <ClInclude Include="..\Header\MonsterEffect.h" />
     <ClInclude Include="..\Header\Object_Explain.h" />
@@ -267,6 +270,9 @@
       </ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\Code\Docheol.cpp" />
+    <ClCompile Include="..\Code\FieldApostle.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\Code\Fireball.cpp" />
     <ClCompile Include="..\Code\MonsterEffect.cpp" />
     <ClCompile Include="..\Code\Object_Explain.cpp" />

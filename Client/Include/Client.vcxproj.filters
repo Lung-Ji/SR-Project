@@ -306,6 +306,9 @@
     <ClInclude Include="..\Header\NPCTalk.h">
       <Filter>04. UI\04. NPCTalk</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\FieldApostle.h">
+      <Filter>04. UI\AugmentUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\GameManager.cpp">
@@ -451,6 +454,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\PlayerInven.cpp">
       <Filter>04. UI\InventoryUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\FieldApostle.cpp">
+      <Filter>04. UI\AugmentUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
