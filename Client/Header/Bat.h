@@ -18,6 +18,7 @@ public:
 	virtual			INT			Update_GameObject(CONST FLOAT& _DT);
 	virtual			VOID		LateUpdate_GameObject(CONST FLOAT& _DT);
 	virtual			VOID		Render_GameObject();
+	virtual			BOOL		OnCollisionEnter(GameObject* _Other);
 
 private:
 	HRESULT			Component_Initialize();
@@ -37,7 +38,7 @@ private:
 	GameObject* pTarget;
 	_vec3*		pTargetPos;
 	_vec3		vDir;
-
+	_vec3       vPos;
 	BAT_STATE CurrState;
 	BAT_STATE PrevState;
 
@@ -54,4 +55,8 @@ private:
 	_float Speed;
 
 	TEXINFO m_tTexInfo;
+
+	int hitcount = 0;
+
+	int _hp;
 };

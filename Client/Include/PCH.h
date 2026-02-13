@@ -66,6 +66,7 @@
 #include "PlayerInven.h"
 #include "Augments.h"
 #include "SpeechBubble.h"
+#include "Spawner.h"
 //////////////////////////////////////////// Scene List
 
 #include "StartScene.h"
