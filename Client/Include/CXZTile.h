@@ -28,6 +28,7 @@ public:
     void                    Tile_Potal_Effect(CONST FLOAT& _DT);
     void                    Tile_Trigger      ();
     void                    Tile_Gasi_Destory();
+    void                    Tile_Move_Effect(CONST FLOAT& _DT, TILE_STAGE eid);
     Transform*              Crash_Player();
     Transform*              Crash_Arrow();
 private:
@@ -40,6 +41,9 @@ private:
     D3DMATERIAL9            m_Material;
 private:
     _float                  m_fAlpha;
+    _float                  m_fHeight;
+    _float                  m_fHeightSpeed;
+    _float                  m_fCount;
     _float                  m_fFrame;
     _float                  m_fTime;
     _bool                   m_bStopFrame;

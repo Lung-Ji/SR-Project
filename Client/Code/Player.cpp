@@ -178,7 +178,7 @@ void Player::IDLE_STATE(const _float& _DT)
 			}
 		}
 
-		bool mouseLB = KeyManager::GetInstance()->Get_MouseState(DIM_LB) & 0x80;
+		//bool mouseLB = KeyManager::GetInstance()->Get_MouseState(DIM_LB) & 0x80;
 
 		//if (!mouseLB && _frame > 8)
 		//	_frame = 1;
@@ -488,7 +488,7 @@ void Player::DASH_STATE(const _float& _DT)
 }
 void Player::ATTACK_STATE(const _float& _DT)
 {
-	bool mouseLB = KeyManager::GetInstance()->Get_MouseState(DIM_LB) & 0x80;
+	//bool mouseLB = KeyManager::GetInstance()->Get_MouseState(DIM_LB) & 0x80;
 	_attackDelay += _DT;
 
 	_vec3		upDir, rightDir;
@@ -500,15 +500,15 @@ void Player::ATTACK_STATE(const _float& _DT)
 	POINT point;
 	GetCursorPos(&point);
 	ScreenToClient(hWnd, &point);
-
-	if (MOUSE_RBUTTON) {
-		_pState = pState::STATE_DASH;
-		_dashStart = true;
-		_frame = 1;
-	}
-	else if (!mouseLB && !KEY_HOLD(DIK_SPACE)) {
-		_pState = pState::STATE_IDLE;
-	}
+	//
+	//if (MOUSE_RBUTTON) {
+	//	_pState = pState::STATE_DASH;
+	//	_dashStart = true;
+	//	_frame = 1;
+	//}
+	//else if (!mouseLB && !KEY_HOLD(DIK_SPACE)) {
+	//	_pState = pState::STATE_IDLE;
+	//}
 
 	_vec2 playerPos = { WINCX / 2 , WINCY / 2 };
 

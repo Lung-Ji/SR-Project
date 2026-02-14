@@ -88,12 +88,12 @@ VOID RenderManager::Render_TILE(LPDIRECT3DDEVICE9& _GRPDEV)
 	//알파 테스트 특정 수치 이하의 색상값을 출력되지 않게함
 	_GRPDEV->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
 	_GRPDEV->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
-	_GRPDEV->SetRenderState(D3DRS_ALPHAREF, 0xc0);
+	_GRPDEV->SetRenderState(D3DRS_ALPHAREF, 0x20); // 0x10
+
 	RenderGroup[RENDER_TILE].sort([](GameObject* DEST, GameObject* SRC)->bool
 		{
 			return DEST->Get_AlphaYValue() < SRC->Get_AlphaYValue();
 		});
-
 	for (auto& _OBJ : RenderGroup[RENDER_TILE]){
 		if (_OBJ->Get_ObjectDead() == FALSE)
 			_OBJ->Render_GameObject();
@@ -101,7 +101,7 @@ VOID RenderManager::Render_TILE(LPDIRECT3DDEVICE9& _GRPDEV)
 
 	_GRPDEV->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 	_GRPDEV->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
-	_GRPDEV->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+	_GRPDEV->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 	_GRPDEV->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
 VOID	RenderManager::Free() {

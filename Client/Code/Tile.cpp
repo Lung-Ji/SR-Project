@@ -24,6 +24,7 @@ HRESULT Tile::Component_Initialize() {
 	m_vecName[TILE_STATE::STATE_ANIMATION].push_back(L"../../Tile/AnimationObject");
 	m_vecName[TILE_STATE::STATE_DESTORY].push_back	(L"../../Tile/DestroyObject");
 	m_vecName[TILE_STATE::STATE_POTAL].push_back	(L"../../Tile/Stage1/");
+	m_vecName[TILE_STATE::STATE_NORMAL].push_back(L"../../Tile/Stage2/");
 
 	_float fMax(128);
 	_float x = 1.f / 128.f;//0.2f / 2048.f;
@@ -48,6 +49,7 @@ HRESULT Tile::Ready_GameObject() {
 	Load_Image(L"../../Tile/AnimationObject", TILE_STATE::STATE_ANIMATION);
 	Load_Image(L"../../Tile/DestroyObject", TILE_STATE::STATE_DESTORY);
 	Load_Image(L"../../Tile/Stage1/Potal", TILE_STATE::STATE_POTAL);
+	Load_Image(L"../../Tile/Stage2", TILE_STATE::STATE_NORMAL);
 	for (size_t i = 0; i < TILE_STATE::STATE_END; ++i)
 	{
 		for (auto& iter : m_vecImage[i])
@@ -431,7 +433,8 @@ void Tile::Imgui_ModeChanger()
 						else if (!strcmp(cSelect_Stage, cTileStage[4])) m_eStage = TILE_STAGE::TILE_FIRSTBOSS;
 						else if (!strcmp(cSelect_Stage, cTileStage[5])) m_eStage = TILE_STAGE::TILE_DOCHER1;
 						else if (!strcmp(cSelect_Stage, cTileStage[6])) m_eStage = TILE_STAGE::TILE_DOCHER2;
-						else if (!strcmp(cSelect_Stage, cTileStage[7])) m_eStage = TILE_STAGE::STAGE_END;
+						else if (!strcmp(cSelect_Stage, cTileStage[7])) m_eStage = TILE_STAGE::TILE_DOCHERBOSS;
+						else if (!strcmp(cSelect_Stage, cTileStage[8])) m_eStage = TILE_STAGE::STAGE_END;
 					}
 					if (bSelect)
 						ImGui::SetItemDefaultFocus();

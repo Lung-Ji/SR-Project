@@ -1,14 +1,33 @@
 #include "CXZTile.h"
 #include "../Include/PCH.h"
 
-CXZTile::CXZTile(LPDIRECT3DDEVICE9 _GRPDEV) : m_fAlpha(0), m_CubeBuffer(nullptr), GameObject(_GRPDEV), m_fTime(0), m_fFrame(0), m_bStopFrame(false), m_pBuffer(nullptr), m_pTransform(nullptr), m_pTileInfo(nullptr) { ZeroMemory(&m_Material, sizeof(D3DMATERIAL9)); }
+CXZTile::CXZTile(LPDIRECT3DDEVICE9 _GRPDEV) : m_fAlpha(0.f),m_fCount(0.f), m_fHeightSpeed(0.f), m_fHeight(0), m_CubeBuffer(nullptr), GameObject(_GRPDEV), m_fTime(0), m_fFrame(0), m_bStopFrame(false), m_pBuffer(nullptr), m_pTransform(nullptr), m_pTileInfo(nullptr) { ZeroMemory(&m_Material, sizeof(D3DMATERIAL9)); }
 CXZTile::CXZTile(const GameObject& _RHS) : GameObject(_RHS) {}
 CXZTile::~CXZTile() {  }
 
 HRESULT CXZTile::Ready_GameObject(TILE_SIDE eid, TILE_STATE eState, FLOAT& X1, FLOAT& X2, FLOAT& Y1, FLOAT& Y2) {
 
 	if (FAILED(Component_Initialize(eid, eState,X1, X2, Y1,Y2))) return E_FAIL;
-	
+	m_fHeight = rand() % 4 + 1;
+
+	switch (static_cast<int>(m_fHeight))
+	{
+	case 1:
+		m_fHeight = 0.02f;
+		break;
+	case 2:
+		m_fHeight = 0.03f;
+		break;
+	case 3:
+
+		m_fHeight = 0.024f;
+		break;
+	case 4:
+
+		m_fHeight = 0.035f;
+		break;
+	}
+	m_fHeightSpeed = 0.01f;
 	return S_OK;
 }
 INT	CXZTile::Update_GameObject(const _float& _DT) {
@@ -17,6 +36,12 @@ INT	CXZTile::Update_GameObject(const _float& _DT) {
 
 	Frame_Move(_DT);
 	RenderManager::GetInstance()->Add_RenderGroup(RENDER_TILE, this);
+
+
+	if (m_pTileInfo->Get_TileStateName() == TILE_STATE::STATE_COLLISION)
+	{
+		Tile_Move_Effect(_DT, m_pTileInfo->Get_TileStage());
+	}
 	
 	if (m_fAlpha< 1.f)
 		m_fAlpha+= _DT * m_fAlpha;
@@ -141,14 +166,14 @@ VOID CXZTile::Render_GameObject()
 	if (m_pTileInfo->Get_TileStateName() == TILE_STATE::STATE_POTALGASI_EFFECT || m_pTileInfo->Get_TileStateName() == TILE_STATE::STATE_UNDERTILE)
 	{
 
-		GRPDEV->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTSS_ALPHAARG1);
-		GRPDEV->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
-		GRPDEV->SetTextureStageState(0, D3DTSS_COLOROP, D3DTSS_COLORARG1);
-		GRPDEV->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
-
-		GRPDEV->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
-
-		GRPDEV->SetRenderState(D3DRS_TEXTUREFACTOR, 0xFFFFFFFF);
+		//GRPDEV->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTSS_ALPHAARG1);
+		//GRPDEV->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
+		//GRPDEV->SetTextureStageState(0, D3DTSS_COLOROP, D3DTSS_COLORARG1);
+		//GRPDEV->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+		//
+		//GRPDEV->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+		//
+		//GRPDEV->SetRenderState(D3DRS_TEXTUREFACTOR, 0xFFFFFFFF);
 	}
 
 
@@ -348,6 +373,36 @@ void CXZTile::Tile_Gasi_Destory()
 		EffectManager::GetInstance()->Append_Effect(EFFECT_OWNER::ENVIROMENT, TileDestoryEffect::Create(GRPDEV, OBJECT_DESTORY::POTALEFFECT, 7, Pos, Scale, Rot));
 		m_bStopFrame = true;
 	}
+}
+void CXZTile::Tile_Move_Effect(CONST FLOAT& _DT, TILE_STAGE eid)
+{
+
+	if (eid == TILE_STAGE::TILE_DOCHER1 || eid == TILE_STAGE::TILE_DOCHER2 || eid == TILE_STAGE::TILE_DOCHERBOSS)
+	{
+		_vec3 vPos;
+		m_pTransform->Get_Info(INFO_POS, &vPos);
+
+		m_fTime += _DT;					//지난 시간
+		if (m_fTime > 0.35f) //0.1초가 지나면
+		{
+			m_fCount += 0.01f;
+			m_fTime = 0.f;	//시간 초기화
+
+			if (m_fCount >m_fHeight)
+			{
+				m_fCount = 0;
+				m_fHeightSpeed *= -1;
+			}
+		}
+		
+
+
+		vPos.y += m_fHeightSpeed;
+
+		m_pTransform->Set_Pos(vPos);
+
+	}
+	else return;
 }
 Transform* CXZTile::Crash_Player()
 {

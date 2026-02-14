@@ -25,12 +25,22 @@ VOID Terrain::LateUpdate_GameObject(const _float& _DT) {
 }
 VOID Terrain::Render_GameObject() {
 
+	GRPDEV->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+
+	GRPDEV->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+	
+	GRPDEV->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 	GRPDEV->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 	GRPDEV->SetTransform(D3DTS_WORLD, Component_Transform->Get_World());
 	GRPDEV->SetTexture(0, StaticTexture);
 
 	Component_Buffer->Render_Buffer();
 	GRPDEV->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+
+	GRPDEV->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+	GRPDEV->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	GRPDEV->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+
 }
 HRESULT Terrain::Component_Initialize() {
 
